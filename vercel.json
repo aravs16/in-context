@@ -1,0 +1,10 @@
+{
+  "buildCommand": "node build.js",
+  "outputDirectory": "public",
+  "framework": null,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/p/:id", "destination": "/index.html" }
+  ]
+}

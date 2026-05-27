@@ -1,0 +1,174 @@
+#!/usr/bin/env node
+// Walks content/posts/**/*.md, parses frontmatter + a tiny subset of Markdown
+// (## h2, > pull quote, paragraphs, **bold**, *italic*, _italic_), and writes
+// public/posts.js as `window.POSTS = [...]`.
+//
+// Add a new post: drop a .md file anywhere under content/posts/ and re-run.
+// Directories are organizational only — the `category` frontmatter is what
+// the UI groups by.
+
+const fs = require('fs');
+const path = require('path');
+
+const ROOT = path.join(__dirname, 'content', 'posts');
+const OUT = path.join(__dirname, 'public', 'posts.js');
+
+function walk(dir) {
+  const out = [];
+  for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
+    const p = path.join(dir, e.name);
+    if (e.isDirectory()) out.push(...walk(p));
+    else if (e.isFile() && e.name.endsWith('.md')) out.push(p);
+  }
+  return out;
+}
+
+function parseFrontmatter(text) {
+  const m = text.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/);
+  if (!m) return { meta: {}, body: text };
+  const meta = {};
+  for (const line of m[1].split(/\r?\n/)) {
+    const i = line.indexOf(':');
+    if (i === -1) continue;
+    const key = line.slice(0, i).trim();
+    let val = line.slice(i + 1).trim();
+    if ((val.startsWith('"') && val.endsWith('"')) ||
+        (val.startsWith("'") && val.endsWith("'"))) {
+      val = val.slice(1, -1);
+    }
+    meta[key] = val;
+  }
+  return { meta, body: m[2] };
+}
+
+function escapeHtml(s) {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+function renderInline(text) {
+  let s = escapeHtml(text);
+  s = s.replace(/\[([^\]\n]+?)\]\(([^)\s]+)\)/g,
+    '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
+  s = s.replace(/`([^`\n]+?)`/g, '<code>$1</code>');
+  s = s.replace(/\*\*([^*\n]+?)\*\*/g, '<strong>$1</strong>');
+  s = s.replace(/\*([^*\n]+?)\*/g, '<em>$1</em>');
+  s = s.replace(/(^|[^A-Za-z0-9])_([^_\n]+?)_(?=$|[^A-Za-z0-9])/g, '$1<em>$2</em>');
+  return s;
+}
+
+function parseBody(body) {
+  const lines = body.split(/\r?\n/);
+  const blocks = [];
+  let para = [];
+  let codeLines = null;
+  let list = null; // { ordered: bool, items: string[] }
+
+  const flushPara = () => {
+    if (!para.length) return;
+    const text = para.join(' ').trim();
+    if (text) blocks.push({ type: 'p', html: renderInline(text) });
+    para = [];
+  };
+  const flushList = () => {
+    if (!list) return;
+    blocks.push({ type: 'list', ordered: list.ordered, items: list.items });
+    list = null;
+  };
+  const flushAll = () => { flushPara(); flushList(); };
+
+  const ulMatch = (s) => s.match(/^[-*]\s+(.*)$/);
+  const olMatch = (s) => s.match(/^\d+\.\s+(.*)$/);
+
+  for (const raw of lines) {
+    if (codeLines !== null) {
+      if (raw.trim() === '```') {
+        blocks.push({ type: 'code', html: escapeHtml(codeLines.join('\n')) });
+        codeLines = null;
+      } else {
+        codeLines.push(raw);
+      }
+      continue;
+    }
+    const line = raw.trim();
+    if (line.startsWith('```')) {
+      flushAll();
+      codeLines = [];
+      continue;
+    }
+    if (!line) { flushAll(); continue; }
+    if (line.startsWith('## ')) {
+      flushAll();
+      blocks.push({ type: 'h2', html: renderInline(line.slice(3).trim()) });
+      continue;
+    }
+    if (line.startsWith('> ')) {
+      flushAll();
+      blocks.push({ type: 'pull', html: renderInline(line.slice(2).trim()) });
+      continue;
+    }
+    const um = ulMatch(line);
+    const om = olMatch(line);
+    if (um || om) {
+      flushPara();
+      const ordered = !!om;
+      const text = (um ? um[1] : om[1]).trim();
+      if (list && list.ordered !== ordered) flushList();
+      if (!list) list = { ordered, items: [] };
+      list.items.push(renderInline(text));
+      continue;
+    }
+    flushList();
+    para.push(line);
+  }
+  flushAll();
+  if (codeLines !== null) {
+    blocks.push({ type: 'code', html: escapeHtml(codeLines.join('\n')) });
+  }
+  return blocks;
+}
+
+function formatDate(s) {
+  const m = s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if (!m) return s;
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${months[+m[2] - 1]} ${+m[3]}, ${m[1]}`;
+}
+
+function buildPost(file) {
+  const raw = fs.readFileSync(file, 'utf8');
+  const { meta, body } = parseFrontmatter(raw);
+  const id = meta.id || path.basename(file, '.md');
+  return {
+    id,
+    title: meta.title || id,
+    category: meta.category || 'Thoughts',
+    date: formatDate(meta.date || ''),
+    _sortDate: meta.date || '',
+    readTime: meta.readTime || '5 min',
+    excerpt: meta.excerpt || '',
+    body: parseBody(body),
+  };
+}
+
+function build() {
+  if (!fs.existsSync(ROOT)) {
+    console.error(`content directory missing: ${ROOT}`);
+    process.exit(1);
+  }
+  const files = walk(ROOT);
+  const posts = files
+    .map(buildPost)
+    .sort((a, b) => (b._sortDate || '').localeCompare(a._sortDate || ''))
+    .map(({ _sortDate, ...p }) => p);
+  const js =
+    '// AUTOGENERATED by build.js — do not edit by hand.\n' +
+    '// Edit content/posts/**/*.md and re-run `node build.js`.\n' +
+    'window.POSTS = ' + JSON.stringify(posts, null, 2) + ';\n';
+  fs.writeFileSync(OUT, js);
+  console.log(`Built ${posts.length} post(s) → ${path.relative(process.cwd(), OUT)}`);
+}
+
+build();

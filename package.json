@@ -1,0 +1,10 @@
+{
+  "name": "field-notes",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Personal blog. Markdown-sourced, rendered by a small React app loaded over CDN.",
+  "scripts": {
+    "build": "node build.js",
+    "start": "node serve.js"
+  }
+}
