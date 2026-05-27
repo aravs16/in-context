@@ -13,9 +13,9 @@ const CATEGORIES = ["All", "Thoughts", "Agentic AI and Tools", "Safety", "Person
 // Until repoId is set to a real value, the comments block is hidden.
 const GISCUS_CONFIG = {
   repo: "aravs16/in-context",
-  repoId: "REPLACE_WITH_REPO_ID",
+  repoId: "R_kgDOSo7DeQ",
   category: "General",
-  categoryId: "REPLACE_WITH_CATEGORY_ID",
+  categoryId: "DIC_kwDOSo7Dec4C97EG",
 };
 
 function idFromPath() {
@@ -258,8 +258,8 @@ function Giscus({ postId }) {
       "data-strict": "0",
       "data-reactions-enabled": "1",
       "data-emit-metadata": "0",
-      "data-input-position": "top",
-      "data-theme": "preferred_color_scheme",
+      "data-input-position": "bottom",
+      "data-theme": "light",
       "data-lang": "en",
       "data-loading": "lazy",
     };
