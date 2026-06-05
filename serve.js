@@ -37,6 +37,7 @@ build();
 const server = http.createServer((req, res) => {
   let url = decodeURIComponent((req.url || '/').split('?')[0]);
   if (url === '/') url = '/index.html';
+  else if (url.endsWith('/')) url += 'index.html';
   if (url === '/posts.js') build();
 
   const file = path.join(PUBLIC, url);

@@ -4,6 +4,7 @@
   "framework": null,
   "trailingSlash": false,
   "rewrites": [
-    { "source": "/p/(.*)", "destination": "/index.html" }
+    { "source": "/p/(.*)", "destination": "/index.html" },
+    { "source": "/learning/genai", "destination": "/learning/genai/index.html" }
   ]
 }
