@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Flappy Bird test — In Context</title>
+<meta name="description" content="When I want to know if a new coding assistant is actually any good, I ask it to build Flappy Bird. One small prompt catches almost everything that matters." />
+<meta name="author" content="Aravind Singirikonda" />
+<meta name="robots" content="index,follow,max-image-preview:large" />
+<link rel="canonical" href="https://www.incontext.sh/p/flappy-bird-test" />
+
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="In Context" />
+<meta property="og:title" content="The Flappy Bird test" />
+<meta property="og:description" content="When I want to know if a new coding assistant is actually any good, I ask it to build Flappy Bird. One small prompt catches almost everything that matters." />
+<meta property="og:url" content="https://www.incontext.sh/p/flappy-bird-test" />
+<meta property="og:locale" content="en_US" />
+<meta property="article:author" content="Aravind Singirikonda" />
+<meta property="article:published_time" content="2025-07-22" />
+<meta property="article:section" content="Agentic AI and Tools" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="The Flappy Bird test" />
+<meta name="twitter:description" content="When I want to know if a new coding assistant is actually any good, I ask it to build Flappy Bird. One small prompt catches almost everything that matters." />
+<meta name="twitter:creator" content="@aravs16" />
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"The Flappy Bird test","description":"When I want to know if a new coding assistant is actually any good, I ask it to build Flappy Bird. One small prompt catches almost everything that matters.","datePublished":"2025-07-22","dateModified":"2025-07-22","url":"https://www.incontext.sh/p/flappy-bird-test","mainEntityOfPage":"https://www.incontext.sh/p/flappy-bird-test","articleSection":"Agentic AI and Tools","inLanguage":"en","author":{"@type":"Person","name":"Aravind Singirikonda","url":"https://www.incontext.sh/"},"publisher":{"@type":"Person","name":"Aravind Singirikonda","url":"https://www.incontext.sh/"}}</script>
+
+<link rel="alternate" type="application/rss+xml" title="In Context" href="/feed.xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter+Tight:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/styles.css" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root">
+<article class="detail">
+<a class="back" href="/">← All writing</a>
+<span class="post-tag">Agentic AI and Tools</span>
+<h1 class="post-h">The Flappy Bird test</h1>
+<div class="post-meta-row mono">
+<span>Jul 22, 2025</span><span class="sep">·</span><span>3 min read</span><span class="sep">·</span><span>By Aravind Singirikonda</span>
+</div>
+<div class="prose">
+<p>Every time a new coding assistant, AI IDE, or code-gen model lands, I give it the same first prompt: <em>build me Flappy Bird.</em></p>
+<p>It's a silly-sounding test. It is also the one I trust most.</p>
+<h2>Why this one prompt works</h2>
+<p>Most eval prompts fail in one of two ways. They're either too narrow — "write a function that reverses a string" — which any half-decent model can fake without telling you anything about how it behaves on a real task. Or they're too open-ended — "build me a CRM" — which lets the model produce a plausible-looking skeleton and never actually run.</p>
+<p>Flappy Bird sits exactly in the middle. It's small enough to ship in one shot, but big enough to touch almost every subsystem a real product touches:</p>
+<ul><li>A game loop and a frame timer</li><li>Input handling</li><li>Physics — gravity, jump impulse, terminal velocity</li><li>Procedural pipe generation with a fair gap</li><li>Collision detection</li><li>Score state, restart state, game-over state</li><li>Rendering — sprites or shapes, a moving background, a score readout</li></ul>
+<p>If the model misses any one of those, the game is broken in a way you can <em>see</em> in five seconds. There's no rubric to argue with. The bird either flies or it doesn't.</p>
+<blockquote class="pull">“A good eval is one where you can't fake it. Flappy Bird is one of those.”</blockquote>
+<h2>What I'm actually watching for</h2>
+<p>On first try, I'm watching five things:</p>
+<p><strong>Prompt comprehension.</strong> Did it understand "Flappy Bird" without me having to spec every mechanic? A model that asks me ten clarifying questions before writing a line is failing differently than one that just builds it.</p>
+<p><strong>Time-to-first-run.</strong> How long from "go" to a thing I can actually play. This is the single best proxy I've found for how the tool will feel in a real loop.</p>
+<p><strong>Does it work?</strong> Not "does it compile." Does it <em>play</em>. Most failures show up here — pipes that overlap the bird, gravity that's wrong by an order of magnitude, a collision box that's three times too big.</p>
+<p><strong>Code shape.</strong> When I open the file, is it organized like something a human would maintain, or is it one 600-line <code>main()</code> with magic numbers? This is where you separate the assistants that you'd actually adopt from the ones that demo well and then collapse.</p>
+<p><strong>Follow-up handling.</strong> "Make the pipes harder." "Add a high score that persists." "The bird animation looks off — fix it." This is the real test. Plenty of models nail the first generation and then fall apart the moment you ask them to change something.</p>
+<h2>Why not a harder test</h2>
+<p>I've tried fancier evals — a small CRUD app, a parser, a tiny compiler. They're more impressive on paper. They're also slower to score, harder to compare across runs, and easier for a model to fake by producing something that looks right.</p>
+<p>Flappy Bird gives me a signal in under two minutes. That signal is dense, it's honest, and it generalizes. A model that builds a clean, playable Flappy Bird on the first try and handles two follow-ups gracefully will almost always be the one I reach for the rest of the week.</p>
+<p>The point of an eval isn't to be sophisticated. It's to be one you'll actually run.</p>
+</div>
+</article>
+</div>
+
+<script src="/posts.js"></script>
+<script type="text/babel" src="/tweaks-panel.jsx"></script>
+<script type="text/babel" src="/app.jsx"></script>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ccview — a tiny TUI companion for Claude Code — In Context</title>
+<meta name="description" content="I've been running Claude Code for almost everything lately — personal finances, research, side projects. The output is great. The terminal is a terrible place to read it. So I built a small thing." />
+<meta name="author" content="Aravind Singirikonda" />
+<meta name="robots" content="index,follow,max-image-preview:large" />
+<link rel="canonical" href="https://www.incontext.sh/p/ccview" />
+
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="In Context" />
+<meta property="og:title" content="ccview — a tiny TUI companion for Claude Code" />
+<meta property="og:description" content="I've been running Claude Code for almost everything lately — personal finances, research, side projects. The output is great. The terminal is a terrible place to read it. So I built a small thing." />
+<meta property="og:url" content="https://www.incontext.sh/p/ccview" />
+<meta property="og:locale" content="en_US" />
+<meta property="article:author" content="Aravind Singirikonda" />
+<meta property="article:published_time" content="2026-04-08" />
+<meta property="article:section" content="Agentic AI and Tools" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="ccview — a tiny TUI companion for Claude Code" />
+<meta name="twitter:description" content="I've been running Claude Code for almost everything lately — personal finances, research, side projects. The output is great. The terminal is a terrible place to read it. So I built a small thing." />
+<meta name="twitter:creator" content="@aravs16" />
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"ccview — a tiny TUI companion for Claude Code","description":"I've been running Claude Code for almost everything lately — personal finances, research, side projects. The output is great. The terminal is a terrible place to read it. So I built a small thing.","datePublished":"2026-04-08","dateModified":"2026-04-08","url":"https://www.incontext.sh/p/ccview","mainEntityOfPage":"https://www.incontext.sh/p/ccview","articleSection":"Agentic AI and Tools","inLanguage":"en","author":{"@type":"Person","name":"Aravind Singirikonda","url":"https://www.incontext.sh/"},"publisher":{"@type":"Person","name":"Aravind Singirikonda","url":"https://www.incontext.sh/"}}</script>
+
+<link rel="alternate" type="application/rss+xml" title="In Context" href="/feed.xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter+Tight:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/styles.css" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root">
+<article class="detail">
+<a class="back" href="/">← All writing</a>
+<span class="post-tag">Agentic AI and Tools</span>
+<h1 class="post-h">ccview — a tiny TUI companion for Claude Code</h1>
+<div class="post-meta-row mono">
+<span>Apr 8, 2026</span><span class="sep">·</span><span>2 min read</span><span class="sep">·</span><span>By Aravind Singirikonda</span>
+</div>
+<div class="prose">
+<p>I've been using Claude Code for almost everything lately — personal finances, research, side projects, the occasional half-baked startup idea at midnight. The output is genuinely great. The terminal is a genuinely terrible place to read it.</p>
+<p>A 40-row markdown table wrapping into your scrollback is not information. It's wallpaper.</p>
+<h2>What I built</h2>
+<p><code>ccview</code> is a small TUI app that watches a folder. Claude Code drops a JSON file. <code>ccview</code> renders it — tables, charts, checklists — right in your terminal, in a layout that's actually meant to be read. You can check items off. State persists between runs.</p>
+<p>That's the whole thing. It's not a framework, it's not a platform, it doesn't try to be a chat UI. It's the missing render step between "Claude wrote a thing" and "I can use the thing."</p>
+<h2>Why a TUI and not a web app</h2>
+<p>The honest answer is that I live in my terminal and I didn't want to spawn a browser tab every time I asked Claude to plan something. A few less honest answers:</p>
+<ul><li>A web UI would have meant building auth, hosting, a backend. A TUI is a single binary.</li><li>Claude Code already drops files where you tell it to. Watching a folder is one syscall.</li><li>The terminal is where the trust already is. I don't want a new surface for the output.</li></ul>
+<p>The trade-off is that you give up rich rendering — no embedded images, no fancy fonts. For the things I actually use Claude for, that hasn't mattered. A clean table and a checkable list cover 80% of it.</p>
+<h2>How it fits the loop</h2>
+<p>The pattern I've landed on:</p>
+<ol><li>Tell Claude what I want done.</li><li>Tell it to drop the output as a JSON file in <code>~/cc/</code>.</li><li><code>ccview</code> (already running in another tmux pane) picks it up and renders.</li><li>I check things off as I work through them. The state is there next time I open it.</li></ol>
+<p>Small enough to barely call a tool. Useful enough that I open it every day.</p>
+<p>Code: <a href="https://github.com/aravs16/ccview" target="_blank" rel="noopener noreferrer">github.com/aravs16/ccview</a>. MIT, no telemetry, no install ceremony. Personal side project, not affiliated with my employer.</p>
+</div>
+</article>
+</div>
+
+<script src="/posts.js"></script>
+<script type="text/babel" src="/tweaks-panel.jsx"></script>
+<script type="text/babel" src="/app.jsx"></script>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

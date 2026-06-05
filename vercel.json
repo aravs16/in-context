@@ -3,6 +3,7 @@
   "outputDirectory": "public",
   "framework": null,
   "trailingSlash": false,
+  "cleanUrls": true,
   "rewrites": [
     { "source": "/p/(.*)", "destination": "/index.html" },
     { "source": "/learning/genai", "destination": "/learning/genai/index.html" }

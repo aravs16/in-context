@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The five-line Claude Code hook that gives me back 30 minutes a day — In Context</title>
+<meta name="description" content="Kick off a Claude Code task, switch screens, get pulled into something else, come back 20 minutes later and find it sitting there waiting for a Yes/No. There's a dead-simple fix." />
+<meta name="author" content="Aravind Singirikonda" />
+<meta name="robots" content="index,follow,max-image-preview:large" />
+<link rel="canonical" href="https://www.incontext.sh/p/claude-code-notification-hook" />
+
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="In Context" />
+<meta property="og:title" content="The five-line Claude Code hook that gives me back 30 minutes a day" />
+<meta property="og:description" content="Kick off a Claude Code task, switch screens, get pulled into something else, come back 20 minutes later and find it sitting there waiting for a Yes/No. There's a dead-simple fix." />
+<meta property="og:url" content="https://www.incontext.sh/p/claude-code-notification-hook" />
+<meta property="og:locale" content="en_US" />
+<meta property="article:author" content="Aravind Singirikonda" />
+<meta property="article:published_time" content="2026-04-15" />
+<meta property="article:section" content="Agentic AI and Tools" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="The five-line Claude Code hook that gives me back 30 minutes a day" />
+<meta name="twitter:description" content="Kick off a Claude Code task, switch screens, get pulled into something else, come back 20 minutes later and find it sitting there waiting for a Yes/No. There's a dead-simple fix." />
+<meta name="twitter:creator" content="@aravs16" />
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"The five-line Claude Code hook that gives me back 30 minutes a day","description":"Kick off a Claude Code task, switch screens, get pulled into something else, come back 20 minutes later and find it sitting there waiting for a Yes/No. There's a dead-simple fix.","datePublished":"2026-04-15","dateModified":"2026-04-15","url":"https://www.incontext.sh/p/claude-code-notification-hook","mainEntityOfPage":"https://www.incontext.sh/p/claude-code-notification-hook","articleSection":"Agentic AI and Tools","inLanguage":"en","author":{"@type":"Person","name":"Aravind Singirikonda","url":"https://www.incontext.sh/"},"publisher":{"@type":"Person","name":"Aravind Singirikonda","url":"https://www.incontext.sh/"}}</script>
+
+<link rel="alternate" type="application/rss+xml" title="In Context" href="/feed.xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter+Tight:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/styles.css" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root">
+<article class="detail">
+<a class="back" href="/">← All writing</a>
+<span class="post-tag">Agentic AI and Tools</span>
+<h1 class="post-h">The five-line Claude Code hook that gives me back 30 minutes a day</h1>
+<div class="post-meta-row mono">
+<span>Apr 15, 2026</span><span class="sep">·</span><span>2 min read</span><span class="sep">·</span><span>By Aravind Singirikonda</span>
+</div>
+<div class="prose">
+<p>Have you ever kicked off a task in Claude Code, switched to another screen, got pulled into something else… and come back twenty minutes later to find it sitting there, waiting on a Yes/No?</p>
+<p>I did this to myself enough times that I finally went and fixed it. The fix is one line of config and two native macOS commands.</p>
+<h2>The hook</h2>
+<p>Claude Code has a hooks system that runs shell commands on lifecycle events. One of those events is <code>Notification</code> — it fires whenever Claude Code needs your attention (permission prompt, plan approval, anything that blocks).</p>
+<p>Drop this into <code>~/.claude/settings.json</code>:</p>
+<pre class="code"><code>{
+  "hooks": {
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "afplay /System/Library/Sounds/Glass.aiff &amp; osascript -e 'display notification \"Claude Code needs your attention\" with title \"Claude Code\"'"
+          }
+        ]
+      }
+    ]
+  }
+}</code></pre>
+<p>Now whenever Claude Code is waiting on you:</p>
+<ul><li>A chime plays — you hear it from any screen.</li><li>A macOS notification banner pops — you see it from any app.</li></ul>
+<p>That's it. No daemons, no extra installs.</p>
+<h2>Why it's worth doing</h2>
+<p>I want to make the case for why this tiny thing matters more than it sounds.</p>
+<p>The cost of a missed permission prompt isn't the 30 seconds it takes to walk back and click Yes. It's the context switch. You left Claude in one mental model and came back in another. You have to re-load the state — what was it doing, why, what's the next step. Multiply that by ten times a day and you've lost a real hour of focused work, plus the more expensive thing, which is the shape of your attention.</p>
+<blockquote class="pull">“The small friction points are the ones worth solving. They're the ones you stop noticing.”</blockquote>
+<p>The reason it took me months to fix this is the same reason it'll take you months: it's not painful enough in any single moment to interrupt what you're doing. The pain accumulates silently. The version of you who's getting paged from across the room when Claude finishes is doing meaningfully better work than the version who keeps tab-checking every two minutes.</p>
+<h2>What I'd add next</h2>
+<p>Once you have one hook running, the next ones are basically free. Things I've found worth wiring up:</p>
+<ul><li>A different sound on <code>Stop</code> so I know the run actually finished, not just paused.</li><li>A <code>PreToolUse</code> hook that vetoes destructive shell commands without my explicit ok.</li><li>A <code>PostToolUse</code> hook that runs my project's formatter on every file edit so I never have to think about it.</li></ul>
+<p>But start with the notification hook. It's the highest leverage one, and it's two minutes to set up.</p>
+</div>
+</article>
+</div>
+
+<script src="/posts.js"></script>
+<script type="text/babel" src="/tweaks-panel.jsx"></script>
+<script type="text/babel" src="/app.jsx"></script>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

@@ -153,22 +153,175 @@ function buildPost(file) {
   };
 }
 
+const SITE_URL = 'https://www.incontext.sh';
+const AUTHOR = 'Aravind Singirikonda';
+const SITE_NAME = 'In Context';
+
+function escAttr(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;')
+    .replace(/"/g, '&quot;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+function blockToHtml(b) {
+  if (b.type === 'h2')   return `<h2>${b.html}</h2>`;
+  if (b.type === 'pull') return `<blockquote class="pull">\u201C${b.html}\u201D</blockquote>`;
+  if (b.type === 'code') return `<pre class="code"><code>${b.html}</code></pre>`;
+  if (b.type === 'list') {
+    const T = b.ordered ? 'ol' : 'ul';
+    return `<${T}>${b.items.map(i => `<li>${i}</li>`).join('')}</${T}>`;
+  }
+  return `<p>${b.html}</p>`;
+}
+
+function postPage(post) {
+  const url = `${SITE_URL}/p/${post.id}`;
+  const title = post.title;
+  const description = post.excerpt || `${title} — by ${AUTHOR}.`;
+  const iso = post._sortDate || '';
+  const bodyHtml = post.body.map(blockToHtml).join('\n');
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: title,
+    description,
+    datePublished: iso,
+    dateModified: iso,
+    url,
+    mainEntityOfPage: url,
+    articleSection: post.category,
+    inLanguage: 'en',
+    author:    { '@type': 'Person', name: AUTHOR, url: SITE_URL + '/' },
+    publisher: { '@type': 'Person', name: AUTHOR, url: SITE_URL + '/' }
+  };
+
+  return `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>${escAttr(title)} — ${SITE_NAME}</title>
+<meta name="description" content="${escAttr(description)}" />
+<meta name="author" content="${AUTHOR}" />
+<meta name="robots" content="index,follow,max-image-preview:large" />
+<link rel="canonical" href="${url}" />
+
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="${SITE_NAME}" />
+<meta property="og:title" content="${escAttr(title)}" />
+<meta property="og:description" content="${escAttr(description)}" />
+<meta property="og:url" content="${url}" />
+<meta property="og:locale" content="en_US" />
+<meta property="article:author" content="${AUTHOR}" />
+<meta property="article:published_time" content="${iso}" />
+<meta property="article:section" content="${escAttr(post.category)}" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="${escAttr(title)}" />
+<meta name="twitter:description" content="${escAttr(description)}" />
+<meta name="twitter:creator" content="@aravs16" />
+
+<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>
+
+<link rel="alternate" type="application/rss+xml" title="${SITE_NAME}" href="/feed.xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter+Tight:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/styles.css" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root">
+<article class="detail">
+<a class="back" href="/">← All writing</a>
+<span class="post-tag">${escAttr(post.category)}</span>
+<h1 class="post-h">${escAttr(title)}</h1>
+<div class="post-meta-row mono">
+<span>${escAttr(post.date)}</span><span class="sep">·</span><span>${escAttr(post.readTime)} read</span><span class="sep">·</span><span>By ${AUTHOR}</span>
+</div>
+<div class="prose">
+${bodyHtml}
+</div>
+</article>
+</div>
+
+<script src="/posts.js"></script>
+<script type="text/babel" src="/tweaks-panel.jsx"></script>
+<script type="text/babel" src="/app.jsx"></script>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>
+`;
+}
+
+function buildSitemap(posts) {
+  const urls = [
+    { loc: `${SITE_URL}/`,                changefreq: 'weekly',  priority: '1.0' },
+    { loc: `${SITE_URL}/learning/genai`,  changefreq: 'monthly', priority: '0.9' }
+  ];
+  for (const p of posts) {
+    urls.push({
+      loc: `${SITE_URL}/p/${p.id}`,
+      lastmod: p._sortDate || undefined,
+      changefreq: 'monthly',
+      priority: '0.8'
+    });
+  }
+  const entries = urls.map(u => {
+    const lm = u.lastmod ? `\n    <lastmod>${u.lastmod}</lastmod>` : '';
+    return `  <url>
+    <loc>${u.loc}</loc>${lm}
+    <changefreq>${u.changefreq}</changefreq>
+    <priority>${u.priority}</priority>
+  </url>`;
+  }).join('\n');
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${entries}
+</urlset>
+`;
+}
+
 function build() {
   if (!fs.existsSync(ROOT)) {
     console.error(`content directory missing: ${ROOT}`);
     process.exit(1);
   }
   const files = walk(ROOT);
-  const posts = files
+  const allPosts = files
     .map(buildPost)
-    .sort((a, b) => (b._sortDate || '').localeCompare(a._sortDate || ''))
-    .map(({ _sortDate, ...p }) => p);
+    .sort((a, b) => (b._sortDate || '').localeCompare(a._sortDate || ''));
+  const posts = allPosts.map(({ _sortDate, ...p }) => p);
+
   const js =
     '// AUTOGENERATED by build.js — do not edit by hand.\n' +
     '// Edit content/posts/**/*.md and re-run `node build.js`.\n' +
     'window.POSTS = ' + JSON.stringify(posts, null, 2) + ';\n';
   fs.writeFileSync(OUT, js);
   console.log(`Built ${posts.length} post(s) → ${path.relative(process.cwd(), OUT)}`);
+
+  // Per-post prerendered HTML for SEO + social previews
+  const postsDir = path.join(__dirname, 'public', 'p');
+  fs.mkdirSync(postsDir, { recursive: true });
+  for (const f of fs.readdirSync(postsDir)) {
+    if (f.endsWith('.html')) fs.unlinkSync(path.join(postsDir, f));
+  }
+  for (const post of allPosts) {
+    fs.writeFileSync(path.join(postsDir, `${post.id}.html`), postPage(post));
+  }
+  console.log(`Wrote ${allPosts.length} prerendered post page(s) → public/p/*.html`);
+
+  // sitemap.xml
+  fs.writeFileSync(
+    path.join(__dirname, 'public', 'sitemap.xml'),
+    buildSitemap(allPosts)
+  );
+  console.log('Wrote public/sitemap.xml');
 }
 
 build();

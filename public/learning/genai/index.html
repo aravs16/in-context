@@ -3,7 +3,77 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The GenAI Learning Path — In Context</title>
+<title>The GenAI Learning Path — A Beginner's Build-As-You-Learn Roadmap | In Context</title>
+<meta name="description" content="A free, beginner-first GenAI learning path. 11 phases — API basics, RAG, evals, agents, observability, guardrails, memory, MCP, agent eval, multi-agent, harnesses — each shipping a working artifact the next phase extends." />
+<meta name="keywords" content="GenAI learning path, learn generative AI, AI agents tutorial, RAG tutorial, LLM beginner, MCP, prompt engineering, agent evaluation, Anthropic Claude, build AI agents" />
+<meta name="author" content="Aravind Singirikonda" />
+<meta name="robots" content="index,follow,max-image-preview:large" />
+<link rel="canonical" href="https://www.incontext.sh/learning/genai" />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="In Context" />
+<meta property="og:title" content="The GenAI Learning Path — A Beginner's Build-As-You-Learn Roadmap" />
+<meta property="og:description" content="11 phases, one growing codebase. From your first LLM API call to a multi-agent system with memory, tools, guardrails, and evals. Free, no signup." />
+<meta property="og:url" content="https://www.incontext.sh/learning/genai" />
+<meta property="og:locale" content="en_US" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="The GenAI Learning Path" />
+<meta name="twitter:description" content="11 phases, build-as-you-learn. API calls → RAG → evals → agents → multi-agent. Free, beginner-first." />
+<meta name="twitter:creator" content="@aravs16" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "name": "The GenAI Learning Path",
+  "description": "A practical, beginner-first build-as-you-learn roadmap for Generative AI. Eleven phases growing one running codebase from a single LLM API call into a multi-agent system with memory, tools, guardrails, and evals.",
+  "url": "https://www.incontext.sh/learning/genai",
+  "inLanguage": "en",
+  "educationalLevel": "Beginner",
+  "learningResourceType": "Tutorial",
+  "isAccessibleForFree": true,
+  "audience": {
+    "@type": "EducationalAudience",
+    "educationalRole": "self-learner"
+  },
+  "provider": {
+    "@type": "Person",
+    "name": "Aravind Singirikonda",
+    "url": "https://www.incontext.sh"
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Aravind Singirikonda",
+    "url": "https://www.incontext.sh"
+  },
+  "hasCourseInstance": {
+    "@type": "CourseInstance",
+    "courseMode": "online",
+    "courseWorkload": "PT40H"
+  },
+  "teaches": [
+    "LLM API basics", "Retrieval-Augmented Generation (RAG)", "Prompt and RAG evaluation with Promptfoo",
+    "Tool use and the agent loop", "LLM observability and tracing", "Guardrails for LLM apps",
+    "Short-term and long-term memory for agents", "Model Context Protocol (MCP)",
+    "Agent-level evaluation", "Multi-agent orchestration", "Agent harness design"
+  ],
+  "syllabusSections": [
+    { "@type": "Syllabus", "name": "Phase 1 — Talk to an LLM",            "description": "Make your first API call. Get a feel for system prompts, temperature, and how the same prompt behaves across different models." },
+    { "@type": "Syllabus", "name": "Phase 2 — Give the LLM your data",    "description": "Build a RAG pipeline over your own documents with FAISS. Experiment with fixed-size, recursive, and semantic chunking." },
+    { "@type": "Syllabus", "name": "Phase 3 — Stop guessing if it works", "description": "Use Promptfoo to write a real eval suite. Compare models, prompts, and chunking strategies with data, not vibes." },
+    { "@type": "Syllabus", "name": "Phase 4 — Let the LLM use tools",     "description": "Build a single agent. Wrap RAG, web search, a calculator, and a text-to-SQL tool. Feel the agent loop." },
+    { "@type": "Syllabus", "name": "Phase 5 — See what's happening",      "description": "Instrument every LLM and tool call with Langfuse or Phoenix. Cut cost and latency with caching and model routing." },
+    { "@type": "Syllabus", "name": "Phase 6 — Keep the agent in its lane","description": "Add input guards, output validation, PII redaction, and an LLM-as-judge groundedness check." },
+    { "@type": "Syllabus", "name": "Phase 7 — Agents that remember",      "description": "Short-term and long-term memory. User facts, conversation summaries, identity loaded at session start." },
+    { "@type": "Syllabus", "name": "Phase 8 — Standardize your tools",    "description": "Convert a tool into an MCP server. Plug community MCP servers (filesystem, GitHub) into your agent." },
+    { "@type": "Syllabus", "name": "Phase 9 — Test the whole loop",       "description": "Agent-level evaluation: trajectory correctness, hallucination rate, refusal rate, cost per task — in CI." },
+    { "@type": "Syllabus", "name": "Phase 10 — From one agent to a team", "description": "Multi-agent with LangGraph or Strands. The six agentic patterns and when each one helps versus hurts." },
+    { "@type": "Syllabus", "name": "Phase 11 — The runtime around the model", "description": "Compare your hand-rolled agent loop to a real harness. Tool dispatch, retries, hooks, permissions, sessions." }
+  ]
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />

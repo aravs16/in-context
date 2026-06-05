@@ -34,6 +34,22 @@ function build() {
 
 build();
 
+function tryServe(candidates, res) {
+  if (candidates.length === 0) {
+    res.writeHead(404); res.end('Not found');
+    return;
+  }
+  const [first, ...rest] = candidates;
+  fs.readFile(first, (err, data) => {
+    if (err) return tryServe(rest, res);
+    res.writeHead(200, {
+      'Content-Type': TYPES[path.extname(first)] || 'application/octet-stream',
+      'Cache-Control': 'no-cache',
+    });
+    res.end(data);
+  });
+}
+
 const server = http.createServer((req, res) => {
   let url = decodeURIComponent((req.url || '/').split('?')[0]);
   if (url === '/') url = '/index.html';
@@ -43,24 +59,16 @@ const server = http.createServer((req, res) => {
   const file = path.join(PUBLIC, url);
   if (!file.startsWith(PUBLIC)) { res.writeHead(403); res.end(); return; }
 
-  fs.readFile(file, (err, data) => {
-    if (err) {
-      // SPA fallback: for any extensionless path that misses, serve index.html
-      if (!path.extname(file)) {
-        return fs.readFile(path.join(PUBLIC, 'index.html'), (e, d) => {
-          if (e) { res.writeHead(404); res.end('Not found'); return; }
-          res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-cache' });
-          res.end(d);
-        });
-      }
-      res.writeHead(404); res.end('Not found'); return;
-    }
-    res.writeHead(200, {
-      'Content-Type': TYPES[path.extname(file)] || 'application/octet-stream',
-      'Cache-Control': 'no-cache',
-    });
-    res.end(data);
-  });
+  // Resolution order mirrors Vercel cleanUrls + SPA fallback:
+  //   1. exact file (e.g. /styles.css, /p/foo.html, /sitemap.xml)
+  //   2. extensionless → try <path>.html (e.g. /p/foo → /p/foo.html)
+  //   3. extensionless → fall back to /index.html (SPA shell)
+  const candidates = [file];
+  if (!path.extname(file)) {
+    candidates.push(file + '.html');
+    candidates.push(path.join(PUBLIC, 'index.html'));
+  }
+  tryServe(candidates, res);
 });
 
 server.listen(PORT, () => console.log(`in context → http://localhost:${PORT}`));
