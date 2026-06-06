@@ -48,19 +48,20 @@ function App() {
 
   const [modal, setModal] = useState(null);
   const [howTo, setHowTo] = useState(false);
+  const [askOpen, setAskOpen] = useState(false);
 
   useEffect(() => {
-    const onKey = (e) => { if (e.key === "Escape") { setModal(null); setHowTo(false); } };
+    const onKey = (e) => { if (e.key === "Escape") { setModal(null); setHowTo(false); setAskOpen(false); } };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
   useEffect(() => {
-    const anyOpen = modal !== null || howTo;
+    const anyOpen = modal !== null || howTo || askOpen;
     if (anyOpen) document.body.classList.add("modal-open");
     else document.body.classList.remove("modal-open");
     return () => document.body.classList.remove("modal-open");
-  }, [modal, howTo]);
+  }, [modal, howTo, askOpen]);
 
   return (
     <div className="page">
@@ -68,7 +69,9 @@ function App() {
         <svg viewBox="0 0 16 16" fill="none"><path d="M10 3 L5 8 L10 13" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
         Back to In Context
       </a>
-      <Header view={view} setView={setView} onHowTo={() => setHowTo(true)} />
+      <Header view={view} setView={setView}
+              onHowTo={() => setHowTo(true)}
+              onAsk={() => setAskOpen(true)} />
       {view === "grid"
         ? <SerpentineBoard onOpen={setModal} />
         : <VerticalTimeline onOpen={setModal} />}
@@ -77,12 +80,13 @@ function App() {
         <Pane phase={window.PHASES[modal]} onClose={() => setModal(null)} />
       )}
       {howTo && <HowToModal onClose={() => setHowTo(false)} />}
+      {askOpen && <QuestionModal onClose={() => setAskOpen(false)} />}
     </div>
   );
 }
 
 /* ============================ Header ============================ */
-function Header({ view, setView, onHowTo }) {
+function Header({ view, setView, onHowTo, onAsk }) {
   return (
     <header className="hdr">
       <div className="eyebrow-row">
@@ -101,7 +105,10 @@ function Header({ view, setView, onHowTo }) {
             </svg>
             How to use
           </button>
-          <ViewToggle view={view} setView={setView} />
+          <button className="howto-btn" onClick={onAsk} aria-label="Ask a question">
+            <i className="ph-duotone ph-chat-circle-dots" aria-hidden="true" />
+            Ask a question
+          </button>
         </div>
       </div>
 
@@ -134,6 +141,7 @@ function Header({ view, setView, onHowTo }) {
         <span><span className="stat-num">1</span> running codebase</span>
         <span><span className="stat-arrow">↗</span> ships an artifact each step</span>
         <span className="hint">Hover for the gist · click for the full brief</span>
+        <ViewToggle view={view} setView={setView} />
       </div>
     </header>
   );
@@ -526,6 +534,83 @@ function Pane({ phase, onClose }) {
 }
 
 /* ============================ Footer tips ============================ */
+/* ============================ Ask a question modal ============================ */
+const FORMSPREE_ENDPOINT = "https://formspree.io/f/xwvznrpv";
+
+function QuestionModal({ onClose }) {
+  const ref = useRef(null);
+  useEffect(() => { if (ref.current) ref.current.focus(); }, []);
+
+  const [email, setEmail] = useState("");
+  const [question, setQuestion] = useState("");
+  const [state, setState] = useState("idle");
+
+  const submit = async (e) => {
+    e.preventDefault();
+    if (!email || !question.trim() || state === "sending" || state === "done") return;
+    setState("sending");
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({ email, message: question, source: "lp-genai-question" }),
+      });
+      setState(res.ok ? "done" : "error");
+    } catch {
+      setState("error");
+    }
+  };
+
+  const locked = state === "sending" || state === "done";
+
+  return (
+    <div className="overlay" onClick={onClose}>
+      <div className="modal modal-sm" role="dialog" aria-modal="true" tabIndex={-1} ref={ref}
+           onClick={(e) => e.stopPropagation()}>
+        <button className="close" onClick={onClose} aria-label="Close">×</button>
+        <div className="howto-head">
+          <div className="m-kicker">// ASK</div>
+          <h2 className="m-title">Have a question?</h2>
+        </div>
+        <p className="howto-lede">
+          Stuck on a phase, want more depth on a topic, or have a suggestion? Drop a note — I read every one.
+        </p>
+        {state === "done" ? (
+          <p className="qform-done">Got it — thanks. I'll reply over email.</p>
+        ) : (
+          <form className="qform" onSubmit={submit}>
+            <label className="qform-label">
+              <span>Your email</span>
+              <input
+                type="email"
+                placeholder="you@example.com"
+                required
+                value={email}
+                onChange={(e) => { setEmail(e.target.value); if (state === "error") setState("idle"); }}
+                disabled={locked}
+              />
+            </label>
+            <label className="qform-label">
+              <span>Your question</span>
+              <textarea
+                placeholder="What would you like to know?"
+                rows={4}
+                required
+                value={question}
+                onChange={(e) => { setQuestion(e.target.value); if (state === "error") setState("idle"); }}
+                disabled={locked}
+              />
+            </label>
+            <button type="submit" disabled={locked || !email || !question.trim()}>
+              {state === "sending" ? "Sending…" : state === "error" ? "Try again" : "Send"}
+            </button>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+}
+
 /* ============================ Where to go next ============================ */
 function NextSteps() {
   return (
