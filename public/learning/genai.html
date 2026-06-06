@@ -621,6 +621,11 @@
     .modal { padding: 40px 28px 50px; }
     .m-title { font-size: 32px; }
   }
+  @media (max-width: 720px) {
+    .chrome { padding: 8px 12px; gap: 6px; }
+    .chrome-title { margin-left: 4px; font-size: 12.5px; }
+    .chrome-meta { font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  }
   @media (max-width: 520px) {
     .page { padding: 26px 16px 50px; }
     .hdr-body { padding: 22px 18px 24px; }
@@ -629,6 +634,7 @@
     .m-head { gap: 14px; padding-right: 40px; }
     .m-num { font-size: 25px; padding: 6px 10px; }
     .m-title { font-size: 27px; }
+    .chrome-meta { display: none; }
   }
 </style>
 </head>

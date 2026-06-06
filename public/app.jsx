@@ -55,9 +55,9 @@ function ThemeToggle({ theme, setTheme }) {
   const labels = { paper: "Paper", sage: "Sage", ink: "Ink" };
   const next = () => setTheme(order[(order.indexOf(theme) + 1) % order.length]);
   return (
-    <button className="theme-btn" onClick={next} title="Cycle theme">
+    <button className="theme-btn" onClick={next} title="Cycle theme" aria-label={`Theme: ${labels[theme]}`}>
       <ThemeGlyph theme={theme} />
-      <span>{labels[theme]}</span>
+      <span className="theme-label">{labels[theme]}</span>
     </button>
   );
 }
@@ -80,7 +80,9 @@ function TopNav({ onHome, theme, setTheme }) {
         <Brand />
       </a>
       <div className="navlinks">
-        <a href="/learning/genai" title="An 11-phase, build-as-you-learn roadmap">GenAI Learning Path →</a>
+        <a className="lp-link" href="/learning/genai" title="An 11-phase, build-as-you-learn roadmap">
+          <span className="lp-full">GenAI Learning Path</span><span className="lp-compact">Learning Path</span> →
+        </a>
         <ThemeToggle theme={theme} setTheme={setTheme} />
       </div>
     </nav>

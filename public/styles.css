@@ -563,6 +563,9 @@ footer.foot {
 .foot .colophon { max-width: 360px; }
 
 /* Responsive */
+/* compact mobile labels — hidden on desktop, swapped in on phones */
+.lp-link .lp-compact { display: none; }
+
 @media (max-width: 960px) {
   .grid { grid-template-columns: 1fr; }
   .sidebar { position: static; }
@@ -570,4 +573,21 @@ footer.foot {
   .post-row { grid-template-columns: 1fr auto; }
   .post-row .post-meta { grid-column: 1 / -1; display: flex; gap: 14px; margin-bottom: 4px; }
   .post-meta .date, .post-meta .read { display: inline; margin: 0; }
+}
+
+@media (max-width: 720px) {
+  .topnav { gap: 12px; }
+  .brand .sub { display: none; }
+  .navlinks { gap: 16px; }
+  .lp-link .lp-full { display: none; }
+  .lp-link .lp-compact { display: inline; }
+}
+
+@media (max-width: 480px) {
+  .topnav { padding: 22px 0 16px; }
+  .shell { padding: 0 18px; }
+  .brand { font-size: 17px; gap: 8px; }
+  .navlinks { gap: 12px; font-size: 13.5px; }
+  .navlinks .theme-btn { padding: 5px 9px; gap: 5px; }
+  .navlinks .theme-btn .theme-label { display: none; }
 }

@@ -5,7 +5,6 @@
   "trailingSlash": false,
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/p/(.*)", "destination": "/index.html" },
-    { "source": "/learning/genai", "destination": "/learning/genai/index.html" }
+    { "source": "/p/(.*)", "destination": "/index.html" }
   ]
 }
