@@ -1,7 +1,7 @@
 /* GenAI Learning Path — interactive timeline with grid + vertical views */
 const { useState, useEffect, useLayoutEffect, useRef, useCallback } = React;
 
-const COLS = 4;
+const COLS = 3;
 const WIDE_AT = 940;
 const VIEW_KEY = "genai-path-view";
 
@@ -74,7 +74,7 @@ function App() {
         : <VerticalTimeline onOpen={setModal} />}
       <NextSteps />
       {modal !== null && (
-        <Modal phase={window.PHASES[modal]} onClose={() => setModal(null)} />
+        <Pane phase={window.PHASES[modal]} onClose={() => setModal(null)} />
       )}
       {howTo && <HowToModal onClose={() => setHowTo(false)} />}
     </div>
@@ -85,41 +85,55 @@ function App() {
 function Header({ view, setView, onHowTo }) {
   return (
     <header className="hdr">
-      <div className="chrome">
-        <span className="dot" /><span className="dot" /><span className="dot" />
-        <span className="chrome-title">~/genai-learning-plan</span>
-        <span className="chrome-meta">11 phases · build-as-you-learn</span>
+      <div className="eyebrow-row">
+        <div className="eyebrow">
+          <span className="eyebrow-dot" aria-hidden="true" />
+          GENERATIVE AI · BUILD-AS-YOU-LEARN
+        </div>
+        <div className="eyebrow-rule" />
+        <div className="hdr-actions">
+          <button className="howto-btn" onClick={onHowTo} aria-label="How to use this guide">
+            <svg viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <circle cx="7" cy="7" r="6" stroke="currentColor" strokeWidth="1.2" />
+              <path d="M5.4 5.2 C5.4 4.2 6.1 3.5 7 3.5 C7.9 3.5 8.6 4.1 8.6 5 C8.6 6.3 7 6.3 7 7.5"
+                    stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" fill="none"/>
+              <circle cx="7" cy="10" r="0.7" fill="currentColor" />
+            </svg>
+            How to use
+          </button>
+          <ViewToggle view={view} setView={setView} />
+        </div>
       </div>
-      <div className="hdr-body">
-        <div className="prompt-line">
-          <span className="caret">$</span>
-          <h1>The GenAI Learning Path</h1>
-          <span className="blink">▋</span>
-        </div>
-        <div className="audience">
-          <span className="audience-tag">FOR BEGINNERS</span>
-          <span className="audience-note">no prior LLM experience required — just basic Python and curiosity</span>
-        </div>
-        <p className="lede">
-          A practical, build-as-you-learn roadmap. Every phase ships a working artifact and the next
-          one extends it — one running codebase growing from a single API call into a multi-agent
-          system with memory, tools, guardrails, and evals.
-        </p>
-        <div className="hdr-foot">
-          <p className="hint">Hover or tap a phase for the gist · click to open the full brief</p>
-          <div className="hdr-actions">
-            <button className="howto-btn" onClick={onHowTo} aria-label="How to use this guide">
-              <svg viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                <circle cx="7" cy="7" r="6" stroke="currentColor" strokeWidth="1.2" />
-                <path d="M5.4 5.2 C5.4 4.2 6.1 3.5 7 3.5 C7.9 3.5 8.6 4.1 8.6 5 C8.6 6.3 7 6.3 7 7.5"
-                      stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" fill="none"/>
-                <circle cx="7" cy="10" r="0.7" fill="currentColor" />
-              </svg>
-              How to use this guide
-            </button>
-            <ViewToggle view={view} setView={setView} />
-          </div>
-        </div>
+
+      <h1 className="title-block">
+        <span className="title-line">The GenAI</span>
+        <span className="title-line alt">Learning Path</span>
+      </h1>
+
+      <div className="title-badges">
+        <span className="title-badge">
+          <i className="ph-duotone ph-seedling" aria-hidden="true" />
+          FOR BEGINNERS
+        </span>
+        <span className="title-badge">
+          <i className="ph-duotone ph-clock" aria-hidden="true" />
+          4–5 WEEKS
+        </span>
+      </div>
+
+      <p className="lede">
+        A practical roadmap where every phase ships a working artifact and the next one extends
+        it — one running codebase growing from a single API call into a multi-agent system with
+        memory, tools, guardrails, and evals.
+      </p>
+
+      <div className="hdr-rule" />
+
+      <div className="stats-row">
+        <span><span className="stat-num">12</span> phases</span>
+        <span><span className="stat-num">1</span> running codebase</span>
+        <span><span className="stat-arrow">↗</span> ships an artifact each step</span>
+        <span className="hint">Hover for the gist · click for the full brief</span>
       </div>
     </header>
   );
@@ -236,8 +250,8 @@ function SerpentineBoard({ onOpen }) {
       <div className="board" ref={boardRef}>
         <svg className="wires" width={dims.w} height={dims.h} viewBox={`0 0 ${dims.w} ${dims.h}`} aria-hidden="true">
           <defs>
-            <marker id="arrow" markerWidth="9" markerHeight="9" refX="6.5" refY="4.5" orient="auto">
-              <path d="M1 1 L7 4.5 L1 8" fill="none" stroke="var(--accent)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+            <marker id="arrow" markerWidth="6" markerHeight="6" refX="4.5" refY="3" orient="auto">
+              <path d="M1 1 L5 3 L1 5" fill="none" stroke="var(--accent)" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" />
             </marker>
           </defs>
           {segs.map((s) => (
@@ -245,9 +259,8 @@ function SerpentineBoard({ onOpen }) {
               key={s.i}
               d={s.d}
               className={"wire" + (drawn ? " drawn" : "")}
-              pathLength="1"
               markerEnd="url(#arrow)"
-              style={{ animationDelay: `${0.25 + s.i * 0.11}s` }}
+              style={{ animationDelay: `${0.2 + s.i * 0.08}s` }}
             />
           ))}
         </svg>
@@ -277,6 +290,7 @@ function PhaseCard({ phase, index, style, refCb, onOpen, onPeek, onUnpeek, peeki
   return (
     <div
       className={"card" + (peeking ? " peeking" : "")}
+      data-phase={phase.n}
       style={style}
       ref={refCb}
       role="button"
@@ -289,8 +303,9 @@ function PhaseCard({ phase, index, style, refCb, onOpen, onPeek, onUnpeek, peeki
       onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(); } }}
     >
       <div className="card-top">
-        <span className="num">{num}</span>
+        {phase.icon && <i className={"ph-duotone ph-" + phase.icon + " phase-icon"} aria-hidden="true" />}
         <span className="kicker">{phase.kicker}</span>
+        <span className="num">{num}</span>
       </div>
       <h3 className="card-title">{phase.title}</h3>
       <p className="card-goal">{phase.goal}</p>
@@ -324,11 +339,13 @@ function VerticalTimeline({ onOpen }) {
               <div className="tl-dot">{num}</div>
               <div
                 className="tl-card"
+                data-phase={p.n}
                 role="button"
                 tabIndex={0}
                 onClick={() => onOpen(i)}
                 onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(i); } }}
               >
+                {p.icon && <i className={"ph-duotone ph-" + p.icon + " phase-icon"} aria-hidden="true" />}
                 <div className="tl-meta">
                   <span>{p.kicker}</span>
                   <span className="tl-sep">·</span>
@@ -355,6 +372,7 @@ function VerticalTimeline({ onOpen }) {
 function Diagram({ text, idHint }) {
   const [svg, setSvg] = useState("");
   const [error, setError] = useState(null);
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -372,28 +390,67 @@ function Diagram({ text, idHint }) {
     return () => { cancelled = true; };
   }, [text, idHint]);
 
+  // ESC closes the expanded modal first (capture phase so it pre-empts the App-level handler that closes the pane)
+  useEffect(() => {
+    if (!expanded) return;
+    const onKey = (e) => {
+      if (e.key === "Escape") {
+        e.stopPropagation();
+        setExpanded(false);
+      }
+    };
+    window.addEventListener("keydown", onKey, true);
+    return () => window.removeEventListener("keydown", onKey, true);
+  }, [expanded]);
+
   if (error) return <div className="diagram"><div className="diagram-fallback">{error}</div></div>;
-  return <div className="diagram" dangerouslySetInnerHTML={{ __html: svg }} />;
+
+  return (
+    <React.Fragment>
+      <div
+        className="diagram diagram-clickable"
+        dangerouslySetInnerHTML={{ __html: svg }}
+        role="button"
+        tabIndex={0}
+        aria-label="Expand diagram"
+        onClick={() => setExpanded(true)}
+        onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); setExpanded(true); } }}
+      />
+      {expanded && (
+        <div className="diagram-overlay" onClick={() => setExpanded(false)}>
+          <div className="diagram-modal" role="dialog" aria-modal="true" onClick={(e) => e.stopPropagation()}>
+            <button className="diagram-close" onClick={() => setExpanded(false)} aria-label="Close">×</button>
+            <div className="diagram-large" dangerouslySetInnerHTML={{ __html: svg }} />
+          </div>
+        </div>
+      )}
+    </React.Fragment>
+  );
 }
 
-/* ============================ Modal ============================ */
-function Modal({ phase, onClose }) {
+/* ============================ Pane (right-side slider) ============================ */
+function Pane({ phase, onClose }) {
   const ref = useRef(null);
   useEffect(() => { if (ref.current) ref.current.focus(); }, []);
   const num = String(phase.n).padStart(2, "0");
 
   return (
-    <div className="overlay" onClick={onClose}>
-      <div className="modal" role="dialog" aria-modal="true" tabIndex={-1} ref={ref}
+    <div className="pane-backdrop" onClick={onClose}>
+      <div className="pane" role="dialog" aria-modal="true" tabIndex={-1} ref={ref}
+           data-phase={phase.n}
            onClick={(e) => e.stopPropagation()}>
-        <button className="close" onClick={onClose} aria-label="Close">×</button>
+        <div className="pane-bar">
+          <span className="pane-bar-label" aria-hidden="true">PHASE {num}</span>
+          <button className="close" onClick={onClose} aria-label="Close">×</button>
+        </div>
 
         <div className="m-head">
           <span className="m-num">{num}</span>
-          <div>
+          <div className="m-head-text">
             <div className="m-kicker">PHASE {num} · {phase.kicker}</div>
             <h2 className="m-title">{phase.title}</h2>
           </div>
+          {phase.icon && <i className={"ph-duotone ph-" + phase.icon + " pane-icon"} aria-hidden="true" />}
         </div>
 
         <div className="m-goal"><span className="m-tag">GOAL</span>{phase.goal}</div>

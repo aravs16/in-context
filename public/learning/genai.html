@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>The GenAI Learning Path — A Beginner's Build-As-You-Learn Roadmap | In Context</title>
-<meta name="description" content="A free, beginner-first GenAI learning path. 11 phases — API basics, RAG, evals, agents, observability, guardrails, memory, MCP, agent eval, multi-agent, harnesses — each shipping a working artifact the next phase extends." />
+<meta name="description" content="A free, beginner-first GenAI learning path. 12 phases — API basics, RAG, evals, agents, text-to-SQL, observability, guardrails, memory, MCP, agent eval, multi-agent, harnesses — each shipping a working artifact the next phase extends." />
 <meta name="keywords" content="GenAI learning path, learn generative AI, AI agents tutorial, RAG tutorial, LLM beginner, MCP, prompt engineering, agent evaluation, Anthropic Claude, build AI agents" />
 <meta name="author" content="Aravind Singirikonda" />
 <meta name="robots" content="index,follow,max-image-preview:large" />
@@ -13,13 +13,13 @@
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="In Context" />
 <meta property="og:title" content="The GenAI Learning Path — A Beginner's Build-As-You-Learn Roadmap" />
-<meta property="og:description" content="11 phases, one growing codebase. From your first LLM API call to a multi-agent system with memory, tools, guardrails, and evals. Free, no signup." />
+<meta property="og:description" content="12 phases, one growing codebase. From your first LLM API call to a multi-agent system with memory, tools, guardrails, evals, and text-to-SQL. Free, no signup." />
 <meta property="og:url" content="https://www.incontext.sh/learning/genai" />
 <meta property="og:locale" content="en_US" />
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="The GenAI Learning Path" />
-<meta name="twitter:description" content="11 phases, build-as-you-learn. API calls → RAG → evals → agents → multi-agent. Free, beginner-first." />
+<meta name="twitter:description" content="12 phases, build-as-you-learn. API calls → RAG → evals → agents → text-to-SQL → multi-agent. Free, beginner-first." />
 <meta name="twitter:creator" content="@aravs16" />
 
 <script type="application/ld+json">
@@ -27,7 +27,7 @@
   "@context": "https://schema.org",
   "@type": "Course",
   "name": "The GenAI Learning Path",
-  "description": "A practical, beginner-first build-as-you-learn roadmap for Generative AI. Eleven phases growing one running codebase from a single LLM API call into a multi-agent system with memory, tools, guardrails, and evals.",
+  "description": "A practical, beginner-first build-as-you-learn roadmap for Generative AI. Twelve phases growing one running codebase from a single LLM API call into a multi-agent system with memory, tools, guardrails, evals, and text-to-SQL.",
   "url": "https://www.incontext.sh/learning/genai",
   "inLanguage": "en",
   "educationalLevel": "Beginner",
@@ -54,7 +54,8 @@
   },
   "teaches": [
     "LLM API basics", "Retrieval-Augmented Generation (RAG)", "Prompt and RAG evaluation with Promptfoo",
-    "Tool use and the agent loop", "LLM observability and tracing", "Guardrails for LLM apps",
+    "Tool use and the agent loop", "Text-to-SQL with schema injection and validation",
+    "LLM observability and tracing", "Guardrails for LLM apps",
     "Short-term and long-term memory for agents", "Model Context Protocol (MCP)",
     "Agent-level evaluation", "Multi-agent orchestration", "Agent harness design"
   ],
@@ -62,14 +63,15 @@
     { "@type": "Syllabus", "name": "Phase 1 — Talk to an LLM",            "description": "Make your first API call. Get a feel for system prompts, temperature, and how the same prompt behaves across different models." },
     { "@type": "Syllabus", "name": "Phase 2 — Give the LLM your data",    "description": "Build a RAG pipeline over your own documents with FAISS. Experiment with fixed-size, recursive, and semantic chunking." },
     { "@type": "Syllabus", "name": "Phase 3 — Stop guessing if it works", "description": "Use Promptfoo to write a real eval suite. Compare models, prompts, and chunking strategies with data, not vibes." },
-    { "@type": "Syllabus", "name": "Phase 4 — Let the LLM use tools",     "description": "Build a single agent. Wrap RAG, web search, a calculator, and a text-to-SQL tool. Feel the agent loop." },
-    { "@type": "Syllabus", "name": "Phase 5 — See what's happening",      "description": "Instrument every LLM and tool call with Langfuse or Phoenix. Cut cost and latency with caching and model routing." },
-    { "@type": "Syllabus", "name": "Phase 6 — Keep the agent in its lane","description": "Add input guards, output validation, PII redaction, and an LLM-as-judge groundedness check." },
-    { "@type": "Syllabus", "name": "Phase 7 — Agents that remember",      "description": "Short-term and long-term memory. User facts, conversation summaries, identity loaded at session start." },
-    { "@type": "Syllabus", "name": "Phase 8 — Standardize your tools",    "description": "Convert a tool into an MCP server. Plug community MCP servers (filesystem, GitHub) into your agent." },
-    { "@type": "Syllabus", "name": "Phase 9 — Test the whole loop",       "description": "Agent-level evaluation: trajectory correctness, hallucination rate, refusal rate, cost per task — in CI." },
-    { "@type": "Syllabus", "name": "Phase 10 — From one agent to a team", "description": "Multi-agent with LangGraph or Strands. The six agentic patterns and when each one helps versus hurts." },
-    { "@type": "Syllabus", "name": "Phase 11 — The runtime around the model", "description": "Compare your hand-rolled agent loop to a real harness. Tool dispatch, retries, hooks, permissions, sessions." }
+    { "@type": "Syllabus", "name": "Phase 4 — Let the LLM use tools",     "description": "Build a single agent. Wrap RAG, web search, and a calculator as tools. Feel the agent loop." },
+    { "@type": "Syllabus", "name": "Phase 5 — Talk to your database",     "description": "Text-to-SQL: schema-aware prompting, generated query validation, a one-shot repair loop, and read-only safety." },
+    { "@type": "Syllabus", "name": "Phase 6 — See what's happening",      "description": "Instrument every LLM and tool call with Langfuse or Phoenix. Cut cost and latency with caching and model routing." },
+    { "@type": "Syllabus", "name": "Phase 7 — Keep the agent in its lane","description": "Add input guards, output validation, PII redaction, and an LLM-as-judge groundedness check." },
+    { "@type": "Syllabus", "name": "Phase 8 — Agents that remember",      "description": "Short-term and long-term memory. User facts, conversation summaries, identity loaded at session start." },
+    { "@type": "Syllabus", "name": "Phase 9 — Standardize your tools",    "description": "Convert a tool into an MCP server. Plug community MCP servers (filesystem, GitHub) into your agent." },
+    { "@type": "Syllabus", "name": "Phase 10 — Test the whole loop",      "description": "Agent-level evaluation: trajectory correctness, hallucination rate, refusal rate, cost per task — in CI." },
+    { "@type": "Syllabus", "name": "Phase 11 — From one agent to a team", "description": "Multi-agent with LangGraph or Strands. The six agentic patterns and when each one helps versus hurts." },
+    { "@type": "Syllabus", "name": "Phase 12 — The runtime around the model", "description": "Compare your hand-rolled agent loop to a real harness. Tool dispatch, retries, hooks, permissions, sessions." }
   ]
 }
 </script>
@@ -77,6 +79,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css" rel="stylesheet" />
 <style>
   :root {
     --paper:   #f1ede2;
@@ -146,63 +149,124 @@
   .topback:hover { color: var(--accent); }
   .topback svg { width: 11px; height: 11px; }
 
-  /* ---------- header ---------- */
-  .chrome {
-    display: flex; align-items: center; gap: 8px;
-    background: var(--card); border: 1px solid var(--line);
-    border-bottom: none;
-    border-radius: 10px 10px 0 0;
-    padding: 9px 14px;
-    box-shadow: 0 1px 0 #fffefb inset;
+  /* ---------- header (flat editorial layout) ---------- */
+  .hdr { padding-top: 6px; }
+
+  .eyebrow-row {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 30px;
+  }
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
     font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: .18em;
+    color: var(--ink-3);
+    white-space: nowrap;
+    text-transform: uppercase;
   }
-  .chrome .dot { width: 11px; height: 11px; border-radius: 50%; background: var(--line-2); display: inline-block; }
-  .chrome .dot:first-child { background: #d8855f; }
-  .chrome-title { font-size: 13.5px; color: var(--ink-2); margin-left: 8px; font-weight: 500; }
-  .chrome-meta { font-size: 13px; color: var(--ink-3); margin-left: auto; }
-
-  .hdr-body {
-    background: var(--card); border: 1px solid var(--line); border-top: none;
-    border-radius: 0 0 10px 10px;
-    padding: 28px 32px 32px;
-    box-shadow: var(--shadow);
-  }
-  .prompt-line { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
-  .prompt-line h1 {
-    font-size: clamp(30px, 4.6vw, 50px); margin: 0; font-weight: 700;
-    letter-spacing: -0.025em; line-height: 1.02;
-    font-family: var(--sans);
-  }
-  .caret { color: var(--accent); font-weight: 700; font-size: clamp(24px, 4vw, 40px); font-family: var(--mono); }
-  .blink { color: var(--accent); animation: blink 1.1s steps(1) infinite; font-size: clamp(22px,3.6vw,38px); transform: translateY(1px); font-family: var(--mono); }
-  @keyframes blink { 50% { opacity: 0; } }
-  .lede { max-width: 70ch; color: var(--ink-2); font-size: 16.5px; line-height: 1.65; margin: 18px 0 0; }
-
-  .audience {
-    display: inline-flex; align-items: center; gap: 12px;
-    margin-top: 16px; flex-wrap: wrap;
-  }
-  .audience-tag {
+  .eyebrow-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
     display: inline-block;
+    flex-shrink: 0;
+  }
+  .eyebrow-rule {
+    flex: 1;
+    height: 1px;
+    background: var(--line-2);
+    min-width: 24px;
+  }
+
+  .title-block {
+    margin: 0 0 30px;
+    font-weight: 700;
+    font-family: var(--sans);
+    line-height: 1;
+  }
+  .title-line {
+    display: block;
+    font-size: clamp(46px, 9vw, 96px);
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+    margin: 0;
+    color: var(--ink);
+  }
+  .title-line.alt { color: var(--accent); }
+
+  .title-badges {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 0 0 30px;
+  }
+  .title-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
     font-family: var(--mono);
-    font-size: 11.5px; font-weight: 700;
-    letter-spacing: .16em;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .14em;
     color: var(--accent-2);
     background: var(--accent-tint);
     border: 1px solid #e9cdba;
-    border-radius: 6px;
-    padding: 4px 9px;
+    border-radius: 7px;
+    padding: 6px 11px;
+    white-space: nowrap;
   }
-  .audience-note {
+  .title-badge i {
+    font-size: 16px;
+    line-height: 1;
+    color: var(--accent);
+  }
+
+  .lede {
     font-family: var(--mono);
-    font-size: 13.5px;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--ink-2);
+    max-width: 62ch;
+    margin: 0 0 38px;
+    text-wrap: pretty;
+  }
+
+  .hdr-rule {
+    height: 1px;
+    background: var(--line-2);
+    margin: 0 0 22px;
+  }
+
+  .stats-row {
+    display: flex;
+    align-items: center;
+    gap: 26px;
+    flex-wrap: wrap;
+    font-family: var(--mono);
+    font-size: 14px;
     color: var(--ink-3);
   }
-  .hint { color: var(--ink-3); font-size: 14px; margin: 0; font-family: var(--mono); }
-
-  .hdr-foot {
-    display: flex; align-items: center; justify-content: space-between;
-    gap: 16px; flex-wrap: wrap; margin-top: 14px;
+  .stat-num {
+    color: var(--ink);
+    font-weight: 700;
+    margin-right: 4px;
+  }
+  .stat-arrow {
+    color: var(--accent);
+    font-weight: 700;
+    margin-right: 4px;
+  }
+  .stats-row .hint {
+    margin: 0 0 0 auto;
+    color: var(--ink-3);
+    font-family: var(--mono);
+    font-size: 14px;
   }
 
   /* ---------- view toggle ---------- */
@@ -236,21 +300,23 @@
   .board {
     position: relative;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 84px 30px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 84px 36px;
     align-items: start;
   }
   .wires { position: absolute; inset: 0; pointer-events: none; z-index: 0; overflow: visible; }
   .wire {
-    fill: none; stroke: var(--accent); stroke-width: 2.25;
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 2.4;
     stroke-linecap: round;
-    opacity: .9;
+    stroke-dasharray: 2 7;
+    opacity: 0;
   }
   .wire.drawn {
-    stroke-dasharray: 1; stroke-dashoffset: 1;
-    animation: draw .55s cubic-bezier(.65,0,.35,1) forwards;
+    animation: wire-in .4s ease forwards;
   }
-  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @keyframes wire-in { to { opacity: .85; } }
 
   /* ---------- card ---------- */
   .card {
@@ -262,7 +328,7 @@
     cursor: pointer;
     box-shadow: var(--shadow);
     transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
-    height: 240px;
+    height: 252px;
     display: flex; flex-direction: column;
   }
   .card:hover, .card.peeking {
@@ -273,6 +339,7 @@
   }
   .card:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
   .card-top { display: flex; align-items: center; gap: 10px; }
+  .card-top .num { margin-left: auto; }
   .num {
     font-size: 14px; font-weight: 700; color: var(--accent);
     background: var(--accent-tint);
@@ -281,12 +348,12 @@
     font-family: var(--mono);
   }
   .kicker { font-size: 11.5px; letter-spacing: .14em; color: var(--ink-3); font-weight: 600; font-family: var(--mono); }
-  .card-title { font-size: 19px; font-weight: 600; letter-spacing: -0.015em; margin: 12px 0 0; line-height: 1.18; font-family: var(--sans); }
+  .card-title { font-size: 22px; font-weight: 600; letter-spacing: -0.018em; margin: 22px 0 0; line-height: 1.18; font-family: var(--sans); }
   .card-goal {
-    font-size: 14.5px; color: var(--ink-2); line-height: 1.5;
-    margin: 7px 0 0; text-wrap: pretty;
+    font-size: 16px; color: var(--ink-2); line-height: 1.5;
+    margin: 10px 0 0; text-wrap: pretty;
     display: -webkit-box;
-    -webkit-line-clamp: 4;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -414,11 +481,221 @@
     padding: 22px 18px;
     overflow-x: auto;
     text-align: center;
+    position: relative;
   }
   .diagram svg { max-width: 100%; height: auto; }
   .diagram-fallback {
     color: var(--ink-3); font-size: 13.5px;
     font-family: var(--mono); padding: 14px;
+  }
+
+  .diagram-clickable {
+    cursor: zoom-in;
+    transition: border-color .15s ease, background-color .15s ease;
+  }
+  .diagram-clickable:hover {
+    border-color: var(--accent);
+    background: var(--accent-tint);
+  }
+  .diagram-clickable::after {
+    content: "expand ⤢";
+    position: absolute;
+    bottom: 8px; right: 12px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink-3);
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 3px 8px;
+    opacity: 0.7;
+    transition: opacity .15s ease, color .15s ease, border-color .15s ease;
+    pointer-events: none;
+  }
+  .diagram-clickable:hover::after {
+    opacity: 1;
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  .diagram-clickable:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  /* expanded mermaid modal (sits above pane / howTo) */
+  .diagram-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(20,12,4,.6);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4vh 4vw;
+    animation: pane-fade .15s ease;
+  }
+  .diagram-modal {
+    position: relative;
+    width: 100%;
+    max-width: 1280px;
+    max-height: 92vh;
+    background: var(--card);
+    border: 1px solid var(--line-2);
+    border-radius: 14px;
+    padding: 48px 40px 40px;
+    overflow: auto;
+    box-shadow: 0 40px 100px -30px rgba(20,12,4,.7);
+    animation: rise .22s cubic-bezier(.2,.7,.3,1);
+  }
+  .diagram-close {
+    position: absolute;
+    top: 16px; right: 16px;
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: var(--paper);
+    color: var(--ink-2);
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    transition: all .15s;
+    font-family: var(--mono);
+  }
+  .diagram-close:hover {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .diagram-large { text-align: center; }
+  .diagram-large svg {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+  }
+
+  /* ---------- per-phase icons (Phosphor duotone) + color palette ---------- */
+  .phase-icon {
+    font-size: 26px;
+    line-height: 1;
+    color: var(--phase-color, var(--accent));
+    user-select: none;
+    pointer-events: none;
+    opacity: 0.95;
+    transition: opacity .15s ease, transform .2s ease;
+    flex-shrink: 0;
+  }
+  .tl-card .phase-icon {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    font-size: 30px;
+  }
+  .card:hover .phase-icon, .tl-card:hover .phase-icon {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+  .card[data-phase="1"]  { --phase-color: #c2552b; }
+  .card[data-phase="2"]  { --phase-color: #5e8b6e; }
+  .card[data-phase="3"]  { --phase-color: #4f7f8a; }
+  .card[data-phase="4"]  { --phase-color: #8a5390; }
+  .card[data-phase="5"]  { --phase-color: #b08440; }
+  .card[data-phase="6"]  { --phase-color: #6c757d; }
+  .card[data-phase="7"]  { --phase-color: #d96651; }
+  .card[data-phase="8"]  { --phase-color: #6b8f3d; }
+  .card[data-phase="9"]  { --phase-color: #2e6f97; }
+  .card[data-phase="10"] { --phase-color: #a04a8a; }
+  .card[data-phase="11"] { --phase-color: #c69d5e; }
+  .card[data-phase="12"] { --phase-color: #3d7f6c; }
+  .tl-card[data-phase="1"]  { --phase-color: #c2552b; }
+  .tl-card[data-phase="2"]  { --phase-color: #5e8b6e; }
+  .tl-card[data-phase="3"]  { --phase-color: #4f7f8a; }
+  .tl-card[data-phase="4"]  { --phase-color: #8a5390; }
+  .tl-card[data-phase="5"]  { --phase-color: #b08440; }
+  .tl-card[data-phase="6"]  { --phase-color: #6c757d; }
+  .tl-card[data-phase="7"]  { --phase-color: #d96651; }
+  .tl-card[data-phase="8"]  { --phase-color: #6b8f3d; }
+  .tl-card[data-phase="9"]  { --phase-color: #2e6f97; }
+  .tl-card[data-phase="10"] { --phase-color: #a04a8a; }
+  .tl-card[data-phase="11"] { --phase-color: #c69d5e; }
+  .tl-card[data-phase="12"] { --phase-color: #3d7f6c; }
+  .tl-card { position: relative; }
+
+  /* ---------- right-side slide pane (replaces phase modal) ---------- */
+  .pane-backdrop {
+    position: fixed; inset: 0; z-index: 100;
+    background: rgba(20,12,4,.4);
+    backdrop-filter: blur(3px);
+    display: flex;
+    justify-content: flex-end;
+    animation: pane-fade .2s ease;
+  }
+  @keyframes pane-fade { from { opacity: 0; } }
+  .pane {
+    position: relative;
+    width: 50vw;
+    min-width: 520px;
+    max-width: 880px;
+    height: 100vh;
+    background: var(--card);
+    border-left: 1px solid var(--line-2);
+    padding: 0 48px 70px;
+    overflow-y: auto;
+    box-shadow: -24px 0 60px -20px rgba(20,12,4,.45);
+    animation: pane-slide .28s cubic-bezier(.2,.7,.3,1);
+  }
+
+  .pane-bar {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    margin: 0 -48px 22px;
+    padding: 14px 20px 14px 24px;
+    background: var(--card);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .pane-bar-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: .18em;
+    color: var(--ink-3);
+  }
+  .pane-bar .close {
+    position: static;
+    top: auto; right: auto;
+    flex-shrink: 0;
+  }
+  .pane[data-phase="1"]  { --phase-color: #c2552b; }
+  .pane[data-phase="2"]  { --phase-color: #5e8b6e; }
+  .pane[data-phase="3"]  { --phase-color: #4f7f8a; }
+  .pane[data-phase="4"]  { --phase-color: #8a5390; }
+  .pane[data-phase="5"]  { --phase-color: #b08440; }
+  .pane[data-phase="6"]  { --phase-color: #6c757d; }
+  .pane[data-phase="7"]  { --phase-color: #d96651; }
+  .pane[data-phase="8"]  { --phase-color: #6b8f3d; }
+  .pane[data-phase="9"]  { --phase-color: #2e6f97; }
+  .pane[data-phase="10"] { --phase-color: #a04a8a; }
+  .pane[data-phase="11"] { --phase-color: #c69d5e; }
+  .pane[data-phase="12"] { --phase-color: #3d7f6c; }
+  .pane .m-head { align-items: flex-start; gap: 16px; }
+  .pane .m-head-text { flex: 1; min-width: 0; }
+  .pane .m-num { background: var(--phase-color, var(--accent)); box-shadow: 0 6px 16px -6px var(--phase-color, var(--accent)); }
+  .pane-icon {
+    margin: 4px 0 0 auto;
+    font-size: 46px;
+    line-height: 1;
+    color: var(--phase-color, var(--accent));
+    user-select: none;
+    flex-shrink: 0;
+  }
+  @keyframes pane-slide {
+    from { transform: translateX(60px); opacity: 0; }
   }
 
   /* ---------- modal (full-page reader) ---------- */
@@ -625,6 +902,23 @@
     .chrome { padding: 8px 12px; gap: 6px; }
     .chrome-title { margin-left: 4px; font-size: 12.5px; }
     .chrome-meta { font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .pane-backdrop { background: var(--card); backdrop-filter: none; }
+    .pane {
+      width: 100vw; min-width: 0; max-width: none;
+      height: 100vh;
+      padding: 0 22px 60px;
+      border-left: none;
+      box-shadow: none;
+      animation: pane-rise .28s cubic-bezier(.2,.7,.3,1);
+    }
+    .pane-bar {
+      margin: 0 -22px 18px;
+      padding: 14px 18px;
+      box-shadow: 0 6px 18px -10px rgba(20,12,4,.25);
+    }
+  }
+  @keyframes pane-rise {
+    from { transform: translateY(24px); opacity: 0; }
   }
   @media (max-width: 520px) {
     .page { padding: 26px 16px 50px; }

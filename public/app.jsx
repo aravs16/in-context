@@ -80,7 +80,7 @@ function TopNav({ onHome, theme, setTheme }) {
         <Brand />
       </a>
       <div className="navlinks">
-        <a className="lp-link" href="/learning/genai" title="An 11-phase, build-as-you-learn roadmap">
+        <a className="lp-link" href="/learning/genai" title="A 12-phase, build-as-you-learn roadmap">
           <span className="lp-full">GenAI Learning Path</span><span className="lp-compact">Learning Path</span> →
         </a>
         <ThemeToggle theme={theme} setTheme={setTheme} />

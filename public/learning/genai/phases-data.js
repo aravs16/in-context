@@ -3,6 +3,7 @@ window.PHASES = [
   {
     n: 1,
     kicker: "FOUNDATIONS",
+    icon: "terminal-window",
     title: "Talk to an LLM",
     goal: "Make your first API call and develop intuition for how LLMs respond.",
     what: [
@@ -44,6 +45,7 @@ window.PHASES = [
   {
     n: 2,
     kicker: "RAG",
+    icon: "files",
     title: "Give the LLM your data",
     goal: "Answer questions over documents the model was never trained on.",
     what: [
@@ -93,6 +95,7 @@ window.PHASES = [
   {
     n: 3,
     kicker: "EVAL",
+    icon: "test-tube",
     title: "Stop guessing if it works",
     goal: "Measure quality systematically instead of eyeballing outputs.",
     what: [
@@ -135,6 +138,7 @@ window.PHASES = [
   {
     n: 4,
     kicker: "AGENT",
+    icon: "wrench",
     title: "Let the LLM use tools",
     goal: "Move from one-shot Q&A to an LLM that decides actions.",
     what: [
@@ -144,11 +148,10 @@ window.PHASES = [
     ],
     plan: [
       "Use the raw SDK (no LangChain yet — you need to feel the loop before a framework hides it).",
-      "Define 4 tools as Python functions with clear docstrings and type hints. Wrap them in the SDK's tool format.",
+      "Define 3 tools as Python functions with clear docstrings and type hints. Wrap them in the SDK's tool format.",
       "Write the agent loop: while the model responds with a <code>tool_use</code>, run the tool and append the result; otherwise, return the final answer. Cap at ~10 iterations to prevent runaway loops.",
       "Wrap your Phase 2 RAG pipeline as a <code>search_docs</code> tool.",
-      "Add 2 more general tools: a calculator and a web-search tool (Brave or Tavily API).",
-      "Add a <strong>text-to-SQL</strong> tool over a small SQLite DB: takes a natural-language question, has the LLM generate SQL, runs it, returns rows. This unifies structured + unstructured data behind one assistant."
+      "Add 2 more general tools: a calculator and a web-search tool (Brave or Tavily API)."
     ],
     research: [
       "How does tool use / function calling work in Claude or GPT? Show a minimal example.",
@@ -161,14 +164,14 @@ window.PHASES = [
       "You have an assistant that picks the right capability for a question.",
       "You understand the difference between a workflow and an agent (and when each is right).",
       "You've felt how tool descriptions act as a second prompt.",
-      "You've connected structured data (SQL) and unstructured data (RAG) into one entrypoint."
+      "You've felt the agent loop end-to-end — Phase 5 plugs structured data (text-to-SQL) into the same shape."
     ],
-    deliverable: { file: "agent.py", desc: "A chatbot that routes questions to the right tool: RAG, web search, calculator, or SQL." },
+    deliverable: { file: "agent.py", desc: "A chatbot that routes questions to the right tool: RAG, web search, or calculator." },
     concepts: ["function calling", "the agent loop", "ReAct", "tool descriptions"],
     diagram: `flowchart TD
   U[User question] --> L[LLM with tool list]
   L --> D{Tool call?}
-  D -->|yes| T[Run tool<br/>RAG · SQL · search · calc]
+  D -->|yes| T[Run tool<br/>RAG · search · calc]
   T --> R[Append result to messages]
   R --> L
   D -->|no| A[Final answer]`
@@ -176,7 +179,48 @@ window.PHASES = [
 
   {
     n: 5,
+    kicker: "TEXT-TO-SQL",
+    icon: "database",
+    title: "Talk to your database",
+    goal: "Let users ask structured questions in plain English.",
+    what: [
+      "<strong>Text-to-SQL</strong> is the pattern where the LLM writes SQL from a natural-language question. It's the highest-leverage pattern for structured data — most internal 'BI tools' are just text-to-SQL with a chart on top.",
+      "The hard parts aren't writing the first prompt. They're <strong>schema grounding</strong> (telling the model which tables and columns exist), <strong>validation</strong> (making sure the generated SQL actually runs), and <strong>safety</strong> (read-only, no dropping tables, capped row counts)."
+    ],
+    plan: [
+      "Pick a small SQLite DB — Chinook, Northwind, or your own 3–5 table dataset.",
+      "Build the prompt: include the schema as <code>CREATE TABLE</code> statements, plus 2–3 few-shot Q/SQL examples and explicit constraints (<em>read-only, LIMIT 100</em>).",
+      "Run the generated SQL. If it errors, send the error back to the model and ask for a fix — cap at one retry.",
+      "Wrap the whole thing as a tool and plug it into your Phase 4 agent."
+    ],
+    research: [
+      "Show me a minimal text-to-SQL prompt with schema injection and few-shot examples.",
+      "How do I handle large schemas (50+ tables) that don't fit in the context window?",
+      "What safety guards should always wrap a text-to-SQL tool?",
+      "What does a SQL repair loop look like, and when should you stop retrying?"
+    ],
+    outcomes: [
+      "You can answer questions over structured data without writing SQL.",
+      "You understand schema injection — and why it gets hard once tables outnumber your context window.",
+      "You've felt the generate → validate → repair pattern that applies to any code-generating LLM use.",
+      "You have a SQL tool plugged into your agent — it'll become an MCP server in Phase 9."
+    ],
+    deliverable: { file: "text_to_sql.py", desc: "A schema-aware text-to-SQL tool with validation and a one-shot repair loop." },
+    concepts: ["schema injection", "query validation", "repair loop", "structured outputs"],
+    diagram: `flowchart LR
+  Q[Question] --> P[Prompt + schema + few-shot]
+  P --> L[LLM generates SQL]
+  L --> V{Validate / run}
+  V -->|error| R[Feed error back]
+  R --> L
+  V -->|ok| D[(SQLite)]
+  D --> A[Rows → Answer]`
+  },
+
+  {
+    n: 6,
     kicker: "OBSERVABILITY",
+    icon: "chart-line",
     title: "See what's happening",
     goal: "Instrument the agent so you can debug and optimize it.",
     what: [
@@ -216,8 +260,9 @@ window.PHASES = [
   },
 
   {
-    n: 6,
+    n: 7,
     kicker: "GUARDRAILS",
+    icon: "shield-check",
     title: "Keep the agent in its lane",
     goal: "Prevent unsafe, off-topic, or malformed outputs from reaching users.",
     what: [
@@ -259,8 +304,9 @@ window.PHASES = [
   },
 
   {
-    n: 7,
+    n: 8,
     kicker: "MEMORY",
+    icon: "brain",
     title: "Agents that remember",
     goal: "Move from stateless chat to persistent, personalized interactions.",
     what: [
@@ -309,8 +355,9 @@ window.PHASES = [
   },
 
   {
-    n: 8,
+    n: 9,
     kicker: "MCP",
+    icon: "plugs",
     title: "Standardize your tools",
     goal: "Make tools portable across agents and clients.",
     what: [
@@ -320,9 +367,9 @@ window.PHASES = [
     ],
     plan: [
       "Read the MCP spec (it's short — server, client, tools, resources, prompts). Skim Anthropic's intro doc.",
-      "Pick one tool from Phase 4 — SQL is a great candidate — and rewrite it as an <strong>MCP server</strong> using the <code>mcp</code> Python SDK.",
+      "Pick one of your tools — the Phase 5 text-to-SQL tool is a great candidate — and rewrite it as an <strong>MCP server</strong> using the <code>mcp</code> Python SDK.",
       "Install your server in Claude Desktop's config and verify it works there: ask Claude to query your DB.",
-      "Connect the same server to your Phase 4 agent code. Proof: the same server works across multiple clients.",
+      "Connect the same server to your agent code. Proof: the same server works across multiple clients.",
       "Add a community MCP server (filesystem, GitHub, or Brave search) to your agent. You just gained a capability without writing any code."
     ],
     research: [
@@ -357,8 +404,9 @@ window.PHASES = [
   },
 
   {
-    n: 9,
+    n: 10,
     kicker: "AGENT EVAL",
+    icon: "clipboard-text",
     title: "Test the whole loop",
     goal: "Evaluate the agent end-to-end, not just individual prompts.",
     what: [
@@ -398,8 +446,9 @@ window.PHASES = [
   },
 
   {
-    n: 10,
+    n: 11,
     kicker: "MULTI-AGENT",
+    icon: "users-three",
     title: "From one agent to a team",
     goal: "Decompose hard problems across specialized agents.",
     what: [
@@ -442,8 +491,9 @@ window.PHASES = [
   },
 
   {
-    n: 11,
+    n: 12,
     kicker: "HARNESS",
+    icon: "stack",
     title: "The runtime around the model",
     goal: "Understand what production agent frameworks actually do for you.",
     what: [
