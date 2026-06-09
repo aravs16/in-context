@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="Engine, Track, Driver, Payload — a frame for enterprise GenAI">
+  <defs>
+    <pattern id="dotgrid" x="0" y="0" width="22" height="22" patternUnits="userSpaceOnUse">
+      <circle cx="11" cy="11" r="0.7" fill="#cfc6b1"/>
+    </pattern>
+    <style>
+      .sans { font-family: "Space Grotesk", system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif; }
+      .mono { font-family: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    </style>
+  </defs>
+
+  <!-- Base paper -->
+  <rect width="1200" height="630" fill="#f1ede2"/>
+  <rect width="1200" height="630" fill="url(#dotgrid)" opacity="0.4"/>
+
+  <!-- ===== CARD 1 — ENGINE (top-left) ===== -->
+  <rect x="0" y="0" width="600" height="315" fill="#6b8f3d" fill-opacity="0.10"/>
+  <circle cx="300" cy="105" r="64" fill="#6b8f3d" fill-opacity="0.18"/>
+  <!-- Icon: stacked database disks -->
+  <g transform="translate(300 105) scale(2.4)" stroke="#6b8f3d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <ellipse cx="0" cy="-10" rx="14" ry="4.5"/>
+    <path d="M -14 -10 L -14 10 Q -14 14.5 0 14.5 Q 14 14.5 14 10 L 14 -10"/>
+    <path d="M -14 0 Q -14 4.5 0 4.5 Q 14 4.5 14 0"/>
+  </g>
+  <text x="570" y="54" text-anchor="end" class="mono" font-size="26" font-weight="800" fill="#6b8f3d">01</text>
+  <text x="300" y="238" text-anchor="middle" class="sans" font-size="66" font-weight="700" fill="#1c1813" letter-spacing="-0.5">ENGINE</text>
+  <text x="300" y="278" text-anchor="middle" class="sans" font-size="22" font-weight="500" fill="#57503f">Your proprietary data</text>
+
+  <!-- ===== CARD 2 — TRACK (top-right) ===== -->
+  <rect x="600" y="0" width="600" height="315" fill="#4f7f8a" fill-opacity="0.10"/>
+  <circle cx="900" cy="105" r="64" fill="#4f7f8a" fill-opacity="0.18"/>
+  <!-- Icon: shield with check -->
+  <g transform="translate(900 105) scale(2.6)" stroke="#4f7f8a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M 0 -14 L 12 -8 L 12 4 Q 12 12 0 18 Q -12 12 -12 4 L -12 -8 Z"/>
+    <polyline points="-5,0 -1,4 7,-5"/>
+  </g>
+  <text x="1170" y="54" text-anchor="end" class="mono" font-size="26" font-weight="800" fill="#4f7f8a">02</text>
+  <text x="900" y="238" text-anchor="middle" class="sans" font-size="66" font-weight="700" fill="#1c1813" letter-spacing="-0.5">TRACK</text>
+  <text x="900" y="278" text-anchor="middle" class="sans" font-size="22" font-weight="500" fill="#57503f">Alignment &amp; guardrails</text>
+
+  <!-- ===== CARD 3 — DRIVER (bottom-left) ===== -->
+  <rect x="0" y="315" width="600" height="315" fill="#c2552b" fill-opacity="0.10"/>
+  <circle cx="300" cy="420" r="64" fill="#c2552b" fill-opacity="0.18"/>
+  <!-- Icon: person -->
+  <g transform="translate(300 420) scale(2.8)" stroke="#c2552b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <circle cx="0" cy="-7" r="5.5"/>
+    <path d="M -11 16 Q -11 2 0 2 Q 11 2 11 16"/>
+  </g>
+  <text x="570" y="369" text-anchor="end" class="mono" font-size="26" font-weight="800" fill="#c2552b">03</text>
+  <text x="300" y="553" text-anchor="middle" class="sans" font-size="66" font-weight="700" fill="#1c1813" letter-spacing="-0.5">DRIVER</text>
+  <text x="300" y="593" text-anchor="middle" class="sans" font-size="22" font-weight="500" fill="#57503f">People running the system</text>
+
+  <!-- ===== CARD 4 — PAYLOAD (bottom-right) ===== -->
+  <rect x="600" y="315" width="600" height="315" fill="#b08440" fill-opacity="0.10"/>
+  <circle cx="900" cy="420" r="64" fill="#b08440" fill-opacity="0.18"/>
+  <!-- Icon: upward chart -->
+  <g transform="translate(900 420) scale(2.6)" stroke="#b08440" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <polyline points="-13,10 -7,4 -1,7 5,-3 12,-10"/>
+    <polyline points="6,-10 12,-10 12,-4"/>
+  </g>
+  <text x="1170" y="369" text-anchor="end" class="mono" font-size="26" font-weight="800" fill="#b08440">04</text>
+  <text x="900" y="553" text-anchor="middle" class="sans" font-size="66" font-weight="700" fill="#1c1813" letter-spacing="-0.5">PAYLOAD</text>
+  <text x="900" y="593" text-anchor="middle" class="sans" font-size="22" font-weight="500" fill="#57503f">The business outcome</text>
+
+  <!-- Dividers between cards (thin, neutral) -->
+  <line x1="600" y1="0" x2="600" y2="630" stroke="#cfc6b1" stroke-width="1.2"/>
+  <line x1="0" y1="315" x2="1200" y2="315" stroke="#cfc6b1" stroke-width="1.2"/>
+</svg>

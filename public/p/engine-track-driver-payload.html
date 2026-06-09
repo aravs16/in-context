@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Engine, Track, Driver, Payload — a frame for enterprise GenAI — In Context</title>
+<meta name="description" content="A simple mental model for getting enterprise GenAI past the demo stage and into the operating model — without breaking what makes the business work." />
+<meta name="author" content="Aravind Singirikonda" />
+<meta name="robots" content="index,follow,max-image-preview:large" />
+<link rel="canonical" href="https://www.incontext.sh/p/engine-track-driver-payload" />
+
+<meta property="og:type" content="article" />
+<meta property="og:site_name" content="In Context" />
+<meta property="og:title" content="Engine, Track, Driver, Payload — a frame for enterprise GenAI" />
+<meta property="og:description" content="A simple mental model for getting enterprise GenAI past the demo stage and into the operating model — without breaking what makes the business work." />
+<meta property="og:url" content="https://www.incontext.sh/p/engine-track-driver-payload" />
+<meta property="og:locale" content="en_US" />
+<meta property="article:author" content="Aravind Singirikonda" />
+<meta property="article:published_time" content="2026-06-09" />
+<meta property="article:section" content="Thoughts" />
+<meta property="og:image" content="https://www.incontext.sh/img/posts/engine-track-driver-payload.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Diagram showing the four-part Engine, Track, Driver, Payload framework for enterprise GenAI, with a Foundation layer (security, compliance, observability, auditability) supporting all four." />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Engine, Track, Driver, Payload — a frame for enterprise GenAI" />
+<meta name="twitter:description" content="A simple mental model for getting enterprise GenAI past the demo stage and into the operating model — without breaking what makes the business work." />
+<meta name="twitter:creator" content="@aravs16" />
+<meta name="twitter:image" content="https://www.incontext.sh/img/posts/engine-track-driver-payload.png" />
+
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Engine, Track, Driver, Payload — a frame for enterprise GenAI","description":"A simple mental model for getting enterprise GenAI past the demo stage and into the operating model — without breaking what makes the business work.","datePublished":"2026-06-09","dateModified":"2026-06-09","url":"https://www.incontext.sh/p/engine-track-driver-payload","mainEntityOfPage":"https://www.incontext.sh/p/engine-track-driver-payload","articleSection":"Thoughts","inLanguage":"en","author":{"@type":"Person","name":"Aravind Singirikonda","url":"https://www.incontext.sh/"},"publisher":{"@type":"Person","name":"Aravind Singirikonda","url":"https://www.incontext.sh/"},"image":"https://www.incontext.sh/img/posts/engine-track-driver-payload.png"}</script>
+
+<link rel="alternate" type="application/rss+xml" title="In Context" href="/feed.xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter+Tight:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/styles.css" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root">
+<article class="detail">
+<a class="back" href="/">← All writing</a>
+<span class="post-tag">Thoughts</span>
+<h1 class="post-h">Engine, Track, Driver, Payload — a frame for enterprise GenAI</h1>
+<div class="post-meta-row mono">
+<span>Jun 9, 2026</span><span class="sep">·</span><span>6 min read</span><span class="sep">·</span><span>By Aravind Singirikonda</span>
+</div>
+<figure class="post-banner"><img src="/img/posts/engine-track-driver-payload.svg" alt="Diagram showing the four-part Engine, Track, Driver, Payload framework for enterprise GenAI, with a Foundation layer (security, compliance, observability, auditability) supporting all four." loading="eager" /></figure>
+<div class="prose">
+<p>Most enterprise leaders I talk to have moved past <em>whether</em> to use GenAI. The question now is <em>how to scale it</em> — across many business units, across regulated data, across teams that have very different appetites for risk.</p>
+<p>That shift is harder than it sounds. A demo that wows the leadership team is one thing. A GenAI system running inside underwriting, customer support, or industrial operations is something else entirely. The failure modes are no longer "embarrassing chatbot." They are regulatory exposure, mispriced risk, and a recommendation acted on by an operator with real-world consequences.</p>
+<p>To make that scale-up tractable, I've started using a four-part mental model with the executives I work with: <strong>Engine, Track, Driver, Payload</strong>. Borrowed from how heavy industry thinks about moving things safely. It maps cleanly to the four things every serious enterprise AI program has to get right — and the four ways most of them quietly fail.</p>
+<h2>1. The Engine — your proprietary data</h2>
+<p>Every enterprise sits on a moat that has nothing to do with AI: decades of historical records, transactional documents, regulatory correspondence, operational telemetry, customer interactions. Most of it lives in legacy systems, regional silos, and PDFs nobody can search.</p>
+<p>That data is the engine. Public foundation models — Claude, GPT, Gemini — are powerful, but the unique value of <em>your</em> enterprise AI is never the model itself. It's what the model knows about <em>you</em>: your customers, your contracts, your operations, your past decisions.</p>
+<p>The first investment isn't a model. It's getting that data consolidated onto a unified, governed layer where it can actually be retrieved, secured, and audited. Until that's done, you don't have an engine. You have data exhaust.</p>
+<h2>2. The Track — alignment and architecture</h2>
+<p>A powerful engine without a track is a liability. Public foundation models are trained to predict plausible text from the public internet. They don't, on their own, understand your regulatory obligations, your tolerance for error, or which systems should never be touched without a human in the loop.</p>
+<p>Alignment is the engineering work that forces a general-purpose model to behave inside your specific rules. In practice, that's three things.</p>
+<p><strong>Separate generation from calculation.</strong> Let the model do natural-language work — routing questions, drafting summaries, explaining decisions. Don't let it do the math. Pricing, risk scoring, financial forecasting — those should run on your existing deterministic systems, with the LLM acting as an interface, not the calculator.</p>
+<p><strong>Build clean data boundaries.</strong> In a multi-business enterprise, in M&amp;A, or in any environment where lines of business have to stay logically separated, your AI architecture needs the same property. Permissions, embeddings, and retrieval scopes have to be partitioned per business unit and detachable on demand. If you can't divest an asset cleanly because its data has bled into a shared AI layer, you've created a problem you didn't have before.</p>
+<p><strong>Keep AI out of critical execution loops.</strong> For anything safety-critical, regulated, or otherwise high-consequence, AI sits in an advisory layer. It explains, recommends, drafts, summarizes — humans approve and execute. The cost of getting this boundary wrong is much higher than the cost of slower throughput.</p>
+<h2>3. The Driver — the people running the system</h2>
+<p>A modern engine on a perfect track still needs a driver who knows what they're doing. This is the part most enterprise AI programs underinvest in.</p>
+<p>The frontline people who currently do the work — underwriters, asset managers, operations leads, support agents — don't disappear when AI shows up. Their job changes. They go from <em>doing the work</em> to <em>supervising and validating</em> a system that produces drafts and recommendations much faster than they could on their own.</p>
+<p>That's a real skills shift. The good news: it's mostly trainable. The bad news: nobody trains for it accidentally. If you deploy AI without upskilling the people who are supposed to oversee it, you end up with either silent rubber-stamping — the AI is trusted too much — or quiet refusal, where the AI is ignored and the investment never lands.</p>
+<blockquote class="pull">“The single most important hire in an enterprise AI program is usually not a researcher. It's the person who designs the operating model around the AI — who decides what humans review, when, and how.”</blockquote>
+<h2>4. The Payload — the business outcome</h2>
+<p>The first three pieces exist for one reason: to move the payload. In enterprise contexts, the payload is rarely "we shipped an AI feature." It's faster underwriting cycles, fewer compliance exceptions, lower cost-to-serve, shorter time-to-decision in operations.</p>
+<p>This is the part executives need to define before anything else gets built. <em>What business outcome are we measuring? On what timeline? Against what baseline?</em></p>
+<p>Without those answers up front, you end up with an impressive AI capability that floats free of the P&amp;L, gets quietly defunded after eighteen months, and shows up in the next strategy deck as a lesson learned.</p>
+<h2>The synthesis</h2>
+<p>Most enterprise GenAI programs I've seen fail in one of four ways. They underbuild the data foundation and ship demos that don't generalize. They underbuild alignment and create regulatory or reputational exposure. They underbuild the human operating model and the technology gets quietly ignored. Or they never decide what business outcome they're actually trying to move.</p>
+<p>The engine-track-driver-payload frame doesn't make any of this easier. It just makes it harder to skip a step. Each piece is necessary. None is sufficient on its own.</p>
+<p>If you're a leader trying to scale GenAI across a complex enterprise right now, the most useful question to keep asking your team is not "can we do this with AI?" — it's "which of the four are we currently the weakest on, and what would it cost to fix that this quarter?"</p>
+<p>That's the conversation that moves enterprise AI from a slide deck to an operating model.</p>
+</div>
+</article>
+</div>
+
+<script src="/posts.js"></script>
+<script type="text/babel" src="/tweaks-panel.jsx"></script>
+<script type="text/babel" src="/app.jsx"></script>
+<script defer src="/_vercel/insights/script.js"></script>
+</body>
+</html>

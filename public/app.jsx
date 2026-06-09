@@ -303,6 +303,11 @@ function PostDetail({ post, onBack, allPosts, onOpen, sidebarProps = {} }) {
           <span className="sep">·</span>
           <span>By Aravind Singirikonda</span>
         </div>
+        {post.banner && (
+          <figure className="post-banner">
+            <img src={post.banner} alt={post.bannerAlt || post.title} loading="eager" />
+          </figure>
+        )}
         <div className="prose">
           {post.body.map((b, i) => <Block key={i} block={b} />)}
         </div>
