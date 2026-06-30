@@ -580,6 +580,7 @@ window.NEXT_STEPS = [
 ];
 
 window.PLAN_TIPS = [
+  { k: "Don't hand-code — direct an AI", v: "You don't need to know how to program. Tell a coding assistant (Claude Code, Cursor, ChatGPT) what each phase should build, run what it gives you, then ask it to explain anything you don't follow. The skill you're building is judgment, not typing." },
   { k: "Don't skip ahead", v: "Each phase depends on the one before it. Memory without observability is hard to debug. Multi-agent without eval is chaos." },
   { k: "Ship the artifact", v: "If you didn't run it end-to-end, you don't understand it." },
   { k: "Keep one running codebase", v: "Don't start a new repo per phase — extend the same one. The point is watching complexity accrete." },

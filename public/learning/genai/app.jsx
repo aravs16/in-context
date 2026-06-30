@@ -77,9 +77,13 @@ function App() {
         ? <SerpentineBoard onOpen={setModal} />
         : <VerticalTimeline onOpen={setModal} />}
       <NextSteps />
-      {modal !== null && (
-        <Pane phase={window.PHASES[modal]} onClose={() => setModal(null)} />
-      )}
+      {modal !== null && (() => {
+        const phase = window.PHASES[modal];
+        const lessons = window.PHASE_LESSONS && window.PHASE_LESSONS[phase.n];
+        return lessons && lessons.length
+          ? <LessonModal phase={phase} lessons={lessons} onClose={() => setModal(null)} />
+          : <Pane phase={phase} onClose={() => setModal(null)} />;
+      })()}
       {howTo && <HowToModal onClose={() => setHowTo(false)} />}
       {askOpen && <QuestionModal onClose={() => setAskOpen(false)} />}
     </div>
@@ -132,8 +136,20 @@ function Header({ view, setView, onHowTo, onAsk }) {
       <p className="lede">
         A practical roadmap where every phase ships a working artifact and the next one extends
         it — one running codebase growing from a single API call into a multi-agent system with
-        memory, tools, guardrails, and evals.
+        memory, tools, guardrails, and evals. <strong>You don't need to know how to code</strong> —
+        if you can describe what you want, a coding assistant writes it. Your job is to run it,
+        watch it work, and understand it.
       </p>
+
+      <div className="hero-cta-row">
+        <a className="setup-cta" href="https://code.claude.com/docs/en/quickstart"
+           target="_blank" rel="noopener noreferrer">
+          <i className="ph-duotone ph-rocket-launch" aria-hidden="true" />
+          Set up your coding assistant
+          <span className="setup-cta-arrow">↗</span>
+        </a>
+        <span className="setup-cta-note">~2 min · Claude Code (or any assistant you like)</span>
+      </div>
 
       <div className="hdr-rule" />
 
@@ -453,6 +469,11 @@ function Pane({ phase, onClose }) {
           <button className="close" onClick={onClose} aria-label="Close">×</button>
         </div>
 
+        <div className="pane-soon">
+          <i className="ph-duotone ph-flask pane-soon-icon" aria-hidden="true" />
+          <span><strong>More content coming soon.</strong> This phase is still a quick summary — the full interactive walkthrough (like Phases 1&nbsp;&amp;&nbsp;2) is on the way.</span>
+        </div>
+
         <div className="m-head">
           <span className="m-num">{num}</span>
           <div className="m-head-text">
@@ -528,6 +549,270 @@ function Pane({ phase, onClose }) {
               {phase.concepts.map((c) => <span className="pill" key={c}>{c}</span>)}
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ============================ Lesson modal (full-screen, subtopic sidebar) ============================ */
+// Animated next-token generation loop: predict a distribution → commit the top
+// token → append it → repeat, then loop. Drives the "run it in a loop" intuition.
+function GenLoop({ steps }) {
+  const N = steps.length;
+  const [i, setI] = useState(0);            // tokens committed so far
+  const [phase, setPhase] = useState("predict"); // predict | commit | done
+  const [playing, setPlaying] = useState(true);
+
+  useEffect(() => {
+    if (!playing) return;
+    let t;
+    if (phase === "predict") {
+      t = setTimeout(() => setPhase("commit"), 950);
+    } else if (phase === "commit") {
+      t = setTimeout(() => {
+        if (i + 1 < N) { setI(i + 1); setPhase("predict"); }
+        else { setPhase("done"); }
+      }, 540);
+    } else { // done — hold on the full sentence, then restart the loop
+      t = setTimeout(() => { setI(0); setPhase("predict"); }, 2200);
+    }
+    return () => clearTimeout(t);
+  }, [i, phase, playing, N]);
+
+  const baseText = steps.slice(0, i).map((s) => s.add).join("");
+  const justAdded = phase === "commit" ? steps[i].add : "";
+  const cur = steps[Math.min(i, N - 1)];
+  const max = Math.max(...cur.candidates.map((c) => c.p));
+
+  return (
+    <div className="genloop">
+      <div className="genloop-screen">
+        <span className="genloop-text">{baseText}{justAdded && <span className="genloop-new">{justAdded}</span>}</span>
+        {phase !== "done" && <span className="genloop-caret">▮</span>}
+      </div>
+      <div className="genloop-pred">
+        <div className="genloop-pred-label">
+          {phase === "done" ? "● end-of-text predicted — generation stops" : "predicting next token…"}
+        </div>
+        {phase !== "done" && (
+          <div className="genloop-bars">
+            {cur.candidates.map((c, k) => (
+              <div className={"genloop-row" + (k === 0 ? " chosen" : "") + (phase === "commit" && k === 0 ? " fire" : "")} key={k}>
+                <span className="genloop-tok">{c.tok}</span>
+                <span className="genloop-bar"><span className="genloop-fill" style={{ width: (c.p / max * 100) + "%" }} /></span>
+                <span className="genloop-p">{Math.round(c.p * 100)}%</span>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+      <div className="genloop-ctrl">
+        <button className="genloop-btn" onClick={() => setPlaying((p) => !p)}>{playing ? "⏸ pause" : "▶ play"}</button>
+        <button className="genloop-btn" onClick={() => { setI(0); setPhase("predict"); setPlaying(true); }}>↻ restart</button>
+        <span className="genloop-step">token {phase === "done" ? N : Math.min(i + 1, N)} / {N}</span>
+      </div>
+    </div>
+  );
+}
+
+// "Drive your assistant" activity: the prompt to paste into a coding assistant
+// to build the phase's artifact — so readers never have to write code by hand.
+function AssistBlock({ block }) {
+  const [copied, setCopied] = useState(false);
+  const copy = () => {
+    const done = () => { setCopied(true); setTimeout(() => setCopied(false), 1600); };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(block.prompt).then(done).catch(done);
+    } else { done(); }
+  };
+  return (
+    <div className="assist">
+      <div className="assist-head">
+        <i className="ph-duotone ph-hammer assist-icon" aria-hidden="true" />
+        <span className="assist-title">{block.title || "Build Activity"}</span>
+      </div>
+      {block.intro && <p className="assist-intro" dangerouslySetInnerHTML={{ __html: block.intro }} />}
+      <div className="assist-prompt">
+        <button className="assist-copy" onClick={copy}>{copied ? "copied ✓" : "copy"}</button>
+        <pre><code>{block.prompt}</code></pre>
+      </div>
+      {block.asks && block.asks.length > 0 && (
+        <div className="assist-asks">
+          <div className="assist-asks-label">then, to understand what it built, ask:</div>
+          <ul>{block.asks.map((q, i) => <li key={i} dangerouslySetInnerHTML={{ __html: q }} />)}</ul>
+        </div>
+      )}
+      <a className="assist-setup" href="https://code.claude.com/docs/en/quickstart" target="_blank" rel="noopener noreferrer">
+        New to Claude Code? Set it up in ~2 minutes ↗
+      </a>
+    </div>
+  );
+}
+
+function LessonBlock({ block, idHint }) {
+  switch (block.t) {
+    case "h":
+      return <h4 className="lesson-h">{block.text}</h4>;
+    case "callout":
+      return (
+        <div className={"lesson-callout " + (block.kind || "tip")}>
+          {block.title && <div className="lesson-callout-title">{block.title}</div>}
+          <div dangerouslySetInnerHTML={{ __html: block.html }} />
+        </div>
+      );
+    case "code":
+      return (
+        <div className="lesson-code">
+          {block.label && <div className="lesson-code-bar">{block.label}</div>}
+          <pre><code>{block.code}</code></pre>
+        </div>
+      );
+    case "diagram":
+      return <div className="lesson-diagram"><Diagram text={block.mermaid} idHint={idHint} /></div>;
+    case "compare": {
+      const Col = ({ data, tone, mark }) => (
+        <div className={"lesson-cmp-col " + tone}>
+          <div className="lesson-cmp-tag">{data.tag}</div>
+          {data.context && (
+            <div className="lesson-cmp-ctx">
+              <span className="lesson-cmp-ctxlabel">retrieved context</span>{data.context}
+            </div>
+          )}
+          <div className="lesson-cmp-answer">{data.answer}</div>
+          <div className="lesson-cmp-verdict">{mark} {data.verdict}</div>
+          {data.note && <div className="lesson-cmp-note">{data.note}</div>}
+        </div>
+      );
+      return (
+        <div className="lesson-compare">
+          <div className="lesson-cmp-q"><span className="lesson-cmp-qlabel">question</span>{block.question}</div>
+          <div className="lesson-cmp-grid">
+            <Col data={block.left} tone="bad" mark="✗" />
+            <Col data={block.right} tone="good" mark="✓" />
+          </div>
+        </div>
+      );
+    }
+    case "list": {
+      const Tag = block.ordered ? "ol" : "ul";
+      return (
+        <Tag className="lesson-list">
+          {block.items.map((it, i) => <li key={i} dangerouslySetInnerHTML={{ __html: it }} />)}
+        </Tag>
+      );
+    }
+    case "steps":
+      return (
+        <ol className="steps lesson-steps">
+          {block.items.map((it, i) => (
+            <li key={i}>
+              <span className="step-n">{String(i + 1).padStart(2, "0")}</span>
+              <span dangerouslySetInnerHTML={{ __html: it }} />
+            </li>
+          ))}
+        </ol>
+      );
+    case "predict": {
+      const max = Math.max(...block.candidates.map((c) => c.p));
+      return (
+        <div className="lesson-predict">
+          {block.label && <div className="lesson-predict-label">{block.label}</div>}
+          <div className="lesson-predict-text">{block.prefix}<span className="lesson-predict-caret">▮</span></div>
+          <div className="lesson-predict-bars">
+            {block.candidates.map((c, i) => (
+              <div className={"lesson-predict-row" + (i === 0 ? " top" : "")} key={i}>
+                <span className="lesson-predict-tok">{c.tok}</span>
+                <span className="lesson-predict-bar"><span className="lesson-predict-fill" style={{ width: (c.p / max * 100) + "%" }} /></span>
+                <span className="lesson-predict-p">{Math.round(c.p * 100)}%</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+    case "loop":
+      return (
+        <div className="lesson-loop">
+          {block.steps.map((s, i) => (
+            <div className="lesson-loop-step" key={i}>
+              <span className="lesson-loop-n">{i + 1}</span>
+              <span className="lesson-loop-text">{s.prev}<span className="lesson-loop-new">{s.add}</span></span>
+            </div>
+          ))}
+        </div>
+      );
+    case "genloop":
+      return <GenLoop steps={block.steps} />;
+    case "assist":
+      return <AssistBlock block={block} />;
+    default:
+      return <p className="lesson-p" dangerouslySetInnerHTML={{ __html: block.html }} />;
+  }
+}
+
+function LessonModal({ phase, lessons, onClose }) {
+  const [active, setActive] = useState(0);
+  const ref = useRef(null);
+  const contentRef = useRef(null);
+  const num = String(phase.n).padStart(2, "0");
+  const total = lessons.length;
+  const lesson = lessons[active];
+  const go = (i) => setActive(Math.max(0, Math.min(total - 1, i)));
+
+  useEffect(() => { if (ref.current) ref.current.focus(); }, []);
+  useEffect(() => { if (contentRef.current) contentRef.current.scrollTo(0, 0); }, [active]);
+
+  return (
+    <div className="lesson-overlay" onClick={onClose}>
+      <div className="lesson-modal" role="dialog" aria-modal="true" tabIndex={-1} ref={ref}
+           data-phase={phase.n} onClick={(e) => e.stopPropagation()}>
+        <header className="lesson-top">
+          <div className="lesson-top-id">
+            <span className="lesson-top-num">{num}</span>
+            <div className="lesson-top-text">
+              <div className="m-kicker">PHASE {num} · {phase.kicker}</div>
+              <h2 className="lesson-top-title">{phase.title}</h2>
+            </div>
+          </div>
+          <button className="close lesson-close" onClick={onClose} aria-label="Close">×</button>
+        </header>
+
+        <div className="lesson-body">
+          <nav className="lesson-nav" aria-label="Subtopics">
+            <div className="lesson-nav-label">// in this phase</div>
+            <ol>
+              {lessons.map((l, i) => (
+                <li key={l.id}>
+                  <button
+                    className={"lesson-nav-item" + (i === active ? " active" : "")}
+                    onClick={() => go(i)}
+                    aria-current={i === active ? "page" : undefined}>
+                    <span className="lesson-nav-n">{String(i + 1).padStart(2, "0")}</span>
+                    <span className="lesson-nav-text">{l.label}</span>
+                  </button>
+                </li>
+              ))}
+            </ol>
+          </nav>
+
+          <main className="lesson-content" ref={contentRef}>
+            <article className="lesson-page">
+              <div className="lesson-page-eyebrow">{String(active + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}</div>
+              <h3 className="lesson-page-title">{lesson.label}</h3>
+              {lesson.blocks.map((b, i) => (
+                <LessonBlock key={i} block={b} idHint={`p${phase.n}-l${active}-b${i}`} />
+              ))}
+              <div className="lesson-pager">
+                <button className="lesson-pager-btn" disabled={active === 0} onClick={() => go(active - 1)}>
+                  {active > 0 && <React.Fragment><span className="lesson-pager-dir">← prev</span><span className="lesson-pager-name">{lessons[active - 1].label}</span></React.Fragment>}
+                </button>
+                <button className="lesson-pager-btn next" disabled={active === total - 1} onClick={() => go(active + 1)}>
+                  {active < total - 1 && <React.Fragment><span className="lesson-pager-dir">next →</span><span className="lesson-pager-name">{lessons[active + 1].label}</span></React.Fragment>}
+                </button>
+              </div>
+            </article>
+          </main>
         </div>
       </div>
     </div>
@@ -659,7 +944,7 @@ function HowToModal({ onClose }) {
           <div className="m-kicker">// GUIDE</div>
           <h2 className="m-title">How to use this plan</h2>
         </div>
-        <p className="howto-lede">Four rules that compound. Skim them once before you start the phases.</p>
+        <p className="howto-lede">A few rules that compound. Skim them once before you start the phases.</p>
         <div className="howto-tips">
           {window.PLAN_TIPS.map((t, i) => (
             <div className="tip" key={i}>
@@ -668,6 +953,11 @@ function HowToModal({ onClose }) {
             </div>
           ))}
         </div>
+        <a className="howto-setup" href="https://code.claude.com/docs/en/quickstart"
+           target="_blank" rel="noopener noreferrer">
+          <i className="ph-duotone ph-rocket-launch" aria-hidden="true" />
+          <span><strong>New here?</strong> Set up Claude Code (or the Desktop app — no terminal needed). You won't be writing code by hand. <span className="howto-setup-arrow">Get started ↗</span></span>
+        </a>
       </div>
     </div>
   );
