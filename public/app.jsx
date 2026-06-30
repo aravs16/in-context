@@ -315,6 +315,7 @@ function PostDetail({ post, onBack, allPosts, onOpen, sidebarProps = {} }) {
           <span className="glyph"></span>
           <span>Thanks for reading. Reply by email if something landed.</span>
         </div>
+        <LikeButton id={post.id} />
         <Giscus postId={post.id} />
       </div>
       <Sidebar posts={allPosts.filter(p => p.id !== post.id)} onOpen={onOpen} {...sidebarProps} />

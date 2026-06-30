@@ -267,6 +267,7 @@ ${bodyHtml}
 
 <script src="/posts.js"></script>
 <script type="text/babel" src="/tweaks-panel.jsx"></script>
+<script type="text/babel" src="/like-button.jsx"></script>
 <script type="text/babel" src="/app.jsx"></script>
 <script defer src="/_vercel/insights/script.js"></script>
 </body>

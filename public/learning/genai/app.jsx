@@ -76,6 +76,7 @@ function App() {
         ? <SerpentineBoard onOpen={setModal} />
         : <VerticalTimeline onOpen={setModal} />}
       <NextSteps />
+      <LikeButton id="genai-learning-path" namespace="in-context" />
       {modal !== null && (
         <Pane phase={window.PHASES[modal]} onClose={() => setModal(null)} />
       )}
