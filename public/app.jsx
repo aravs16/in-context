@@ -294,6 +294,7 @@ function PostDetail({ post, onBack, allPosts, onOpen, sidebarProps = {} }) {
           <svg viewBox="0 0 16 16" fill="none"><path d="M10 3 L5 8 L10 13" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
           All writing
         </a>
+        <LikeButton id={post.id} />
         <span className="post-tag">{post.category}</span>
         <h1 className="post-h">{post.title}</h1>
         <div className="post-meta-row mono">
@@ -315,7 +316,6 @@ function PostDetail({ post, onBack, allPosts, onOpen, sidebarProps = {} }) {
           <span className="glyph"></span>
           <span>Thanks for reading. Reply by email if something landed.</span>
         </div>
-        <LikeButton id={post.id} />
         <Giscus postId={post.id} />
       </div>
       <Sidebar posts={allPosts.filter(p => p.id !== post.id)} onOpen={onOpen} {...sidebarProps} />

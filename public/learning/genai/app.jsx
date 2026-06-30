@@ -69,6 +69,7 @@ function App() {
         <svg viewBox="0 0 16 16" fill="none"><path d="M10 3 L5 8 L10 13" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/></svg>
         Back to In Context
       </a>
+      <LikeButton id="genai-learning-path" namespace="in-context" />
       <Header view={view} setView={setView}
               onHowTo={() => setHowTo(true)}
               onAsk={() => setAskOpen(true)} />
@@ -76,7 +77,6 @@ function App() {
         ? <SerpentineBoard onOpen={setModal} />
         : <VerticalTimeline onOpen={setModal} />}
       <NextSteps />
-      <LikeButton id="genai-learning-path" namespace="in-context" />
       {modal !== null && (
         <Pane phase={window.PHASES[modal]} onClose={() => setModal(null)} />
       )}
