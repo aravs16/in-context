@@ -17,16 +17,39 @@
 window.PHASE_LESSONS = {
   1: [
     {
+      id: "intuition",
+      label: "Intuition",
+      blocks: [
+        { t: "p", html: "Forget the hype for a minute. You've already used a tiny language model today — your phone's keyboard. You type a few words and it guesses the next one:" },
+        { t: "predict", label: "your phone suggesting the next word", prefix: "See you ", candidates: [
+          { tok: "soon", p: 0.34 }, { tok: "later", p: 0.27 }, { tok: "tomorrow", p: 0.19 }, { tok: "there", p: 0.12 }, { tok: "then", p: 0.08 }
+        ]},
+        { t: "p", html: "That's the whole trick — just small. Now scale it up almost beyond imagination. Instead of your recent texts, train it on <strong>most of the text humans have ever written</strong>: books, Wikipedia, code, forums, documentation. To predict the next word <em>that</em> well, it has to soak up grammar, facts, reasoning patterns, coding style, the shape of an argument." },
+        { t: "p", html: "Push it far enough and something strange happens: \"just guess the next word\" becomes good enough to <strong>write an essay, fix a bug in your code, or explain quantum tunneling</strong> — because for each of those, producing the right next word, over and over, <em>is</em> the task." },
+        { t: "callout", kind: "key", title: "The one-line intuition", html: "An LLM is <strong>autocomplete that read the internet</strong> — a next-word guesser scaled up until the guessing turned into something that feels like intelligence. Not a database, not a search engine, not a mind." },
+        { t: "h", text: "Two things to hold onto" },
+        { t: "p", html: "<strong>1. It's a tool, not a being.</strong> It has no memory of you between requests, no goals, no awareness. Each time, it's text in, text out, in isolation — the \"conversation\" is an illusion you create by re-sending the history every time. That's why it can't \"remember\" yesterday unless you remind it." },
+        { t: "p", html: "<strong>2. It predicts what's <em>likely</em>, not what's <em>true</em>.</strong> It completes text the way the internet would, not the way reality is. Usually those line up; when they don't, you get a fluent, confident, wrong answer — a <strong>hallucination</strong>. Fixing that is the whole point of Phase 2." },
+        { t: "p", html: "Keep <em>\"autocomplete that read the internet\"</em> in your head. Everything else in this course — prompts, tools, memory, agents — is scaffolding built around that single trick." }
+      ]
+    },
+    {
       id: "what-is-llm",
       label: "What is an LLM?",
       blocks: [
-        { t: "p", html: "Start here, before any code or jargon. Strip away the hype and a <strong>large language model</strong> is, mechanically, one thing: a <strong>next-word predictor</strong>. You give it some text; it predicts what word most likely comes next." },
-        { t: "p", html: "It got good at this by reading an enormous amount of text and playing one game over and over: <em>\"given everything so far, what comes next?\"</em> Watch it work on a half-finished sentence:" },
-        { t: "predict", label: "the model's guess for the next word", prefix: "The cat sat on the ", candidates: [
-          { tok: "mat", p: 0.61 }, { tok: "floor", p: 0.13 }, { tok: "couch", p: 0.09 }, { tok: "roof", p: 0.05 }, { tok: "warm", p: 0.04 }
+        { t: "p", html: "So what is it underneath? A <strong>math function</strong> — the <code>f(x)</code> kind from school: put something in, get something out, and the same input always gives the same output. Here's the whole thing, end to end:" },
+        { t: "pipeline", stages: [
+          { kind: "text", label: "your words", value: "The capital of France is" },
+          { kind: "num", label: "turned into numbers", value: "464, 3139,\n295, 6181, 318" },
+          { kind: "fn", label: "the math function", value: "billions of\nlearned numbers" },
+          { kind: "num", label: "numbers out", value: "Paris  93%\nLyon  3%\nNice  2%" },
+          { kind: "text", label: "back to a word", value: "Paris" }
         ]},
-        { t: "p", html: "The model doesn't \"know\" the answer is <em>mat</em>. It assigns a <strong>probability to every possible next word</strong>, and the high-probability ones reflect everything it has read. Pick one, and you've generated a word." },
-        { t: "callout", kind: "key", title: "The whole machine", html: "An LLM is a function: <strong>text in → a probability for every possible next word out.</strong> Chat, code, agents, everything in this course — it's all built on top of that one move." }
+        { t: "p", html: "Read it left to right. Computers only do math, so your <strong>words are turned into numbers</strong> first. Those numbers run through the function — and here's the crux: the function is <strong>billions of numbers it <em>learned</em> by reading text</strong>, not rules a human wrote. Out come more numbers — <strong>a score for every possible next word</strong> — and the top one is turned back into text." },
+        { t: "p", html: "Notice it never \"looks up\" Paris in a database. It learned that across everything it read, <em>Paris</em> is overwhelmingly the most likely word after that phrase. To an LLM, <strong>knowledge is just very confident prediction</strong> — which is also why shaky knowledge comes out as a confident-sounding guess." },
+        { t: "callout", kind: "key", title: "The whole thing", html: "An LLM is a <strong>math function with billions of learned numbers inside</strong>. Words in → numbers → function → numbers → a word out. Everything in this course is built on that one pass." },
+        { t: "p", html: "That trained function has a name: a <strong>model</strong>. It's the word you'll see all over this course (<em>\"which model?\"</em>, <em>\"Claude is a model\"</em>) — and now you know exactly what it means: a big math function full of numbers learned from text." },
+        { t: "p", html: "One detail for later: the function itself is perfectly repeatable — same words in, same scores out. The only randomness comes <em>after</em>, when something picks <em>which</em> high-scoring word to use. That dial is <strong>temperature</strong>, and it's coming up." }
       ]
     },
     {
@@ -75,12 +98,13 @@ window.PHASE_LESSONS = {
     },
     {
       id: "just-an-api",
-      label: "An LLM is just an API",
+      label: "Reaching the model",
       blocks: [
-        { t: "p", html: "You won't run that prediction loop yourself — a provider (Anthropic, OpenAI) runs it on big GPUs behind an <strong>HTTP API</strong>. You send a list of <strong>messages</strong>; you get back the generated message. That's the entire interface you build on." },
+        { t: "p", html: "So where does the \"API\" everyone mentions fit in? The model is enormous — it runs on a company's powerful computers, not your laptop, so you can't run it yourself. The <strong>API is simply how you reach that model over the internet</strong>: you send it the input text, it sends back the output. Same model — you're just talking to it across the web instead of running it on your own computer." },
+        { t: "p", html: "The input is a list of <strong>messages</strong> and the output is the generated message. That's the entire interface you build on for the rest of the course." },
         { t: "diagram", mermaid: "sequenceDiagram\n  participant You as Your script\n  participant API as LLM API\n  You->>API: messages = [system, user]\n  Note right of API: model · temperature · max_tokens\n  API-->>You: assistant message\n  Note left of You: tokens · latency · $" },
         { t: "code", label: "the whole thing, in Python", code: "from anthropic import Anthropic\n\nclient = Anthropic()  # reads ANTHROPIC_API_KEY from your environment\n\nmsg = client.messages.create(\n    model=\"claude-sonnet-4-6\",\n    max_tokens=512,\n    system=\"You are a terse senior engineer.\",\n    messages=[{\"role\": \"user\", \"content\": \"Explain a hash map in two sentences.\"}])\n\nprint(msg.content[0].text)" },
-        { t: "callout", kind: "tip", title: "The messages format", html: "Every turn is <code>{\"role\": ..., \"content\": ...}</code> with role <code>user</code> or <code>assistant</code>. The <strong>system</strong> prompt rides alongside as its own field. A multi-turn chat is just this list growing — you resend the whole history each call, because the API itself is stateless." }
+        { t: "callout", kind: "tip", title: "The messages format", html: "Every turn is <code>{\"role\": ..., \"content\": ...}</code> with role <code>user</code> or <code>assistant</code>. The <strong>system</strong> prompt rides alongside as its own field. A multi-turn chat is just this list growing — you resend the whole history every time, because the model <strong>has no memory</strong>: each request starts fresh. The \"memory\" is you, re-sending the transcript." }
       ]
     },
     {

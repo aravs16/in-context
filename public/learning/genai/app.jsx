@@ -742,6 +742,20 @@ function LessonBlock({ block, idHint }) {
           ))}
         </div>
       );
+    case "pipeline":
+      return (
+        <div className="pipeline">
+          {block.stages.map((s, i) => (
+            <React.Fragment key={i}>
+              {i > 0 && <span className="pipe-arrow" aria-hidden="true">→</span>}
+              <div className="pipe-stage">
+                <span className="pipe-label">{s.label}</span>
+                <div className={"pipe-box" + (s.kind ? " " + s.kind : "")}>{s.value}</div>
+              </div>
+            </React.Fragment>
+          ))}
+        </div>
+      );
     case "genloop":
       return <GenLoop steps={block.steps} />;
     case "assist":
@@ -805,10 +819,12 @@ function LessonModal({ phase, lessons, onClose }) {
               ))}
               <div className="lesson-pager">
                 <button className="lesson-pager-btn" disabled={active === 0} onClick={() => go(active - 1)}>
-                  {active > 0 && <React.Fragment><span className="lesson-pager-dir">← prev</span><span className="lesson-pager-name">{lessons[active - 1].label}</span></React.Fragment>}
+                  <span className="lesson-pager-arrow">←</span>
+                  <span>Previous</span>
                 </button>
-                <button className="lesson-pager-btn next" disabled={active === total - 1} onClick={() => go(active + 1)}>
-                  {active < total - 1 && <React.Fragment><span className="lesson-pager-dir">next →</span><span className="lesson-pager-name">{lessons[active + 1].label}</span></React.Fragment>}
+                <button className="lesson-pager-btn" disabled={active === total - 1} onClick={() => go(active + 1)}>
+                  <span>Next</span>
+                  <span className="lesson-pager-arrow">→</span>
                 </button>
               </div>
             </article>
