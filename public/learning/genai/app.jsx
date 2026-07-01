@@ -558,9 +558,9 @@ function Pane({ phase, onClose }) {
 /* ============================ Lesson modal (full-screen, subtopic sidebar) ============================ */
 // Animated next-token generation loop: predict a distribution → commit the top
 // token → append it → repeat, then loop. Drives the "run it in a loop" intuition.
-function GenLoop({ steps }) {
+function GenLoop({ steps, prompt = "" }) {
   const N = steps.length;
-  const [i, setI] = useState(0);            // tokens committed so far
+  const [i, setI] = useState(0);            // words generated so far
   const [phase, setPhase] = useState("predict"); // predict | commit | done
   const [playing, setPlaying] = useState(true);
 
@@ -568,49 +568,93 @@ function GenLoop({ steps }) {
     if (!playing) return;
     let t;
     if (phase === "predict") {
-      t = setTimeout(() => setPhase("commit"), 950);
+      t = setTimeout(() => setPhase("commit"), 1900);
     } else if (phase === "commit") {
       t = setTimeout(() => {
         if (i + 1 < N) { setI(i + 1); setPhase("predict"); }
         else { setPhase("done"); }
-      }, 540);
+      }, 1500);
     } else { // done — hold on the full sentence, then restart the loop
-      t = setTimeout(() => { setI(0); setPhase("predict"); }, 2200);
+      t = setTimeout(() => { setI(0); setPhase("predict"); }, 3000);
     }
     return () => clearTimeout(t);
   }, [i, phase, playing, N]);
 
-  const baseText = steps.slice(0, i).map((s) => s.add).join("");
-  const justAdded = phase === "commit" ? steps[i].add : "";
+  const shown = prompt + steps.slice(0, phase === "done" ? N : i).map((s) => s.add).join("");
   const cur = steps[Math.min(i, N - 1)];
   const max = Math.max(...cur.candidates.map((c) => c.p));
+  const chosen = cur.candidates[0].tok;
+  const live = phase !== "done";
+  // the text that rides back into the model (truncated tail so the chip fits)
+  const fbText = shown.length > 15 ? "…" + shown.slice(-13) : shown;
+  const fbW = Math.max(48, fbText.length * 6.4 + 14);
+
+  // the two arcs of the loop (model -> text on the right, text -> model on the left)
+  const RIGHT = "M236 150 C322 138 322 66 298 54";
+  const LEFT = "M42 54 C18 66 18 138 104 150";
+  const caption = phase === "predict"
+    ? "the model reads the whole text and predicts the next word"
+    : phase === "commit"
+      ? "the predicted word travels up and is appended to the text"
+      : "the model predicted “end” — generation stops";
 
   return (
-    <div className="genloop">
-      <div className="genloop-screen">
-        <span className="genloop-text">{baseText}{justAdded && <span className="genloop-new">{justAdded}</span>}</span>
-        {phase !== "done" && <span className="genloop-caret">▮</span>}
-      </div>
-      <div className="genloop-pred">
-        <div className="genloop-pred-label">
-          {phase === "done" ? "● end-of-text predicted — generation stops" : "predicting next token…"}
-        </div>
-        {phase !== "done" && (
-          <div className="genloop-bars">
-            {cur.candidates.map((c, k) => (
-              <div className={"genloop-row" + (k === 0 ? " chosen" : "") + (phase === "commit" && k === 0 ? " fire" : "")} key={k}>
-                <span className="genloop-tok">{c.tok}</span>
-                <span className="genloop-bar"><span className="genloop-fill" style={{ width: (c.p / max * 100) + "%" }} /></span>
-                <span className="genloop-p">{Math.round(c.p * 100)}%</span>
-              </div>
-            ))}
-          </div>
+    <div className="gloop">
+      <svg className="gloop-svg" viewBox="0 0 340 200" role="img" aria-label="next-word generation loop">
+        <defs>
+          <marker id="gloopArr" markerWidth="8" markerHeight="8" refX="5" refY="3" orient="auto">
+            <path d="M0 0 L6 3 L0 6 Z" className="gloop-arrhead" />
+          </marker>
+        </defs>
+
+        {/* the loop track */}
+        <path d={RIGHT} className="gloop-arc" markerEnd="url(#gloopArr)" />
+        <path d={LEFT} className="gloop-arc" markerEnd="url(#gloopArr)" />
+
+        {/* text node (the output) */}
+        <rect x="14" y="12" width="312" height="42" className="gloop-node" />
+        <text x="14" y="9" className="gloop-svg-tag">the text so far</text>
+        <text x="28" y="38" className="gloop-svg-text">{shown || "…"}{live && <tspan className="gloop-svg-caret">▌</tspan>}</text>
+
+        {/* model node (the engine) */}
+        <rect x="100" y="150" width="140" height="40" className={"gloop-node gloop-node-model" + (phase === "predict" ? " on" : "")} />
+        <text x="170" y="174" className="gloop-svg-model">the model</text>
+
+        {/* the whole text rides back into the model */}
+        {phase === "predict" && (
+          <g className="gloop-fbtok" key={"f" + i}>
+            <rect x={-(fbW / 2)} y="-11" width={fbW} height="22" />
+            <text x="0" y="4">{fbText}</text>
+          </g>
         )}
-      </div>
-      <div className="genloop-ctrl">
-        <button className="genloop-btn" onClick={() => setPlaying((p) => !p)}>{playing ? "⏸ pause" : "▶ play"}</button>
-        <button className="genloop-btn" onClick={() => { setI(0); setPhase("predict"); setPlaying(true); }}>↻ restart</button>
-        <span className="genloop-step">token {phase === "done" ? N : Math.min(i + 1, N)} / {N}</span>
+
+        {/* the predicted word rides up the right arc into the text */}
+        {phase === "commit" && (
+          <g className="gloop-wtok" key={"w" + i}>
+            <rect x="-23" y="-12" width="46" height="24" />
+            <text x="0" y="5">{chosen.trim()}</text>
+          </g>
+        )}
+      </svg>
+
+      <div className="gloop-cap">{caption}</div>
+
+      {live && (
+        <div className="gloop-bars">
+          {cur.candidates.map((c, k) => (
+            <div className={"gloop-row" + (k === 0 ? " top" : "")} key={k}>
+              <span className="gloop-tok">{c.tok}</span>
+              <span className="gloop-bar"><span className="gloop-fill" style={{ width: (c.p / max * 100) + "%" }} /></span>
+              <span className="gloop-p">{Math.round(c.p * 100)}%</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      <div className="gloop-ctrl">
+        <button className="gloop-btn" onClick={() => setPlaying((p) => !p)}>{playing ? "⏸ pause" : "▶ play"}</button>
+        <button className="gloop-btn" onClick={() => { setI(0); setPhase("predict"); setPlaying(true); }}>↻ restart</button>
+        <span className="gloop-step">token {phase === "done" ? N : Math.min(i + 1, N)} / {N}</span>
       </div>
     </div>
   );
@@ -646,6 +690,341 @@ function AssistBlock({ block }) {
       <a className="assist-setup" href="https://code.claude.com/docs/en/quickstart" target="_blank" rel="noopener noreferrer">
         New to Claude Code? Set it up in ~2 minutes ↗
       </a>
+    </div>
+  );
+}
+
+// Knowledge check — static multiple-choice or one-word, instant feedback.
+function QuizItem({ item, index }) {
+  const [picked, setPicked] = useState(null);
+  const [revealed, setRevealed] = useState(false);
+  const isMC = Array.isArray(item.options);
+  const done = isMC ? picked !== null : revealed;
+  return (
+    <div className="quiz-item">
+      <div className="quiz-q"><span className="quiz-n">Q{index + 1}</span><span dangerouslySetInnerHTML={{ __html: item.q }} /></div>
+      {isMC ? (
+        <div className="quiz-opts">
+          {item.options.map((opt, k) => {
+            let cls = "quiz-opt";
+            if (picked !== null) {
+              if (k === item.answer) cls += " correct";
+              else if (k === picked) cls += " wrong";
+            }
+            const mark = picked !== null
+              ? (k === item.answer ? "✓" : (k === picked ? "✗" : String.fromCharCode(65 + k)))
+              : String.fromCharCode(65 + k);
+            return (
+              <button key={k} className={cls} disabled={picked !== null} onClick={() => setPicked(k)}>
+                <span className="quiz-mark">{mark}</span>
+                <span dangerouslySetInnerHTML={{ __html: opt }} />
+              </button>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="quiz-reveal">
+          {!revealed
+            ? <button className="quiz-show" onClick={() => setRevealed(true)}>Show answer</button>
+            : <div className="quiz-answer">{item.answer}</div>}
+        </div>
+      )}
+      {done && item.explain && <div className="quiz-explain" dangerouslySetInnerHTML={{ __html: item.explain }} />}
+    </div>
+  );
+}
+
+function Quiz({ items }) {
+  return (
+    <div className="quiz">
+      <div className="quiz-head"><i className="ph-duotone ph-check-square quiz-icon" aria-hidden="true" />Knowledge check</div>
+      {items.map((it, i) => <QuizItem key={i} item={it} index={i} />)}
+    </div>
+  );
+}
+
+// Words placed on a 2D Cartesian plane by meaning; optional query highlights nearest.
+// Point coords (x, y) are on a 0..10 scale; the component maps them to the plot.
+function VectorSpace({ points, query }) {
+  const COLORS = ["#5e8b6e", "#c2552b", "#3b6bb0", "#8a5da8"];
+  const MX = 13, MY = 7, PW = 82, PH = 58;       // plot margins + size, in SVG units
+  const X0 = MX, Y0 = MY + PH;                    // origin (bottom-left of the plot)
+  const px = (dx) => MX + (dx / 10) * PW;         // data 0..10 -> svg x
+  const py = (dy) => Y0 - (dy / 10) * PH;         // data 0..10 -> svg y (flip: up = bigger)
+  const ticks = [0, 2, 4, 6, 8, 10];
+
+  let nearIdx = [];
+  if (query) {
+    nearIdx = points
+      .map((p, i) => ({ i, d: Math.hypot(p.x - query.x, p.y - query.y) }))
+      .sort((a, b) => a.d - b.d)
+      .slice(0, query.nearest || 3)
+      .map((o) => o.i);
+  }
+  const nearSet = new Set(nearIdx);
+
+  return (
+    <div className="vspace">
+      <svg viewBox="0 0 100 78" className="vspace-svg" role="img" aria-label="words placed on a 2D plane by meaning">
+        {/* grid */}
+        {ticks.map((t) => (
+          <g key={"g" + t}>
+            <line x1={px(t)} y1={MY} x2={px(t)} y2={Y0} className="vspace-grid" />
+            <line x1={X0} y1={py(t)} x2={X0 + PW} y2={py(t)} className="vspace-grid" />
+          </g>
+        ))}
+        {/* axes */}
+        <line x1={X0} y1={Y0} x2={X0 + PW + 3} y2={Y0} className="vspace-axis" />
+        <line x1={X0} y1={Y0} x2={X0} y2={MY - 3} className="vspace-axis" />
+        {/* tick numbers */}
+        {ticks.map((t) => (
+          <g key={"t" + t}>
+            <text x={px(t)} y={Y0 + 5} className="vspace-tick" textAnchor="middle">{t}</text>
+            {t > 0 && <text x={X0 - 2.5} y={py(t) + 1} className="vspace-tick" textAnchor="end">{t}</text>}
+          </g>
+        ))}
+        <text x={X0 + PW + 5} y={Y0 + 1.2} className="vspace-axislbl">x</text>
+        <text x={X0} y={MY - 5} className="vspace-axislbl" textAnchor="middle">y</text>
+        {/* query distance lines */}
+        {query && nearIdx.map((i) => (
+          <line key={"l" + i} x1={px(query.x)} y1={py(query.y)} x2={px(points[i].x)} y2={py(points[i].y)} className="vspace-line" />
+        ))}
+        {/* points */}
+        {points.map((p, k) => (
+          <g key={k} className={"vspace-pt" + (nearSet.has(k) ? " near" : "")}>
+            <circle cx={px(p.x)} cy={py(p.y)} r={nearSet.has(k) ? 1.5 : 1.2} fill={COLORS[(p.g || 0) % COLORS.length]} />
+            <text x={px(p.x) + 2} y={py(p.y) + 1} className="vspace-lbl">{p.label}</text>
+          </g>
+        ))}
+        {/* query point */}
+        {query && (
+          <g className="vspace-query">
+            <circle cx={px(query.x)} cy={py(query.y)} r="1.9" />
+            <text x={px(query.x) + 2.4} y={py(query.y) + 1} className="vspace-qlbl">{query.label}</text>
+          </g>
+        )}
+      </svg>
+      {query && <div className="vspace-cap">nearest by distance → {nearIdx.map((i) => points[i].label).join(", ")}</div>}
+    </div>
+  );
+}
+
+// Shared play/pause/restart bar for the flow animations below.
+function FlowCtrl({ playing, setPlaying, onRestart, step, total }) {
+  return (
+    <div className="flowctrl">
+      <button className="flowctrl-btn" onClick={() => setPlaying((p) => !p)}>{playing ? "⏸ pause" : "▶ play"}</button>
+      <button className="flowctrl-btn" onClick={onRestart}>↻ restart</button>
+      <span className="flowctrl-step">step {step + 1} / {total}</span>
+    </div>
+  );
+}
+
+// Ingestion: a document fans out into chunks, each converges into the
+// embedding model, morphs from text into a vector, and lands in the DB —
+// with a live "N of M stored" counter. State-driven positions + CSS
+// transitions (not keyframes), so pause/restart are just state, not timing math.
+function IngestFlow({ doc = "100s of docs", chunkCount = 3 }) {
+  const N = 6; // stages 0..5
+  const GAPS = [1350, 1550, 1550, 750, 1650];   // slower — time to actually read each move
+  const HOLD = 2900;
+  const [stage, setStage] = useState(0);
+  const [playing, setPlaying] = useState(true);
+  const [stored, setStored] = useState(0);
+
+  useEffect(() => {
+    if (!playing) return;
+    let t;
+    if (stage < N - 1) t = setTimeout(() => setStage((s) => s + 1), GAPS[stage]);
+    else t = setTimeout(() => { setStage(0); setStored(0); }, HOLD);
+    return () => clearTimeout(t);
+  }, [stage, playing]);
+
+  useEffect(() => {
+    if (stage !== 5) return;
+    const timers = Array.from({ length: chunkCount }, (_, i) =>
+      setTimeout(() => setStored((s) => Math.min(chunkCount, s + 1)), i * 180 + 320));
+    return () => timers.forEach(clearTimeout);
+  }, [stage, chunkCount]);
+
+  const DOC = { x: 30, y: 74 };
+  const EMBED = { x: 170, y: 70 };
+  const span = Math.max(1, chunkCount - 1);
+  const slot = (i) => ({ x: 95, y: 28 + i * (84 / span) });
+  const dbSlot = (i) => ({ x: 270, y: 50 + i * (40 / span) });
+
+  const posFor = (i) => {
+    if (stage <= 1) return DOC;
+    if (stage === 2) return slot(i);
+    return stage <= 4 ? EMBED : dbSlot(i);
+  };
+  const scaleFor = stage === 0 ? 0.3 : (stage >= 4 ? 0.82 : 1);
+  const rectOpacity = stage >= 1 && stage <= 3 ? 1 : 0;
+  const dotOpacity = stage >= 4 ? 1 : 0;
+
+  const CAPTIONS = [
+    "hundreds of documents, ready to split",
+    "hundreds of documents, ready to split",
+    "splitting into chunks",
+    "each chunk enters the embedding model",
+    "each chunk becomes a vector",
+    stored + " of " + chunkCount + " chunks stored",
+  ];
+  // small floating annotations, positioned above the part of the diagram that's active
+  const annOn = (a, b) => stage >= a && stage <= b;
+
+  // a fanned stack of cards behind the front doc, to read as "hundreds", not one file
+  const STACK = [{ dx: -10, dy: 10 }, { dx: -6, dy: 6 }, { dx: -3, dy: 3 }, { dx: 0, dy: 0 }];
+
+  return (
+    <div className="iflow">
+      <div className="iflow-cap">{CAPTIONS[stage]}</div>
+      <svg viewBox="0 0 320 150" className="iflow-svg" role="img" aria-label="hundreds of documents splitting into chunks, each embedded and stored in a vector database">
+        <g className="ifl-doc">
+          {STACK.map((c, k) => (
+            <rect key={k} className={k === STACK.length - 1 ? "ifl-card front" : "ifl-card"}
+                  x={DOC.x - 15 + c.dx} y={DOC.y - 15 + c.dy} width="30" height="30" />
+          ))}
+          <text x={DOC.x} y={DOC.y + 34} textAnchor="middle">{doc}</text>
+        </g>
+        <text x={DOC.x} y="16" textAnchor="middle" className={"ifl-ann" + (annOn(1, 2) ? " on" : "")}>splitting each doc into chunks</text>
+
+        <g className="ifl-embed">
+          <rect x={EMBED.x - 38} y={EMBED.y - 25} width="76" height="50" />
+          <text x={EMBED.x} y={EMBED.y + 40} textAnchor="middle">embedding model</text>
+        </g>
+        <text x={EMBED.x} y="16" textAnchor="middle" className={"ifl-ann" + (annOn(3, 4) ? " on" : "")}>chunk → vector</text>
+
+        <g className="ifl-db">
+          <rect x="250" y="42" width="40" height="56" rx="5" />
+          <ellipse cx="270" cy="42" rx="20" ry="6" />
+          <text x="270" y="128" textAnchor="middle">vector DB</text>
+        </g>
+        <text x="270" y="16" textAnchor="middle" className={"ifl-ann" + (stage === 5 ? " on" : "")}>stored as points, by meaning</text>
+
+        {Array.from({ length: chunkCount }, (_, i) => {
+          const p = posFor(i);
+          return (
+            <g key={i} className="ifl-piece"
+               style={{ transform: `translate(${p.x}px, ${p.y}px) scale(${scaleFor})`, transitionDelay: (i * 130) + "ms" }}>
+              <rect className="ifl-chunk" x="-8" y="-6" width="16" height="12" style={{ opacity: rectOpacity }} />
+              <circle className="ifl-dot" r="4" style={{ opacity: dotOpacity }} />
+            </g>
+          );
+        })}
+      </svg>
+      <FlowCtrl playing={playing} setPlaying={setPlaying}
+        onRestart={() => { setStage(0); setStored(0); setPlaying(true); }}
+        step={stage} total={N} />
+    </div>
+  );
+}
+
+// Query: the question travels to the embedding model, becomes a vector, and
+// lands beside its nearest stored chunk in a mini vector space — then that
+// chunk combines with the question and the model answers.
+function QueryFlow({ question = "“parental leave?”", nearestLabel = "leave policy", chunkPreview = "“18 weeks paid…”", answer = "18 weeks paid ✓" }) {
+  const N = 10; // stages 0..9
+  const GAPS = [1150, 1350, 750, 1450, 1350, 1500, 1350, 1250, 1250];   // slower throughout
+  const HOLD = 3000;
+  const [stage, setStage] = useState(0);
+  const [playing, setPlaying] = useState(true);
+
+  useEffect(() => {
+    if (!playing) return;
+    let t;
+    if (stage < N - 1) t = setTimeout(() => setStage((s) => s + 1), GAPS[stage]);
+    else t = setTimeout(() => setStage(0), HOLD);
+    return () => clearTimeout(t);
+  }, [stage, playing]);
+
+  const START = { x: 30, y: 90 };
+  const EMBED = { x: 105, y: 55 };
+  const NEAR_TARGET = { x: 222, y: 66 };
+
+  // all four chunks already sitting in the vector space, before the question ever arrives
+  const POINTS = [
+    { key: "leave", label: nearestLabel, x: 245, y: 60, dist: 0.4 },
+    { key: "vacation", label: "vacation days", x: 192, y: 34, dist: 2.1 },
+    { key: "expense", label: "expense caps", x: 322, y: 30, dist: 3.6 },
+    { key: "wifi", label: "wifi setup", x: 316, y: 88, dist: 4.3 },
+  ];
+  const nearest = POINTS.reduce((a, b) => (a.dist < b.dist ? a : b));
+
+  const pos = stage <= 1 ? START : (stage <= 3 ? EMBED : NEAR_TARGET);
+  const scale = stage === 0 ? 0.3 : (stage >= 4 ? 0.85 : 1);
+  // size the chip to the full question text, with real padding either side, not a fixed crop
+  const chipW = Math.max(56, question.length * 5.4 + 26);
+  const chipOpacity = stage >= 1 && stage <= 2 ? 1 : 0;
+  const dotOpacity = stage >= 3 ? 1 : 0;
+  const linesOn = stage >= 5;     // draw distance to every stored chunk
+  const wonOn = stage >= 6;       // highlight the closest one, dim the rest
+  const promptOn = stage >= 7;
+  const llmOn = stage >= 8;
+  const answerOn = stage >= 9;
+
+  const CAPTIONS = [
+    "a new question comes in",
+    "a new question comes in",
+    "embed the question",
+    "embed the question",
+    "now it's a point, in the same space as everything stored",
+    "measuring distance to every stored chunk",
+    nearest.label + " is nearest — that's the match",
+    "paste that chunk in front of the question",
+    "the model reads it",
+    "grounded answer",
+  ];
+
+  return (
+    <div className="iflow">
+      <div className="iflow-cap">{CAPTIONS[stage]}</div>
+      <svg viewBox="0 0 360 175" className="iflow-svg" role="img" aria-label="a question embedded, compared by distance to every stored chunk, and answered using the nearest one">
+        <g className="ifl-embed">
+          <rect x={EMBED.x - 38} y={EMBED.y - 25} width="76" height="50" />
+          <text x={EMBED.x} y={EMBED.y + 40} textAnchor="middle">embedding model</text>
+        </g>
+        <rect x="165" y="15" width="180" height="90" className="qfl-vbox" />
+        <text x="255" y="9" textAnchor="middle" className="qfl-vboxlbl">already stored, as points</text>
+
+        {POINTS.map((pt) => {
+          const isNear = pt.key === nearest.key;
+          const wonClass = wonOn ? (isNear ? " win" : " dim") : "";
+          return (
+            <g key={pt.key}>
+              <line x1={NEAR_TARGET.x} y1={NEAR_TARGET.y} x2={pt.x} y2={pt.y}
+                    className={"qfl-distline" + (linesOn ? " on" : "") + wonClass} />
+              <text x={(NEAR_TARGET.x + pt.x) / 2} y={(NEAR_TARGET.y + pt.y) / 2 - 3} textAnchor="middle"
+                    className={"qfl-distlabel" + (linesOn ? " on" : "") + wonClass}>{pt.dist.toFixed(1)}</text>
+              <circle cx={pt.x} cy={pt.y} r={isNear && wonOn ? 4.2 : 3} className={"qfl-pt" + wonClass} />
+              <text x={pt.x + 6} y={pt.y + 3} className={"qfl-ptlabel" + wonClass}>{pt.label}</text>
+            </g>
+          );
+        })}
+
+        <g className="ifl-piece" style={{ transform: `translate(${pos.x}px, ${pos.y}px) scale(${scale})` }}>
+          <g style={{ opacity: chipOpacity }}>
+            <rect className="qfl-chip" x={-chipW / 2} y="-13" width={chipW} height="26" />
+            <text className="qfl-chiptxt" x="0" y="4" textAnchor="middle">{question}</text>
+          </g>
+          <circle className="qfl-dot" r="5" style={{ opacity: dotOpacity }} />
+        </g>
+        <g className={"qfl-prompt" + (promptOn ? " on" : "")}>
+          <rect x="15" y="126" width="152" height="38" />
+          <text x="91" y="143" textAnchor="middle">{question}</text>
+          <text x="91" y="158" textAnchor="middle" className="qfl-promptchunk">+ {chunkPreview}</text>
+        </g>
+        <text x="180" y="150" textAnchor="middle" className={"qfl-arrow" + (llmOn ? " on" : "")}>→</text>
+        <g className={"qfl-llm" + (llmOn ? " on" : "")}>
+          <rect x="193" y="126" width="58" height="38" />
+          <text x="222" y="150" textAnchor="middle">LLM</text>
+        </g>
+        <text x="264" y="150" textAnchor="middle" className={"qfl-arrow" + (answerOn ? " on" : "")}>→</text>
+        <text x="278" y="150" className={"qfl-answer" + (answerOn ? " on" : "")}>{answer}</text>
+      </svg>
+      <FlowCtrl playing={playing} setPlaying={setPlaying}
+        onRestart={() => setStage(0)}
+        step={stage} total={N} />
     </div>
   );
 }
@@ -757,9 +1136,37 @@ function LessonBlock({ block, idHint }) {
         </div>
       );
     case "genloop":
-      return <GenLoop steps={block.steps} />;
+      return <GenLoop steps={block.steps} prompt={block.prompt} />;
     case "assist":
       return <AssistBlock block={block} />;
+    case "recap":
+      return (
+        <div className="recap">
+          <div className="recap-head"><i className="ph-duotone ph-seal-check recap-icon" aria-hidden="true" />What you should know now</div>
+          <ul>{block.items.map((it, i) => <li key={i} dangerouslySetInnerHTML={{ __html: it }} />)}</ul>
+        </div>
+      );
+    case "quiz":
+      return <Quiz items={block.items} />;
+    case "vectorspace":
+      return <VectorSpace points={block.points} query={block.query} />;
+    case "ingestflow":
+      return <IngestFlow doc={block.doc} chunkCount={block.chunkCount} />;
+    case "queryflow":
+      return <QueryFlow question={block.question} nearestLabel={block.nearestLabel} chunkPreview={block.chunkPreview} answer={block.answer} />;
+    case "tryit":
+      return (
+        <div className="tryit">
+          <div className="tryit-head"><i className="ph-duotone ph-cursor-click tryit-icon" aria-hidden="true" />Try it yourself — 30 seconds</div>
+          {block.steps.map((s, i) => (
+            <div className="tryit-step" key={i}>
+              {s.say && <div className="tryit-say" dangerouslySetInnerHTML={{ __html: s.say }} />}
+              <div className="tryit-prompt">{s.prompt}</div>
+              {s.then && <div className="tryit-then" dangerouslySetInnerHTML={{ __html: s.then }} />}
+            </div>
+          ))}
+        </div>
+      );
     default:
       return <p className="lesson-p" dangerouslySetInnerHTML={{ __html: block.html }} />;
   }
@@ -784,10 +1191,8 @@ function LessonModal({ phase, lessons, onClose }) {
         <header className="lesson-top">
           <div className="lesson-top-id">
             <span className="lesson-top-num">{num}</span>
-            <div className="lesson-top-text">
-              <div className="m-kicker">PHASE {num} · {phase.kicker}</div>
-              <h2 className="lesson-top-title">{phase.title}</h2>
-            </div>
+            <h2 className="lesson-top-title">{phase.title}</h2>
+            <span className="lesson-top-kicker">{phase.kicker}</span>
           </div>
           <button className="close lesson-close" onClick={onClose} aria-label="Close">×</button>
         </header>
