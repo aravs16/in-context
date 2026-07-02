@@ -1029,6 +1029,521 @@ function QueryFlow({ question = "“parental leave?”", nearestLabel = "leave p
   );
 }
 
+// The agent loop, corrected: the LLM only ever decides — it never touches a
+// tool. The harness (your code) is what carries the message to the model
+// (a remote API call), runs the real tool when asked, and carries results
+// back. "Deciding what to do" reuses the same predict-bars look as Phase 1's
+// next-token widget, because picking a tool IS just another prediction.
+function AgentLoopFlow({ question = "8,347 × 219?", toolName = "calculator", toolCall = "calculator(8347, 219)", toolResult = "1,828,993", finalAnswer = "1,828,993 ✓" }) {
+  const N = 8; // stages 0..7
+  const GAPS = [950, 1250, 1350, 2300, 950, 1350, 2300];
+  const HOLD = 3000;
+  const [stage, setStage] = useState(0);
+  const [playing, setPlaying] = useState(true);
+
+  useEffect(() => {
+    if (!playing) return;
+    let t;
+    if (stage < N - 1) t = setTimeout(() => setStage((s) => s + 1), GAPS[stage]);
+    else t = setTimeout(() => setStage(0), HOLD);
+    return () => clearTimeout(t);
+  }, [stage, playing]);
+
+  const USER = { x: 32, y: 26 };
+  const INTAKE = { x: 55, y: 108 };
+  const LLM = { x: 300, y: 45 };
+  const TOOL = { x: 220, y: 148 };
+
+  const posFor = () => {
+    if (stage <= 1) return USER;
+    if (stage === 2) return INTAKE;
+    if (stage <= 3) return LLM;
+    if (stage <= 5) return TOOL;
+    if (stage === 6) return LLM;
+    return USER;
+  };
+  const labelFor = () => {
+    if (stage <= 2) return question;
+    if (stage === 3) return "question + tool list";
+    if (stage === 4) return toolCall;
+    if (stage === 5) return toolResult;
+    if (stage === 6) return "tool result: " + toolResult;
+    return finalAnswer;
+  };
+  const pos = posFor();
+  const scale = stage === 0 ? 0.3 : 1;
+  const pieceW = Math.max(56, labelFor().length * 5 + 20);
+
+  const D1 = [{ tok: "call " + toolName, p: 0.82 }, { tok: "answer now", p: 0.1 }, { tok: "call search", p: 0.08 }];
+  const D2 = [{ tok: "answer now", p: 0.88 }, { tok: "call " + toolName + " again", p: 0.07 }, { tok: "call search", p: 0.05 }];
+  const thinking = stage === 3 ? D1 : (stage === 6 ? D2 : null);
+  const thinkMax = thinking ? Math.max(...thinking.map((c) => c.p)) : 1;
+
+  const CAPTIONS = [
+    "a question comes in",
+    "a question comes in",
+    "the harness receives it, and adds the tool list",
+    "the LLM decides what to do — just another prediction, like Phase 1",
+    "the harness — never the LLM — runs the real tool",
+    "the tool computes a real result",
+    "the result goes back to the LLM, which decides again",
+    "“answer now” wins — the harness returns the final answer",
+  ];
+
+  return (
+    <div className="iflow">
+      <div className="iflow-cap">{CAPTIONS[stage]}</div>
+      <svg viewBox="0 0 380 195" className="iflow-svg al-svg" role="img" aria-label="an agent loop: the harness relays a question to the LLM, runs the tool the LLM asks for, and returns the final answer">
+        <g className="al-llm">
+          <rect x={LLM.x - 42} y={LLM.y - 24} width="84" height="48" />
+          <text x={LLM.x} y={LLM.y - 30} textAnchor="middle" className="al-taglabel">the LLM — an API call away</text>
+          <text x={LLM.x} y={LLM.y + 5} textAnchor="middle">only decides</text>
+        </g>
+        <g className="al-harness">
+          <rect x="14" y="92" width="230" height="90" />
+          <text x="20" y="86" className="al-taglabel">the harness — your code</text>
+          <g className="al-tool">
+            <rect x={TOOL.x - 45} y={TOOL.y - 20} width="90" height="40" />
+            <text x={TOOL.x} y={TOOL.y + 5} textAnchor="middle">{toolName}()</text>
+          </g>
+        </g>
+        <text x={USER.x} y={USER.y - 12} className="al-taglabel">you</text>
+
+        {thinking && (
+          <g className="al-bars" style={{ transform: `translate(${LLM.x - 45}px, ${LLM.y + 34}px)` }}>
+            {thinking.map((c, k) => (
+              <g key={k} transform={`translate(0, ${k * 13})`}>
+                <text className="al-tok" x="0" y="6" textAnchor="end">{c.tok}</text>
+                <rect className="al-bar-bg" x="4" y="0" width="60" height="9" />
+                <rect className="al-bar-fill" x="4" y="0" width={(c.p / thinkMax) * 60} height="9" />
+                <text className="al-p" x="70" y="6">{Math.round(c.p * 100)}%</text>
+              </g>
+            ))}
+          </g>
+        )}
+
+        <g className="ifl-piece al-piece" style={{ transform: `translate(${pos.x}px, ${pos.y}px) scale(${scale})` }}>
+          <rect className="al-chip" x={-pieceW / 2} y="-12" width={pieceW} height="24" />
+          <text className="al-chiptxt" x="0" y="4" textAnchor="middle">{labelFor()}</text>
+        </g>
+      </svg>
+      <FlowCtrl playing={playing} setPlaying={setPlaying}
+        onRestart={() => setStage(0)}
+        step={stage} total={N} />
+    </div>
+  );
+}
+
+// Evals: a golden dataset of Q&A pairs runs — one case at a time — through
+// the RAG system; a checker compares "got" vs "want", and a scoreboard fills
+// up. One case fails on purpose, because finding that is the whole point.
+function EvalFlow() {
+  const CASES = [
+    { q: "parental leave?", ans: "18 weeks", exp: "18 weeks", pass: true },
+    { q: "refund window?", ans: "30 days", exp: "30 days", pass: true },
+    { q: "shipping cutoff?", ans: "2 pm", exp: "noon", pass: false },
+    { q: "wifi password?", ans: "not in the docs", exp: "not in the docs", pass: true },
+  ];
+  const SUBS = 5;
+  const N = 2 + CASES.length * SUBS; // intro + 5 beats per case + final score
+  const GAPS = [1700].concat(CASES.map(() => [1300, 1400, 1500, 1600, 1600]).flat());
+  const HOLD = 3600;
+  const [stage, setStage] = useState(0);
+  const [playing, setPlaying] = useState(true);
+
+  useEffect(() => {
+    if (!playing) return;
+    let t;
+    if (stage < N - 1) t = setTimeout(() => setStage((s) => s + 1), GAPS[stage]);
+    else t = setTimeout(() => setStage(0), HOLD);
+    return () => clearTimeout(t);
+  }, [stage, playing]);
+
+  const DATA = { x: 44, y: 56 };
+  const RAG = { x: 143, y: 60 };
+  const GOT = { x: 287, y: 44 };   // "got" row inside the checker
+  const WANT = { x: 287, y: 72 };  // "want" row inside the checker
+
+  const ci = stage === 0 ? -1 : Math.min(CASES.length - 1, Math.floor((stage - 1) / SUBS));
+  const sub = ci < 0 ? -1 : (stage - 1) - ci * SUBS; // 0..4, or 5 on the final stage
+  const cur = ci >= 0 ? CASES[ci] : CASES[0];
+  const chipW = (t) => Math.max(42, t.length * 4.7 + 16);
+
+  // the three moving chips of the current case (keyed by ci, so each case starts fresh)
+  const qPos = sub >= 1 ? RAG : DATA;
+  const qOn = sub >= 0 && sub <= 1;
+  const aPos = sub >= 2 ? GOT : RAG;
+  const aOn = sub >= 2 && sub <= 4;
+  const ePos = sub >= 3 ? WANT : DATA;
+  const eOn = sub >= 3 && sub <= 4;
+  const verdictNow = sub >= 4; // color the "got" chip green/red once compared
+  const markOn = (i) => stage >= 1 + i * SUBS + 4; // verdicts persist on the scoreboard
+
+  const CAPTIONS = ["a golden dataset: 4 questions with known-correct answers"]
+    .concat(CASES.map((c, i) => [
+      "test " + (i + 1) + " of 4: “" + c.q + "”",
+      "the question runs through your RAG system",
+      "the system answers: “" + c.ans + "”",
+      "the dataset expected: “" + c.exp + "”",
+      c.pass ? (i === 3 ? "match — refusing to guess was the right answer ✓" : "match ✓")
+             : "mismatch ✗ — a real bug, found automatically",
+    ]).flat())
+    .concat(["3 / 4 passed — the score points you at exactly what to fix"]);
+
+  return (
+    <div className="iflow">
+      <div className="iflow-cap">{CAPTIONS[stage]}</div>
+      <svg viewBox="0 0 350 162" className="iflow-svg" role="img" aria-label="a golden dataset of question and answer pairs run through the RAG system; a checker compares each answer with the expected one and fills a scoreboard">
+        {/* golden dataset — a fanned stack of Q&A cards */}
+        <g className="ifl-doc">
+          {[{ dx: -8, dy: 8 }, { dx: -4, dy: 4 }, { dx: 0, dy: 0 }].map((c, k) => (
+            <rect key={k} className={k === 2 ? "ifl-card front" : "ifl-card"}
+                  x={DATA.x - 14 + c.dx} y={DATA.y - 14 + c.dy} width="28" height="28" />
+          ))}
+          <text x={DATA.x - 4} y={DATA.y + 32} textAnchor="middle">golden dataset</text>
+          <text x={DATA.x - 4} y={DATA.y + 43} textAnchor="middle" className="ev-sub">4 Q + expected-answer pairs</text>
+        </g>
+
+        {/* the system under test */}
+        <g className="ifl-embed">
+          <rect x={RAG.x - 39} y={RAG.y - 20} width="78" height="40" />
+          <text x={RAG.x} y={RAG.y + 34} textAnchor="middle">your RAG system</text>
+        </g>
+        <text x={RAG.x} y="30" textAnchor="middle" className={"ifl-ann" + (sub === 1 ? " on" : "")}>running the pipeline</text>
+
+        {/* the checker — compares got vs want */}
+        <g className="ev-check">
+          <rect x="210" y="28" width="132" height="60" />
+          <text x="210" y="21" className="al-taglabel">checker</text>
+          <text x="218" y={GOT.y + 2.5} className="ev-rowlbl">got</text>
+          <text x="218" y={WANT.y + 2.5} className="ev-rowlbl">want</text>
+        </g>
+        <text x="276" y="14" textAnchor="middle" className={"ifl-ann" + (sub >= 2 && sub <= 4 ? " on" : "")}>compare, word for word</text>
+
+        {/* scoreboard — one slot per test, verdicts stay put */}
+        <g className="ev-board">
+          {CASES.map((c, i) => (
+            <g key={i}>
+              <rect className="ev-slot" x={224 + i * 30} y="112" width="22" height="22" />
+              <text className={"ev-mark " + (c.pass ? "pass" : "fail") + (markOn(i) ? " on" : "")}
+                    x={235 + i * 30} y="128" textAnchor="middle">{c.pass ? "✓" : "✗"}</text>
+            </g>
+          ))}
+          <text x="279" y="150" textAnchor="middle" className="al-taglabel">scoreboard</text>
+        </g>
+
+        {/* moving chips for the current case — remounted per case via key */}
+        {ci >= 0 && (
+          <g key={ci}>
+            <g className="ev-piece" style={{ transform: `translate(${qPos.x}px, ${qPos.y}px) scale(${sub === 0 ? 0.6 : 1})`, opacity: qOn ? 1 : 0 }}>
+              <rect className="ev-chip" x={-chipW(cur.q) / 2} y="-9" width={chipW(cur.q)} height="18" />
+              <text className="ev-chiptxt" x="0" y="3" textAnchor="middle">{cur.q}</text>
+            </g>
+            <g className="ev-piece" style={{ transform: `translate(${aPos.x}px, ${aPos.y}px)`, opacity: aOn ? 1 : 0 }}>
+              <rect className={"ev-chip" + (verdictNow ? (cur.pass ? " ok" : " bad") : "")}
+                    x={-chipW(cur.ans) / 2} y="-9" width={chipW(cur.ans)} height="18" />
+              <text className="ev-chiptxt" x="0" y="3" textAnchor="middle">{cur.ans}</text>
+            </g>
+            <g className="ev-piece" style={{ transform: `translate(${ePos.x}px, ${ePos.y}px)`, opacity: eOn ? 1 : 0 }}>
+              <rect className="ev-chip exp" x={-chipW(cur.exp) / 2} y="-9" width={chipW(cur.exp)} height="18" />
+              <text className="ev-chiptxt" x="0" y="3" textAnchor="middle">{cur.exp}</text>
+            </g>
+          </g>
+        )}
+      </svg>
+      <FlowCtrl playing={playing} setPlaying={setPlaying}
+        onRestart={() => { setStage(0); setPlaying(true); }}
+        step={stage} total={N} />
+    </div>
+  );
+}
+
+// Observability: one request travels you → search docs → LLM → answer, and
+// below, a mini flame chart draws itself — each step's bar grows to a width
+// proportional to its time, with its cost attached. The trace is the diary.
+function TraceFlow() {
+  const N = 6;
+  const GAPS = [1500, 2200, 2300, 1600, 2000];
+  const HOLD = 3600;
+  const [stage, setStage] = useState(0);
+  const [playing, setPlaying] = useState(true);
+
+  useEffect(() => {
+    if (!playing) return;
+    let t;
+    if (stage < N - 1) t = setTimeout(() => setStage((s) => s + 1), GAPS[stage]);
+    else t = setTimeout(() => setStage(0), HOLD);
+    return () => clearTimeout(t);
+  }, [stage, playing]);
+
+  const STEPS = [
+    { label: "you", x: 34, w: 44 },
+    { label: "search docs", x: 114, w: 66 },
+    { label: "LLM", x: 198, w: 44 },
+    { label: "answer", x: 288, w: 56 },
+  ]; // box centers, boxes span y 22..52
+  const BY = 37;
+
+  const chipStep = Math.min(stage, 3);
+  const chipText = stage <= 2 ? "parental leave?" : "18 weeks ✓";
+  const chipW = Math.max(48, chipText.length * 4.7 + 16);
+
+  // flame chart: 100px per second, so widths are honestly proportional
+  const T0 = 92, PXS = 100;
+  const ROWS = [
+    { name: "search docs", note: "0.4s · $0", x: T0, w: 0.4 * PXS, y: 82, at: 1, inside: false },
+    { name: "LLM call", note: "1.8s · $0.003", x: T0 + 0.4 * PXS, w: 1.8 * PXS, y: 100, at: 2, inside: true },
+  ];
+  const TOT = { name: "whole request", note: "2.3s · $0.003", x: T0, w: 2.3 * PXS, y: 124, at: 4, inside: true };
+
+  const bar = (r, cls) => (
+    <g key={r.name}>
+      <text className="trf-rowname" x={T0 - 6} y={r.y + 8.5} textAnchor="end">{r.name}</text>
+      <rect className="trf-lane" x={T0} y={r.y} width="230" height="11" />
+      <rect className={"trf-bar" + cls} x={r.x} y={r.y} height="11" width={stage >= r.at ? r.w : 0} />
+      <text className={"trf-note" + (r.inside ? " inside" : "") + (stage >= r.at ? " on" : "")}
+            x={r.inside ? r.x + r.w - 5 : r.x + r.w + 5} y={r.y + 8.5}
+            textAnchor={r.inside ? "end" : "start"}>{r.note}</text>
+    </g>
+  );
+
+  const CAPTIONS = [
+    "a request comes in — and a stopwatch starts",
+    "step 1: search docs — logged: 0.4s · $0",
+    "step 2: the LLM call — logged: 1.8s · $0.003",
+    "the answer heads back: “18 weeks”",
+    "add the steps: whole request — 2.3s · $0.003",
+    "this is a trace — the request's diary",
+  ];
+
+  return (
+    <div className="iflow">
+      <div className="iflow-cap">{CAPTIONS[stage]}</div>
+      <svg viewBox="0 0 340 152" className="iflow-svg" role="img" aria-label="a request travels from you through search docs and an LLM call to the answer, while a timeline below records each step's duration and cost as a trace">
+        {/* the request's path */}
+        {STEPS.map((s, i) => (
+          <g key={s.label} className="trf-box">
+            <rect x={s.x - s.w / 2} y="22" width={s.w} height="30" />
+            <text x={s.x} y={BY + 3} textAnchor="middle">{s.label}</text>
+            {i > 0 && <text className="trf-flow" x={(s.x - s.w / 2 + STEPS[i - 1].x + STEPS[i - 1].w / 2) / 2} y={BY + 3} textAnchor="middle">→</text>}
+          </g>
+        ))}
+        <g className="ifl-piece" style={{ transform: `translate(${STEPS[chipStep].x}px, ${BY}px) scale(${stage === 0 ? 0.72 : 1})` }}>
+          <rect className="trf-chip" x={-chipW / 2} y="-9" width={chipW} height="18" />
+          <text className="trf-chiptxt" x="0" y="3" textAnchor="middle">{chipText}</text>
+        </g>
+
+        {/* the trace — a mini flame chart that draws itself */}
+        <text x="8" y="72" className="al-taglabel">the trace — every step, timed and priced</text>
+        {[0, 1, 2].map((s) => (
+          <g key={"t" + s}>
+            <line className="trf-grid" x1={T0 + s * PXS} y1="78" x2={T0 + s * PXS} y2="138" />
+            <text className="trf-tick" x={T0 + s * PXS} y="147" textAnchor="middle">{s}s</text>
+          </g>
+        ))}
+        {ROWS.map((r) => bar(r, ""))}
+        <line className="trf-sep" x1="8" y1="117" x2="332" y2="117" />
+        {bar(TOT, " total")}
+      </svg>
+      <FlowCtrl playing={playing} setPlaying={setPlaying}
+        onRestart={() => { setStage(0); setPlaying(true); }}
+        step={stage} total={N} />
+    </div>
+  );
+}
+
+// Guardrails: three gates in a row. A prompt-injection bounces off gate 1,
+// a policy question is refused by the model at gate 2, and a legitimate
+// question sails through all three and exits green.
+function GateFlow() {
+  const N = 13;
+  const GAPS = [1500, 1500, 2100, 1500, 1400, 1500, 2100, 1500, 1300, 1400, 1700, 1700];
+  const HOLD = 3400;
+  const [stage, setStage] = useState(0);
+  const [playing, setPlaying] = useState(true);
+  const [run, setRun] = useState(0); // chips remount per run, so restarts don't animate backwards
+
+  useEffect(() => {
+    if (!playing) return;
+    let t;
+    if (stage < N - 1) t = setTimeout(() => setStage((s) => s + 1), GAPS[stage]);
+    else t = setTimeout(() => { setStage(0); setRun((r) => r + 1); }, HOLD);
+    return () => clearTimeout(t);
+  }, [stage, playing]);
+
+  const GATES = [
+    { label: "input check", x: 130 },
+    { label: "model + rules", x: 208 },
+    { label: "output check", x: 286 },
+  ]; // boxes are 64 wide, y 38..94
+  const GY = 110; // chips travel in a clear lane below the boxes so gate labels stay readable
+  const START = { x: 50, y: GY };
+  const SLOT = { x: 300, y: 154 };
+  const chipW = (t) => Math.max(44, t.length * 4.3 + 14);
+
+  // per-attempt chip state, all three always mounted so CSS transitions run
+  const chips = [
+    (() => { // attempt 1 — blocked at gate 1
+      const pos = stage <= 0 ? START : stage === 1 ? { x: GATES[0].x, y: GY } : { x: GATES[0].x, y: 124 };
+      return { text: "“ignore your rules…”", pos, on: stage >= 0 && stage <= 1, drop: stage >= 2, bad: stage >= 2, ok: false, scale: stage === 0 ? 0.7 : 1 };
+    })(),
+    (() => { // attempt 2 — passes gate 1, refused at gate 2
+      const pos = stage <= 3 ? START : stage === 4 ? { x: GATES[0].x, y: GY } : stage === 5 ? { x: GATES[1].x, y: GY } : { x: GATES[1].x, y: 124 };
+      return { text: "“my coworker's salary?”", pos, on: stage >= 3 && stage <= 5, drop: stage >= 6, bad: stage >= 6, ok: false, scale: stage === 3 ? 0.7 : 1 };
+    })(),
+    (() => { // attempt 3 — through all three gates, out as a safe answer
+      const pos = stage <= 7 ? START : stage === 8 ? { x: GATES[0].x, y: GY } : stage === 9 ? { x: GATES[1].x, y: GY } : stage === 10 ? { x: GATES[2].x, y: GY } : SLOT;
+      const text = stage <= 9 ? "“where is order #4412?”" : stage >= 11 ? "on a truck, arrives Tue ✓" : "on a truck, arrives Tue";
+      return { text, pos, on: stage >= 7, drop: false, bad: false, ok: stage >= 11, scale: stage === 7 ? 0.7 : 1 };
+    })(),
+  ];
+
+  const gateCls = (i) => {
+    const block = (i === 0 && stage === 2) || (i === 1 && stage === 6);
+    const pass = (i === 0 && ((stage >= 4 && stage <= 6) || (stage >= 8 && stage <= 11))) ||
+                 (i === 1 && stage >= 10 && stage <= 11) ||
+                 (i === 2 && stage === 11);
+    return "gf-gate" + (block ? " block" : "") + (pass ? " pass" : "");
+  };
+
+  const CAPTIONS = [
+    "attempt 1: “ignore your rules…”",
+    "the input check reads it before anything else does",
+    "blocked before the model ever sees it",
+    "attempt 2: “my coworker's salary?”",
+    "input check: looks like a normal question — through",
+    "the model + its rules read it…",
+    "…and refuse — layer 2 catches what layer 1 couldn't",
+    "attempt 3: “where is order #4412?”",
+    "input check: fine",
+    "the model looks up the order and drafts an answer",
+    "output check: no private data in the reply — through",
+    "a safe, useful answer comes out ✓",
+    "three layers — each catches what the previous one missed",
+  ];
+
+  return (
+    <div className="iflow">
+      <div className="iflow-cap">{CAPTIONS[stage]}</div>
+      <svg viewBox="0 0 380 190" className="iflow-svg al-svg" role="img" aria-label="three guardrail layers: an input check blocks a prompt injection, the model refuses a policy violation, and a legitimate question passes all three gates">
+        {GATES.map((g, i) => (
+          <g key={g.label} className={gateCls(i)}>
+            <text className="al-taglabel" x={g.x} y="30" textAnchor="middle">layer {i + 1}</text>
+            <rect x={g.x - 32} y="38" width="64" height="56" />
+            <text className="gf-gatelbl" x={g.x} y="69" textAnchor="middle">{g.label}</text>
+          </g>
+        ))}
+        <text className="al-taglabel" x={START.x} y="96" textAnchor="middle">requests</text>
+        <g className="gf-slot">
+          <rect x="226" y="140" width="148" height="28" />
+          <text className="al-taglabel" x="374" y="134" textAnchor="end">answer</text>
+        </g>
+        <text x="300" y="182" textAnchor="middle" className={"ifl-ann" + (stage === 11 ? " on" : "")}>safe to show the user</text>
+
+        {chips.map((c, i) => (
+          <g key={run + "-" + i} className={"gf-piece" + (c.drop ? " drop" : "")}
+             style={{ transform: `translate(${c.pos.x}px, ${c.pos.y}px) scale(${c.scale})`, opacity: c.drop ? 0 : (c.on ? 1 : 0) }}>
+            <rect className={"gf-chip" + (c.bad ? " bad" : "") + (c.ok ? " ok" : "")}
+                  x={-chipW(c.text) / 2} y="-9" width={chipW(c.text)} height="18" />
+            <text className="gf-chiptxt" x="0" y="3" textAnchor="middle">{c.text}</text>
+          </g>
+        ))}
+      </svg>
+      <FlowCtrl playing={playing} setPlaying={setPlaying}
+        onRestart={() => { setStage(0); setRun((r) => r + 1); setPlaying(true); }}
+        step={stage} total={N} />
+    </div>
+  );
+}
+
+// Compaction: messages append into a fixed context window until it's nearly
+// full — then the oldest four converge into one short amber summary, visibly
+// freeing room, and the conversation keeps appending.
+function CompactFlow() {
+  const N = 8;
+  const GAPS = [1600, 1500, 1600, 2100, 2300, 1700, 1800];
+  const HOLD = 3600;
+  const [stage, setStage] = useState(0);
+  const [playing, setPlaying] = useState(true);
+
+  useEffect(() => {
+    if (!playing) return;
+    let t;
+    if (stage < N - 1) t = setTimeout(() => setStage((s) => s + 1), GAPS[stage]);
+    else t = setTimeout(() => setStage(0), HOLD);
+    return () => clearTimeout(t);
+  }, [stage, playing]);
+
+  const X0 = 24, PITCH = 41, MW = 36, CY = 68;
+  const SUMX = 54; // summary block center (block is 64 wide: 22..86)
+  const preX = (i) => X0 + i * PITCH + MW / 2;
+  const postX = (i) => 92 + (i - 4) * PITCH + MW / 2;
+
+  const msgs = Array.from({ length: 8 }, (_, i) => {
+    const role = i % 2 === 0 ? "you" : "agent";
+    const appearAt = i < 2 ? 1 : i < 4 ? 2 : i < 6 ? 3 : 6;
+    let cx = preX(i), scale = 1, gone = false;
+    if (i < 4 && stage >= 4) { cx = SUMX; scale = 0.15; gone = true; }       // merge into the summary
+    if (i >= 4 && i < 6 && stage >= 5) cx = postX(i);                        // slide into freed space
+    if (i >= 6) cx = postX(i);                                              // append after the summary
+    return { i, role, cx, scale, gone, on: stage >= appearAt };
+  });
+
+  // usage gauge, in real pixels of window used — drops visibly at compaction
+  const GW = [0, 83, 165, 247, 151, 151, 233, 233][stage];
+  const pct = Math.round((GW / 304) * 100);
+  const nearlyFull = stage === 3;
+
+  const CAPTIONS = [
+    "the context window — fixed size, with a hard edge",
+    "every turn appends a message",
+    "…and the window only ever fills up",
+    "the window is nearly full",
+    "compaction: the oldest 4 messages merge into one summary",
+    "the summary holds the gist — at a fraction of the size",
+    "two more messages fit in the freed room",
+    "old detail becomes a short summary; the conversation keeps going",
+  ];
+
+  return (
+    <div className="iflow">
+      <div className="iflow-cap">{CAPTIONS[stage]}</div>
+      <svg viewBox="0 0 340 128" className="iflow-svg" role="img" aria-label="messages fill a fixed context window until nearly full, then the oldest four merge into one short summary, freeing room for the conversation to continue">
+        <text x="18" y="34" className="al-taglabel">context window</text>
+        <text x="322" y="34" textAnchor="end" className="al-taglabel">capacity</text>
+        <rect className="cf-win" x="18" y="44" width="304" height="48" />
+        <line className="cf-edge" x1="322" y1="40" x2="322" y2="96" />
+        <rect className={"cf-zone" + (nearlyFull ? " on" : "")} x="20" y="46" width="247" height="44" />
+
+        {/* the summary block — appears where the old messages converge */}
+        <g className={"cf-sum" + (stage >= 4 ? " on" : "")} style={{ transform: `translate(${SUMX}px, ${CY}px)` }}>
+          <rect x="-32" y="-18" width="64" height="36" />
+          <text x="0" y="-3" textAnchor="middle">summary of</text>
+          <text x="0" y="8" textAnchor="middle">msgs 1–4</text>
+        </g>
+        <text x="172" y="34" textAnchor="middle" className={"ifl-ann" + (stage === 4 || stage === 5 ? " on" : "")}>4 messages → 1 summary</text>
+
+        {msgs.map((m) => (
+          <g key={m.i} className={"cf-msg " + m.role + (m.gone ? " gone" : "")}
+             style={{ transform: `translate(${m.cx}px, ${CY}px) scale(${m.on ? m.scale : 0.4})`, opacity: m.gone ? 0 : (m.on ? 1 : 0) }}>
+            <rect x={-MW / 2} y="-18" width={MW} height="36" />
+            <text className="cf-role" x="0" y="-5" textAnchor="middle">{m.role}</text>
+            <text className="cf-msglbl" x="0" y="7" textAnchor="middle">msg {m.i + 1}</text>
+          </g>
+        ))}
+
+        {/* usage gauge */}
+        <rect className="cf-gaugebg" x="18" y="106" width="304" height="5" />
+        <rect className={"cf-gauge" + (nearlyFull ? " warn" : "")} x="18" y="106" height="5" width={GW} />
+        <text className="cf-pct" x="322" y="122" textAnchor="end">{pct}% full</text>
+      </svg>
+      <FlowCtrl playing={playing} setPlaying={setPlaying}
+        onRestart={() => { setStage(0); setPlaying(true); }}
+        step={stage} total={N} />
+    </div>
+  );
+}
+
 function LessonBlock({ block, idHint }) {
   switch (block.t) {
     case "h":
@@ -1154,6 +1669,16 @@ function LessonBlock({ block, idHint }) {
       return <IngestFlow doc={block.doc} chunkCount={block.chunkCount} />;
     case "queryflow":
       return <QueryFlow question={block.question} nearestLabel={block.nearestLabel} chunkPreview={block.chunkPreview} answer={block.answer} />;
+    case "agentloopflow":
+      return <AgentLoopFlow question={block.question} toolName={block.toolName} toolCall={block.toolCall} toolResult={block.toolResult} finalAnswer={block.finalAnswer} />;
+    case "evalflow":
+      return <EvalFlow />;
+    case "traceflow":
+      return <TraceFlow />;
+    case "gateflow":
+      return <GateFlow />;
+    case "compactflow":
+      return <CompactFlow />;
     case "tryit":
       return (
         <div className="tryit">
