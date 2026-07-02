@@ -280,6 +280,9 @@ function buildSitemap(posts) {
     { loc: `${SITE_URL}/`,                changefreq: 'weekly',  priority: '1.0' },
     { loc: `${SITE_URL}/learning/genai`,  changefreq: 'monthly', priority: '0.9' }
   ];
+  for (let n = 1; n <= 12; n++) {
+    urls.push({ loc: `${SITE_URL}/learning/genai/phase-${n}`, changefreq: 'monthly', priority: '0.7' });
+  }
   for (const p of posts) {
     urls.push({
       loc: `${SITE_URL}/p/${p.id}`,

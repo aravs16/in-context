@@ -35,6 +35,27 @@ function placement(i) {
   return { col, row: row + 1 };
 }
 
+/* ---- Phase deep links: /learning/genai/phase-<n>[/<subtopic-id>] ----
+   Vercel rewrites (and serve.js locally) serve genai.html for these paths;
+   the app reads the URL on load and keeps it in sync via pushState, which
+   also makes each phase a distinct pageview in Vercel Analytics. */
+const BASE_PATH = "/learning/genai";
+const BASE_TITLE = document.title;
+
+function phasePath(n, subId) {
+  return BASE_PATH + "/phase-" + n + (subId ? "/" + subId : "");
+}
+
+function parsePhasePath() {
+  const m = window.location.pathname.match(/\/learning\/genai\/phase-(\d+)(?:\/([A-Za-z0-9-]+))?\/?$/);
+  if (!m) return null;
+  const n = parseInt(m[1], 10);
+  const idx = window.PHASES.findIndex((p) => p.n === n);
+  return idx === -1 ? null : { idx, sub: m[2] || null };
+}
+
+const INITIAL_ROUTE = parsePhasePath();
+
 /* ============================ App ============================ */
 function App() {
   const [view, setViewState] = useState(() => {
@@ -46,12 +67,38 @@ function App() {
     try { localStorage.setItem(VIEW_KEY, v); } catch {}
   };
 
-  const [modal, setModal] = useState(null);
+  const [route, setRoute] = useState(INITIAL_ROUTE);
   const [howTo, setHowTo] = useState(false);
   const [askOpen, setAskOpen] = useState(false);
+  const modal = route ? route.idx : null;
+
+  const openModal = (i) => {
+    setRoute({ idx: i, sub: null });
+    const url = phasePath(window.PHASES[i].n);
+    if (window.location.pathname !== url) history.pushState({}, "", url);
+  };
+  const closeModal = () => {
+    setRoute(null);
+    if (window.location.pathname !== BASE_PATH) history.pushState({}, "", BASE_PATH);
+  };
 
   useEffect(() => {
-    const onKey = (e) => { if (e.key === "Escape") { setModal(null); setHowTo(false); setAskOpen(false); } };
+    const onPop = () => setRoute(parsePhasePath());
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
+
+  useEffect(() => {
+    if (route) {
+      const p = window.PHASES[route.idx];
+      document.title = "Phase " + p.n + " · " + p.title + " — " + BASE_TITLE;
+    } else {
+      document.title = BASE_TITLE;
+    }
+  }, [route]);
+
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === "Escape") { closeModal(); setHowTo(false); setAskOpen(false); } };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
   }, []);
@@ -74,15 +121,17 @@ function App() {
               onHowTo={() => setHowTo(true)}
               onAsk={() => setAskOpen(true)} />
       {view === "grid"
-        ? <SerpentineBoard onOpen={setModal} />
-        : <VerticalTimeline onOpen={setModal} />}
+        ? <SerpentineBoard onOpen={openModal} />
+        : <VerticalTimeline onOpen={openModal} />}
       <NextSteps />
       {modal !== null && (() => {
         const phase = window.PHASES[modal];
         const lessons = window.PHASE_LESSONS && window.PHASE_LESSONS[phase.n];
         return lessons && lessons.length
-          ? <LessonModal phase={phase} lessons={lessons} onClose={() => setModal(null)} />
-          : <Pane phase={phase} onClose={() => setModal(null)} />;
+          ? <LessonModal key={phase.n} phase={phase} lessons={lessons} initialSub={route.sub}
+              onNav={(subId) => history.replaceState({}, "", phasePath(phase.n, subId))}
+              onClose={closeModal} />
+          : <Pane phase={phase} onClose={closeModal} />;
       })()}
       {howTo && <HowToModal onClose={() => setHowTo(false)} />}
       {askOpen && <QuestionModal onClose={() => setAskOpen(false)} />}
@@ -1697,14 +1746,19 @@ function LessonBlock({ block, idHint }) {
   }
 }
 
-function LessonModal({ phase, lessons, onClose }) {
-  const [active, setActive] = useState(0);
+function LessonModal({ phase, lessons, initialSub, onNav, onClose }) {
+  const [active, setActive] = useState(() =>
+    Math.max(0, lessons.findIndex((l) => l.id === initialSub)));
   const ref = useRef(null);
   const contentRef = useRef(null);
   const num = String(phase.n).padStart(2, "0");
   const total = lessons.length;
   const lesson = lessons[active];
-  const go = (i) => setActive(Math.max(0, Math.min(total - 1, i)));
+  const go = (i) => {
+    const next = Math.max(0, Math.min(total - 1, i));
+    setActive(next);
+    if (onNav) onNav(lessons[next].id);
+  };
 
   useEffect(() => { if (ref.current) ref.current.focus(); }, []);
   useEffect(() => { if (contentRef.current) contentRef.current.scrollTo(0, 0); }, [active]);

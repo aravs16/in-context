@@ -59,13 +59,15 @@ const server = http.createServer((req, res) => {
   const file = path.join(PUBLIC, url);
   if (!file.startsWith(PUBLIC)) { res.writeHead(403); res.end(); return; }
 
-  // Resolution order mirrors Vercel cleanUrls + SPA fallback:
+  // Resolution order mirrors Vercel cleanUrls + rewrites + SPA fallback:
   //   1. exact file (e.g. /styles.css, /p/foo.html, /sitemap.xml)
   //   2. extensionless → try <path>.html (e.g. /p/foo → /p/foo.html)
-  //   3. extensionless → fall back to /index.html (SPA shell)
+  //   3. /learning/genai/phase-* → /learning/genai.html (phase deep links)
+  //   4. extensionless → fall back to /index.html (SPA shell)
   const candidates = [file];
   if (!path.extname(file)) {
     candidates.push(file + '.html');
+    if (url.startsWith('/learning/genai/phase-')) candidates.push(path.join(PUBLIC, 'learning', 'genai.html'));
     candidates.push(path.join(PUBLIC, 'index.html'));
   }
   tryServe(candidates, res);
