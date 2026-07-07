@@ -31,7 +31,7 @@
     { "source": "/learning/genai/phase-12/:sub", "destination": "/learning/genai/phase-12-agent-harness/:sub", "permanent": true }
   ],
   "rewrites": [
-    { "source": "/p/(.*)", "destination": "/index.html" },
-    { "source": "/learning/genai/(.*)", "destination": "/learning/genai.html" }
+    { "source": "/p/(.*)", "destination": "/" },
+    { "source": "/learning/genai/(.*)", "destination": "/learning/genai" }
   ]
 }
