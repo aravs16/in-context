@@ -32,6 +32,6 @@
   ],
   "rewrites": [
     { "source": "/p/(.*)", "destination": "/index.html" },
-    { "source": "/learning/genai/:path*", "destination": "/learning/genai.html" }
+    { "source": "/learning/genai/(.*)", "destination": "/learning/genai.html" }
   ]
 }
