@@ -7,66 +7,79 @@
   </url>
   <url>
     <loc>https://www.incontext.sh/learning/genai</loc>
+    <lastmod>2026-07-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.incontext.sh/learning/genai/phase-1</loc>
+    <loc>https://www.incontext.sh/learning/genai/phase-1-talk-to-an-llm</loc>
+    <lastmod>2026-07-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.incontext.sh/learning/genai/phase-2</loc>
+    <loc>https://www.incontext.sh/learning/genai/phase-2-rag-give-the-llm-your-data</loc>
+    <lastmod>2026-07-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.incontext.sh/learning/genai/phase-3</loc>
+    <loc>https://www.incontext.sh/learning/genai/phase-3-evals-stop-guessing</loc>
+    <lastmod>2026-07-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.incontext.sh/learning/genai/phase-4</loc>
+    <loc>https://www.incontext.sh/learning/genai/phase-4-agents-and-tool-use</loc>
+    <lastmod>2026-07-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.incontext.sh/learning/genai/phase-5</loc>
+    <loc>https://www.incontext.sh/learning/genai/phase-5-text-to-sql</loc>
+    <lastmod>2026-07-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.incontext.sh/learning/genai/phase-6</loc>
+    <loc>https://www.incontext.sh/learning/genai/phase-6-llm-observability</loc>
+    <lastmod>2026-07-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.incontext.sh/learning/genai/phase-7</loc>
+    <loc>https://www.incontext.sh/learning/genai/phase-7-guardrails</loc>
+    <lastmod>2026-07-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.incontext.sh/learning/genai/phase-8</loc>
+    <loc>https://www.incontext.sh/learning/genai/phase-8-agent-memory</loc>
+    <lastmod>2026-07-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.incontext.sh/learning/genai/phase-9</loc>
+    <loc>https://www.incontext.sh/learning/genai/phase-9-mcp</loc>
+    <lastmod>2026-07-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.incontext.sh/learning/genai/phase-10</loc>
+    <loc>https://www.incontext.sh/learning/genai/phase-10-agent-evals</loc>
+    <lastmod>2026-07-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.incontext.sh/learning/genai/phase-11</loc>
+    <loc>https://www.incontext.sh/learning/genai/phase-11-multi-agent</loc>
+    <lastmod>2026-07-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.incontext.sh/learning/genai/phase-12</loc>
+    <loc>https://www.incontext.sh/learning/genai/phase-12-agent-harness</loc>
+    <lastmod>2026-07-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>

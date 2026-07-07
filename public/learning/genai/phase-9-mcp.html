@@ -3,82 +3,30 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The GenAI Learning Path — A Beginner's Build-As-You-Learn Roadmap | In Context</title>
-<meta name="description" content="A free, beginner-first GenAI learning path. 12 phases — API basics, RAG, evals, agents, text-to-SQL, observability, guardrails, memory, MCP, agent eval, multi-agent, harnesses — each shipping a working artifact the next phase extends." />
+<title>Phase 9 — Standardize your tools | GenAI Learning Path | In Context</title>
+<meta name="description" content="Make tools portable across agents and clients. MCP (Model Context Protocol) is an open standard from Anthropic for how agents talk to tools. Before MCP,…" />
 <meta name="keywords" content="GenAI learning path, learn generative AI, AI agents tutorial, RAG tutorial, LLM beginner, MCP, prompt engineering, agent evaluation, Anthropic Claude, build AI agents" />
 <meta name="author" content="Aravind Singirikonda" />
 <meta name="robots" content="index,follow,max-image-preview:large" />
-<link rel="canonical" href="https://www.incontext.sh/learning/genai" />
+<link rel="canonical" href="https://www.incontext.sh/learning/genai/phase-9-mcp" />
 
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="In Context" />
-<meta property="og:title" content="The GenAI Learning Path — A Beginner's Build-As-You-Learn Roadmap" />
-<meta property="og:description" content="12 phases, one growing codebase. From your first LLM API call to a multi-agent system with memory, tools, guardrails, evals, and text-to-SQL. Free, no signup." />
-<meta property="og:url" content="https://www.incontext.sh/learning/genai" />
+<meta property="og:title" content="Phase 9 — Standardize your tools | GenAI Learning Path" />
+<meta property="og:description" content="Make tools portable across agents and clients. MCP (Model Context Protocol) is an open standard from Anthropic for how agents talk to tools. Before MCP,…" />
+<meta property="og:url" content="https://www.incontext.sh/learning/genai/phase-9-mcp" />
 <meta property="og:locale" content="en_US" />
-<meta property="og:image" content="https://www.incontext.sh/learning/genai/og/learning-path.png" />
+<meta property="og:image" content="https://www.incontext.sh/learning/genai/og/phase-9-mcp.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="The GenAI Learning Path" />
-<meta name="twitter:description" content="12 phases, build-as-you-learn. API calls → RAG → evals → agents → text-to-SQL → multi-agent. Free, beginner-first." />
+<meta name="twitter:title" content="Phase 9 — Standardize your tools | GenAI Learning Path" />
+<meta name="twitter:description" content="Make tools portable across agents and clients. MCP (Model Context Protocol) is an open standard from Anthropic for how agents talk to tools. Before MCP,…" />
 <meta name="twitter:creator" content="@aravs16" />
-<meta name="twitter:image" content="https://www.incontext.sh/learning/genai/og/learning-path.png" />
+<meta name="twitter:image" content="https://www.incontext.sh/learning/genai/og/phase-9-mcp.png" />
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Course",
-  "name": "The GenAI Learning Path",
-  "description": "A practical, beginner-first build-as-you-learn roadmap for Generative AI. Twelve phases growing one running codebase from a single LLM API call into a multi-agent system with memory, tools, guardrails, evals, and text-to-SQL.",
-  "url": "https://www.incontext.sh/learning/genai",
-  "inLanguage": "en",
-  "educationalLevel": "Beginner",
-  "learningResourceType": "Tutorial",
-  "isAccessibleForFree": true,
-  "audience": {
-    "@type": "EducationalAudience",
-    "educationalRole": "self-learner"
-  },
-  "provider": {
-    "@type": "Person",
-    "name": "Aravind Singirikonda",
-    "url": "https://www.incontext.sh"
-  },
-  "author": {
-    "@type": "Person",
-    "name": "Aravind Singirikonda",
-    "url": "https://www.incontext.sh"
-  },
-  "hasCourseInstance": {
-    "@type": "CourseInstance",
-    "courseMode": "online",
-    "courseWorkload": "PT40H"
-  },
-  "teaches": [
-    "LLM API basics", "Retrieval-Augmented Generation (RAG)", "Prompt and RAG evaluation with Promptfoo",
-    "Tool use and the agent loop", "Text-to-SQL with schema injection and validation",
-    "LLM observability and tracing", "Guardrails for LLM apps",
-    "Short-term and long-term memory for agents", "Model Context Protocol (MCP)",
-    "Agent-level evaluation", "Multi-agent orchestration", "Agent harness design"
-  ],
-  "syllabusSections": [
-    { "@type": "Syllabus", "name": "Phase 1 — Talk to an LLM",            "description": "Make your first API call. Get a feel for system prompts, temperature, and how the same prompt behaves across different models." },
-    { "@type": "Syllabus", "name": "Phase 2 — Give the LLM your data",    "description": "Build a RAG pipeline over your own documents with FAISS. Experiment with fixed-size, recursive, and semantic chunking." },
-    { "@type": "Syllabus", "name": "Phase 3 — Stop guessing if it works", "description": "Use Promptfoo to write a real eval suite. Compare models, prompts, and chunking strategies with data, not vibes." },
-    { "@type": "Syllabus", "name": "Phase 4 — Let the LLM use tools",     "description": "Build a single agent. Wrap RAG, web search, and a calculator as tools. Feel the agent loop." },
-    { "@type": "Syllabus", "name": "Phase 5 — Talk to your database",     "description": "Text-to-SQL: schema-aware prompting, generated query validation, a one-shot repair loop, and read-only safety." },
-    { "@type": "Syllabus", "name": "Phase 6 — See what's happening",      "description": "Instrument every LLM and tool call with Langfuse or Phoenix. Cut cost and latency with caching and model routing." },
-    { "@type": "Syllabus", "name": "Phase 7 — Keep the agent in its lane","description": "Add input guards, output validation, PII redaction, and an LLM-as-judge groundedness check." },
-    { "@type": "Syllabus", "name": "Phase 8 — Agents that remember",      "description": "Short-term and long-term memory. User facts, conversation summaries, identity loaded at session start." },
-    { "@type": "Syllabus", "name": "Phase 9 — Standardize your tools",    "description": "Convert a tool into an MCP server. Plug community MCP servers (filesystem, GitHub) into your agent." },
-    { "@type": "Syllabus", "name": "Phase 10 — Test the whole loop",      "description": "Agent-level evaluation: trajectory correctness, hallucination rate, refusal rate, cost per task — in CI." },
-    { "@type": "Syllabus", "name": "Phase 11 — From one agent to a team", "description": "Multi-agent with LangGraph or Strands. The six agentic patterns and when each one helps versus hurts." },
-    { "@type": "Syllabus", "name": "Phase 12 — The runtime around the model", "description": "Compare your hand-rolled agent loop to a real harness. Tool dispatch, retries, hooks, permissions, sessions." }
-  ]
-}
-</script>
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"LearningResource","name":"Phase 9 — Standardize your tools","description":"Make tools portable across agents and clients. MCP (Model Context Protocol) is an open standard from Anthropic for how agents talk to tools. Before MCP,…","url":"https://www.incontext.sh/learning/genai/phase-9-mcp","inLanguage":"en","educationalLevel":"Beginner","learningResourceType":"Tutorial","isAccessibleForFree":true,"teaches":["tool portability","MCP ecosystem","capability vs. agent code"],"isPartOf":{"@type":"Course","name":"The GenAI Learning Path","url":"https://www.incontext.sh/learning/genai"},"author":{"@type":"Person","name":"Aravind Singirikonda","url":"https://www.incontext.sh/"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"In Context","item":"https://www.incontext.sh/"},{"@type":"ListItem","position":2,"name":"GenAI Learning Path","item":"https://www.incontext.sh/learning/genai"},{"@type":"ListItem","position":3,"name":"Phase 9 — Standardize your tools","item":"https://www.incontext.sh/learning/genai/phase-9-mcp"}]}]</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1783,7 +1731,74 @@
 </head>
 <body>
   <script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('genai-path-theme')||'ink')}catch(e){document.documentElement.setAttribute('data-theme','ink')}</script>
-  <div id="root"></div>
+  <div id="root">
+<div class="page ssr-phase">
+<nav class="ssr-crumbs"><a href="/">In Context</a> › <a href="/learning/genai">GenAI Learning Path</a> › <span>Phase 09</span></nav>
+<p class="ssr-kicker">PHASE 09 · MCP</p>
+<h1>Standardize your tools</h1>
+<p class="ssr-goal"><strong>Goal:</strong> Make tools portable across agents and clients.</p>
+<section><h2>What this is</h2>
+<p><strong>MCP (Model Context Protocol)</strong> is an open standard from Anthropic for how agents talk to tools. Before MCP, every framework had its own tool format — you'd write a tool for LangChain, then rewrite it for Claude Code, then rewrite it again for your own agent.</p>
+<p>With MCP, you write a tool <strong>once</strong> as a small server. Any MCP-compatible client (Claude Desktop, Cursor, Claude Code, your custom agent) can plug in and use it. The protocol covers <strong>tools</strong> (actions), <strong>resources</strong> (read-only data), and <strong>prompts</strong> (templated requests).</p>
+<p>The big win is the <strong>ecosystem</strong>. There are hundreds of community MCP servers — filesystem, GitHub, Slack, Gmail, Postgres, Linear. Once your agent speaks MCP, you can bolt on any of them for free.</p></section>
+<section><h2>The plan</h2><ol>
+<li>Read the MCP spec (it's short — server, client, tools, resources, prompts). Skim Anthropic's intro doc.</li>
+<li>Pick one of your tools — the Phase 5 text-to-SQL tool is a great candidate — and rewrite it as an <strong>MCP server</strong> using the <code>mcp</code> Python SDK.</li>
+<li>Install your server in Claude Desktop's config and verify it works there: ask Claude to query your DB.</li>
+<li>Connect the same server to your agent code. Proof: the same server works across multiple clients.</li>
+<li>Add a community MCP server (filesystem, GitHub, or Brave search) to your agent. You just gained a capability without writing any code.</li></ol></section>
+<section><h2>Ask your coding assistant</h2><ul>
+<li>MCP introduction — modelcontextprotocol.io. What problem does it solve?</li>
+<li>Show me a minimal MCP server in Python.</li>
+<li>What's the difference between MCP, OpenAI function calling, and ChatGPT plugins?</li>
+<li>Where do I find community MCP servers? What are the highest-quality ones?</li>
+<li>How do MCP resources and prompts work (not just tools)?</li></ul></section>
+<section><h2>What you'll have when you're done</h2><ul>
+<li>Your tools are now portable — any MCP client can use them.</li>
+<li>You can plug community MCP servers into your agent for free capability.</li>
+<li>You understand the boundary between capability (the server) and agent code (the client).</li>
+<li>You can contribute back to the open MCP ecosystem.</li></ul></section>
+<section><h2>Deliverable</h2>
+<p><code>sql_mcp_server/</code> — A custom MCP server your agent consumes alongside one community server.</p>
+<p>Concepts unlocked: tool portability · MCP ecosystem · capability vs. agent code</p></section>
+<section><h2>Intuition</h2>
+<p>Your agent has come a long way: it calls tools (Phase 4), answers questions straight from your database (Phase 5), and remembers people across sessions (Phase 8). The tools are the part everyone else wants. You'd like your text-to-SQL tool inside <strong>Claude Desktop</strong> — the Claude chat app you install on your computer. A teammate wants it in Cursor, a coding app. The snag: every app expects tools wired up in its own format. Same tool, three formats, three copies. Fix a bug in one, and you have to remember to fix it in all three.</p>
+<p>You've lived this exact problem before — in a drawer at home. Before USB-C, every gadget had its own plug: one cable for the phone, another for the camera, a chunky barrel plug for the laptop, plus a tangle of adapters for the combinations. Then everyone agreed on <em>one plug shape</em>, and suddenly any charger fits any device. <strong>MCP (Model Context Protocol)</strong> is that agreement, for AI tools. (A <em>protocol</em> is just an agreed format for how two programs talk to each other.)</p>
+<p>Here's how the “write once” part works. You wrap your tool in a small <strong>server</strong> — and that word needs rescuing first: a server is not a big humming machine in a basement. It's just <em>a small program that sits there waiting to be asked for things</em>. Yours can run right on your laptop. And “any app can plug in” isn't magic either: MCP fixes the exact format for the two questions every app needs to ask — <em>“what tools do you have?”</em> and <em>“run this one, with these arguments.”</em> Any app that can say those two sentences in the standard format can use any server that answers them.</p>
+<p>If that handshake sounds familiar, it should. In Phase 4 you saw that the LLM never sees your real code — the harness hands it a <em>description</em> of each tool, and the LLM replies “call this tool, with these args.” Tools are not new, and MCP didn't invent them. What MCP adds is a standard for how one program <strong>offers</strong> its tools to another — so the offering works even between programs that have never heard of each other.</p>
+<p>Why this matters compounds fast. Three apps and three tools, each pair wired by hand, is 3 × 3 = <strong>9</strong> custom connections to build and keep in sync. With one standard, each app implements the plug once and each tool implements it once: 3 + 3 = <strong>6</strong> pieces of work, ever. At a company with 5 apps and 20 tools, that's 100 hand-wirings collapsing to 25. Here's the before-picture — every app wired to every tool, separately:</p>
+<p>And the after-picture, once everyone agrees on the plug. Same three apps, same three tools — but every line now speaks the same language, so the tangle collapses:</p>
+<blockquote><strong>What MCP is.</strong> <strong>MCP (Model Context Protocol)</strong> is an <em>open standard</em> — a public rulebook anyone can read and implement, tied to no single company's product — created by Anthropic for how apps talk to tools. Write a tool once as a small <strong>server</strong> (a program that waits to be asked for things), and any MCP-compatible app can plug in and use it. USB-C for AI tools.</blockquote></section>
+<section><h2>How MCP works</h2>
+<p>So a server sits there waiting to be asked. The app doing the asking is called the <strong>client</strong> — Claude Desktop, Cursor, Claude Code, and your own <code>agent.py</code> are all clients. And a server can offer more than just tools. MCP covers three kinds of things, and the names are worth keeping straight:</p>
+<ul><li><strong>Tools</strong> — actions the model can ask to run. Your <code>query_db</code> from Phase 5 is a tool: it <em>does</em> something and returns the result.</li><li><strong>Resources</strong> — read-only data the client can load into the model's context. Example: Zentara's holiday-calendar file, so the agent can check “is Friday a company holiday?” before promising a delivery date. Nothing runs — it's just a file to read.</li><li><strong>Prompts</strong> — saved, ready-made request templates. Example: the support team's “summarize this ticket” prompt — written carefully once, then offered to every app so nobody retypes (or mistypes) it.</li></ul>
+<p>One server can offer all three at once. Here's a single Zentara support server, and the menu any connected client sees:</p>
+<blockquote><strong>Keeping the three straight.</strong> Tools <strong>do</strong>, resources <strong>know</strong>, prompts <strong>say</strong>. An action to run, data to read, a request template to reuse.</blockquote>
+<blockquote><strong>The real prize is the ecosystem.</strong> There are hundreds of ready-made MCP servers — filesystem, GitHub, Slack, Gmail, Postgres, Linear. Once your agent speaks MCP, you can bolt any of them on without writing a line of tool code. You write one server, and in exchange you get everyone else's.</blockquote></section>
+<section><h2>Build an MCP server</h2>
+<p>Time to prove “write once, use anywhere” with your own tool: turn the Phase 5 text-to-SQL tool into an MCP server, use it from Claude Desktop <em>and</em> your own agent, then bolt on a community server for free.</p>
+<p>Two quick introductions before you paste the prompt. You met <strong>Claude Desktop</strong> in the intuition — the Claude chat app you install on your computer, and itself an MCP client. Its <strong>config file</strong> is a small settings text file where you list the MCP servers it should connect to: add your server there, restart the app, and your tool appears in Claude's toolbox. Your assistant will edit that file for you — you just need to know it exists.</p>
+<p>Read what it builds — remember, you never have to write this yourself; your assistant does. A whole tool server is just a few lines:</p>
+<pre><code># sql_server.py — your text-to-SQL tool, as an MCP server
+from mcp.server.fastmcp import FastMCP
+import text_to_sql
+
+mcp = FastMCP("sql")
+
+@mcp.tool()
+def query_db(question: str) -&gt; str:
+    """Answer a question by running read-only SQL on the company database."""
+    return str(text_to_sql.ask(question))   # your Phase 5 tool
+
+mcp.run()   # any MCP client (Claude Desktop, Cursor, your agent) can now use it</code></pre>
+<p>One line deserves a spotlight: <code>@mcp.tool()</code>. That label, sitting right above the function, tells the MCP library “offer this to any connected app as a tool.” That's the entire publishing step — the label puts <code>query_db</code> on the server's menu, and the sentence in quotes under its name becomes the tool description the model reads. The same description idea from Phase 4, now in a standard wrapper.</p>
+<blockquote><strong>Deliverable — sql_mcp_server/.</strong> A custom MCP server your agent consumes alongside one community server. You wrote a tool once and it works in every MCP client — and you gained a new capability without writing any tool code at all.</blockquote></section>
+<nav class="ssr-pager">
+<a rel="prev" href="/learning/genai/phase-8-agent-memory">← Phase 8: Agents that remember</a>
+<a href="/learning/genai">All 12 phases</a>
+<a rel="next" href="/learning/genai/phase-10-agent-evals">Phase 10: Test the whole loop →</a>
+</nav>
+</div></div>
   <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>

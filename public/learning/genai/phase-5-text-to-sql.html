@@ -3,82 +3,30 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The GenAI Learning Path — A Beginner's Build-As-You-Learn Roadmap | In Context</title>
-<meta name="description" content="A free, beginner-first GenAI learning path. 12 phases — API basics, RAG, evals, agents, text-to-SQL, observability, guardrails, memory, MCP, agent eval, multi-agent, harnesses — each shipping a working artifact the next phase extends." />
+<title>Phase 5 — Talk to your database | GenAI Learning Path | In Context</title>
+<meta name="description" content="Let users ask structured questions in plain English. Text-to-SQL is the pattern where the LLM writes SQL from a natural-language question. It's the…" />
 <meta name="keywords" content="GenAI learning path, learn generative AI, AI agents tutorial, RAG tutorial, LLM beginner, MCP, prompt engineering, agent evaluation, Anthropic Claude, build AI agents" />
 <meta name="author" content="Aravind Singirikonda" />
 <meta name="robots" content="index,follow,max-image-preview:large" />
-<link rel="canonical" href="https://www.incontext.sh/learning/genai" />
+<link rel="canonical" href="https://www.incontext.sh/learning/genai/phase-5-text-to-sql" />
 
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="In Context" />
-<meta property="og:title" content="The GenAI Learning Path — A Beginner's Build-As-You-Learn Roadmap" />
-<meta property="og:description" content="12 phases, one growing codebase. From your first LLM API call to a multi-agent system with memory, tools, guardrails, evals, and text-to-SQL. Free, no signup." />
-<meta property="og:url" content="https://www.incontext.sh/learning/genai" />
+<meta property="og:title" content="Phase 5 — Talk to your database | GenAI Learning Path" />
+<meta property="og:description" content="Let users ask structured questions in plain English. Text-to-SQL is the pattern where the LLM writes SQL from a natural-language question. It's the…" />
+<meta property="og:url" content="https://www.incontext.sh/learning/genai/phase-5-text-to-sql" />
 <meta property="og:locale" content="en_US" />
-<meta property="og:image" content="https://www.incontext.sh/learning/genai/og/learning-path.png" />
+<meta property="og:image" content="https://www.incontext.sh/learning/genai/og/phase-5-text-to-sql.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="The GenAI Learning Path" />
-<meta name="twitter:description" content="12 phases, build-as-you-learn. API calls → RAG → evals → agents → text-to-SQL → multi-agent. Free, beginner-first." />
+<meta name="twitter:title" content="Phase 5 — Talk to your database | GenAI Learning Path" />
+<meta name="twitter:description" content="Let users ask structured questions in plain English. Text-to-SQL is the pattern where the LLM writes SQL from a natural-language question. It's the…" />
 <meta name="twitter:creator" content="@aravs16" />
-<meta name="twitter:image" content="https://www.incontext.sh/learning/genai/og/learning-path.png" />
+<meta name="twitter:image" content="https://www.incontext.sh/learning/genai/og/phase-5-text-to-sql.png" />
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Course",
-  "name": "The GenAI Learning Path",
-  "description": "A practical, beginner-first build-as-you-learn roadmap for Generative AI. Twelve phases growing one running codebase from a single LLM API call into a multi-agent system with memory, tools, guardrails, evals, and text-to-SQL.",
-  "url": "https://www.incontext.sh/learning/genai",
-  "inLanguage": "en",
-  "educationalLevel": "Beginner",
-  "learningResourceType": "Tutorial",
-  "isAccessibleForFree": true,
-  "audience": {
-    "@type": "EducationalAudience",
-    "educationalRole": "self-learner"
-  },
-  "provider": {
-    "@type": "Person",
-    "name": "Aravind Singirikonda",
-    "url": "https://www.incontext.sh"
-  },
-  "author": {
-    "@type": "Person",
-    "name": "Aravind Singirikonda",
-    "url": "https://www.incontext.sh"
-  },
-  "hasCourseInstance": {
-    "@type": "CourseInstance",
-    "courseMode": "online",
-    "courseWorkload": "PT40H"
-  },
-  "teaches": [
-    "LLM API basics", "Retrieval-Augmented Generation (RAG)", "Prompt and RAG evaluation with Promptfoo",
-    "Tool use and the agent loop", "Text-to-SQL with schema injection and validation",
-    "LLM observability and tracing", "Guardrails for LLM apps",
-    "Short-term and long-term memory for agents", "Model Context Protocol (MCP)",
-    "Agent-level evaluation", "Multi-agent orchestration", "Agent harness design"
-  ],
-  "syllabusSections": [
-    { "@type": "Syllabus", "name": "Phase 1 — Talk to an LLM",            "description": "Make your first API call. Get a feel for system prompts, temperature, and how the same prompt behaves across different models." },
-    { "@type": "Syllabus", "name": "Phase 2 — Give the LLM your data",    "description": "Build a RAG pipeline over your own documents with FAISS. Experiment with fixed-size, recursive, and semantic chunking." },
-    { "@type": "Syllabus", "name": "Phase 3 — Stop guessing if it works", "description": "Use Promptfoo to write a real eval suite. Compare models, prompts, and chunking strategies with data, not vibes." },
-    { "@type": "Syllabus", "name": "Phase 4 — Let the LLM use tools",     "description": "Build a single agent. Wrap RAG, web search, and a calculator as tools. Feel the agent loop." },
-    { "@type": "Syllabus", "name": "Phase 5 — Talk to your database",     "description": "Text-to-SQL: schema-aware prompting, generated query validation, a one-shot repair loop, and read-only safety." },
-    { "@type": "Syllabus", "name": "Phase 6 — See what's happening",      "description": "Instrument every LLM and tool call with Langfuse or Phoenix. Cut cost and latency with caching and model routing." },
-    { "@type": "Syllabus", "name": "Phase 7 — Keep the agent in its lane","description": "Add input guards, output validation, PII redaction, and an LLM-as-judge groundedness check." },
-    { "@type": "Syllabus", "name": "Phase 8 — Agents that remember",      "description": "Short-term and long-term memory. User facts, conversation summaries, identity loaded at session start." },
-    { "@type": "Syllabus", "name": "Phase 9 — Standardize your tools",    "description": "Convert a tool into an MCP server. Plug community MCP servers (filesystem, GitHub) into your agent." },
-    { "@type": "Syllabus", "name": "Phase 10 — Test the whole loop",      "description": "Agent-level evaluation: trajectory correctness, hallucination rate, refusal rate, cost per task — in CI." },
-    { "@type": "Syllabus", "name": "Phase 11 — From one agent to a team", "description": "Multi-agent with LangGraph or Strands. The six agentic patterns and when each one helps versus hurts." },
-    { "@type": "Syllabus", "name": "Phase 12 — The runtime around the model", "description": "Compare your hand-rolled agent loop to a real harness. Tool dispatch, retries, hooks, permissions, sessions." }
-  ]
-}
-</script>
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"LearningResource","name":"Phase 5 — Talk to your database","description":"Let users ask structured questions in plain English. Text-to-SQL is the pattern where the LLM writes SQL from a natural-language question. It's the…","url":"https://www.incontext.sh/learning/genai/phase-5-text-to-sql","inLanguage":"en","educationalLevel":"Beginner","learningResourceType":"Tutorial","isAccessibleForFree":true,"teaches":["schema injection","query validation","repair loop","structured outputs"],"isPartOf":{"@type":"Course","name":"The GenAI Learning Path","url":"https://www.incontext.sh/learning/genai"},"author":{"@type":"Person","name":"Aravind Singirikonda","url":"https://www.incontext.sh/"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"In Context","item":"https://www.incontext.sh/"},{"@type":"ListItem","position":2,"name":"GenAI Learning Path","item":"https://www.incontext.sh/learning/genai"},{"@type":"ListItem","position":3,"name":"Phase 5 — Talk to your database","item":"https://www.incontext.sh/learning/genai/phase-5-text-to-sql"}]}]</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1783,7 +1731,100 @@
 </head>
 <body>
   <script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('genai-path-theme')||'ink')}catch(e){document.documentElement.setAttribute('data-theme','ink')}</script>
-  <div id="root"></div>
+  <div id="root">
+<div class="page ssr-phase">
+<nav class="ssr-crumbs"><a href="/">In Context</a> › <a href="/learning/genai">GenAI Learning Path</a> › <span>Phase 05</span></nav>
+<p class="ssr-kicker">PHASE 05 · TEXT-TO-SQL</p>
+<h1>Talk to your database</h1>
+<p class="ssr-goal"><strong>Goal:</strong> Let users ask structured questions in plain English.</p>
+<section><h2>What this is</h2>
+<p><strong>Text-to-SQL</strong> is the pattern where the LLM writes SQL from a natural-language question. It's the highest-leverage pattern for structured data — most internal 'BI tools' are just text-to-SQL with a chart on top.</p>
+<p>The hard parts aren't writing the first prompt. They're <strong>schema grounding</strong> (telling the model which tables and columns exist), <strong>validation</strong> (making sure the generated SQL actually runs), and <strong>safety</strong> (read-only, no dropping tables, capped row counts).</p></section>
+<section><h2>The plan</h2><ol>
+<li>Pick a small SQLite DB — Chinook, Northwind, or your own 3–5 table dataset.</li>
+<li>Build the prompt: include the schema as <code>CREATE TABLE</code> statements, plus 2–3 few-shot Q/SQL examples and explicit constraints (<em>read-only, LIMIT 100</em>).</li>
+<li>Run the generated SQL. If it errors, send the error back to the model and ask for a fix — cap at one retry.</li>
+<li>Wrap the whole thing as a tool and plug it into your Phase 4 agent.</li></ol></section>
+<section><h2>Ask your coding assistant</h2><ul>
+<li>Show me a minimal text-to-SQL prompt with schema injection and few-shot examples.</li>
+<li>How do I handle large schemas (50+ tables) that don't fit in the context window?</li>
+<li>What safety guards should always wrap a text-to-SQL tool?</li>
+<li>What does a SQL repair loop look like, and when should you stop retrying?</li></ul></section>
+<section><h2>What you'll have when you're done</h2><ul>
+<li>You can answer questions over structured data without writing SQL.</li>
+<li>You understand schema injection — and why it gets hard once tables outnumber your context window.</li>
+<li>You've felt the generate → validate → repair pattern that applies to any code-generating LLM use.</li>
+<li>You have a SQL tool plugged into your agent — it'll become an MCP server in Phase 9.</li></ul></section>
+<section><h2>Deliverable</h2>
+<p><code>text_to_sql.py</code> — A schema-aware text-to-SQL tool with validation and a one-shot repair loop.</p>
+<p>Concepts unlocked: schema injection · query validation · repair loop · structured outputs</p></section>
+<section><h2>Intuition</h2>
+<p>Your Phase 4 agent can already search documents, browse the web, and do math. But think about where most of a company's answers actually live. At <strong>Zentara Logistics</strong> — our made-up shipping company — the answer to <em>"how many customers signed up in May?"</em> isn't written in any document. It sits in a <strong>database</strong>: neat rows and tables of customers, orders, and payments. Your Phase 2 RAG is great with prose, but this answer isn't in any paragraph — it has to be <em>counted</em>.</p>
+<p>Databases already have a precise language for exactly these questions: <strong>SQL</strong>. The only catch is that most people can't write it. So here's the idea — let the model write the SQL for you, from plain English.</p>
+<p>Don't worry about reading that query — here it is, word for word: <code>SELECT COUNT(*)</code> means <em>"count the rows"</em>, <code>FROM customers</code> means <em>"in the customers table"</em>, and <code>WHERE month = 'May'</code> means <em>"but only the rows where the month is May."</em> One line of SQL, one plain-English sentence: <em>count the customers who signed up in May</em>. And you'll never have to write these yourself — writing them is the model's whole job in this phase.</p>
+<blockquote><strong>What text-to-SQL is.</strong> <strong>Text-to-SQL</strong>: the model turns a plain-English question into a database query. Most internal <strong>BI tools</strong> (business intelligence — the dashboard apps full of charts that your finance team stares at all day) are exactly this: text-to-SQL with a chart drawn on top.</blockquote></section>
+<section><h2>How it works</h2>
+<p>The flow is short. You give the model three things: the <strong>question</strong>, the <strong>schema</strong> — the database's table of contents: which tables exist and what columns each one has — and a few <strong>examples</strong>: two or three question→SQL pairs pasted into the prompt, so the model can see the pattern it should copy. The model writes a SQL query. Your code runs that query, hands the rows back, and the model turns them into a plain answer.</p>
+<blockquote><strong>This is Phase 4's loop wearing a new hat.</strong> Look at who does what: the model <em>asks</em> (by writing SQL as text), the <strong>harness</strong> runs the query for real, and the result comes back as a new message. Same pattern as the calculator in Phase 4 — the LLM never touches the database itself. Text-to-SQL is just one more tool in your agent's toolbox.</blockquote></section>
+<section><h2>One question, end to end</h2>
+<p>Let's watch one real question travel the whole pipeline. A Zentara manager asks: <em>"Which three customers shipped the most packages in June?"</em></p>
+<p>Notice who did what. The model wrote text twice — once as SQL, once as the friendly answer. The harness did all the actual running. And the number 1,204 came from the <em>database</em>, not from the model's memory — that's why it's exact instead of a plausible guess.</p></section>
+<section><h2>The three hard parts</h2>
+<p>That end-to-end run looked smooth. Writing the first query is easy — making it <em>reliable</em> comes down to three things:</p>
+<ul><li><strong>Schema grounding</strong> — the model can't query tables it doesn't know about. You paste your table definitions (the <code>CREATE TABLE</code> lines) into the prompt so it knows exactly what exists.</li><li><strong>Validation</strong> — generated SQL sometimes won't run (wrong column name, a typo). You actually run it and catch the error before trusting the result.</li><li><strong>Safety</strong> — never let generated SQL change your data. Use a <strong>read-only</strong> connection, block anything that isn't a <code>SELECT</code>, and add a <code>LIMIT</code> so one query can't pull a million rows.</li></ul>
+<p>"Schema" has come up a few times now — here's what one actually looks like, so it stops being abstract. This is Zentara's orders table:</p>
+<pre><code>CREATE TABLE orders (
+  id             INTEGER,   -- one row per shipment
+  customer_name  TEXT,      -- who sent it
+  ship_month     TEXT,      -- e.g. 'June'
+  weight_kg      REAL       -- package weight
+);</code></pre>
+<p>That's the whole trick: a table's name, its column names, and what type each column holds. Paste a few of these into the prompt and the model knows precisely what it's allowed to query — no more guessing whether the table is called <code>orders</code> or <code>shipments</code>.</p>
+<blockquote><strong>Treat generated SQL as untrusted.</strong> A read-only connection, a row limit, and a SELECT-only rule are not optional — they're how you stop an LLM from accidentally wiping a table. Never run generated SQL with write access.</blockquote>
+<blockquote><strong>LIMIT has a quiet failure mode.</strong> A row limit protects you, but it's blunt: if a legitimate answer needed 500 rows and your cap is 100, the result gets <em>silently truncated</em> — the query "works," the answer looks fine, and nobody notices it's incomplete. A good build flags it whenever the row count comes back exactly at the limit, so you know to look closer.</blockquote></section>
+<section><h2>The repair loop</h2>
+<p>What happens when the SQL doesn't run? You don't give up — you tell the model what broke. Send the database's error message back and ask it to fix the query. One retry catches most mistakes.</p>
+<p>Concretely: you ask <em>"how many users signed up?"</em> and the model writes <code>SELECT COUNT(*) FROM user</code>. The database throws <code>no such table: user</code> — the table is actually called <code>users</code>. You send that exact error back with the query, and the model returns <code>SELECT COUNT(*) FROM users</code>. It runs. Fixed.</p>
+<p>If this rhythm feels familiar, it should — it's Phase 4's agent loop again: the model asks, the harness runs, the result comes back as a new message. The only twist is that here the "result" is sometimes an error message — and that error is exactly the feedback the model needs to repair its own query. This "try → if it fails, feed the error back → try again" pattern is a <strong>repair loop</strong>, and you'll see it all over agent code. Cap it (one or two retries) so a truly broken query can't loop forever.</p>
+<p>And when the cap runs out? <strong>Stop, and show the error honestly</strong>: "I couldn't answer this — the query failed with: <code>no such column: signup_date</code>." That feels like failure, but it's the right move. The one thing a data tool must never do is invent a plausible-looking number after the database refused to give a real one.</p>
+<blockquote><strong>Fail honest, not confident.</strong> A capped repair loop has exactly two exits: a query that ran, or an error shown to the user as-is. There is no third exit where the model "just answers anyway" — that would turn your exact tool back into a guessing machine.</blockquote></section>
+<section><h2>Build it</h2>
+<p>Build <code>text_to_sql.py</code> against a small sample database, then wrap it as a tool and plug it into the <code>agent.py</code> from Phase 4 — now your agent can answer from documents <em>and</em> from data.</p>
+<p>Read what it builds — the prompt carries the schema, and a small loop handles errors safely, with an honest exit when the one allowed repair also fails:</p>
+<pre><code># text_to_sql.py — question in, answer from your database out
+import sqlite3
+from anthropic import Anthropic
+client = Anthropic()
+
+SCHEMA = open("schema.sql").read()   # your CREATE TABLE statements
+
+def to_sql(question):
+    prompt = f"{SCHEMA}\n\nWrite ONE read-only SQL query (SELECT only) for:\n{question}"
+    return client.messages.create(
+        model="claude-sonnet-4-6", max_tokens=400,
+        messages=[{"role": "user", "content": prompt}]).content[0].text.strip()
+
+def ask(question, db="chinook.db"):
+    sql = to_sql(question)
+    if not sql.lower().startswith("select"):
+        return "Refused: only read-only queries are allowed."
+    con = sqlite3.connect(f"file:{db}?mode=ro", uri=True)   # read-only connection
+    try:
+        return con.execute(sql + " LIMIT 100").fetchall()
+    except sqlite3.Error as e:
+        fixed = to_sql(f"{question}\n\nThat query failed with: {e}. Fix it.")  # repair, once
+        try:
+            return con.execute(fixed + " LIMIT 100").fetchall()
+        except sqlite3.Error as e2:                          # cap reached — fail honest
+            return f"Query failed after one repair attempt: {e2}"  # never invent data
+</code></pre>
+<blockquote><strong>Deliverable — text_to_sql.py.</strong> A schema-aware tool that writes SQL, runs it safely (read-only, limited), repairs itself once on error — and reports the error honestly if the repair fails too. Wired into your agent, it answers questions straight from your data.</blockquote></section>
+<nav class="ssr-pager">
+<a rel="prev" href="/learning/genai/phase-4-agents-and-tool-use">← Phase 4: Let the LLM use tools</a>
+<a href="/learning/genai">All 12 phases</a>
+<a rel="next" href="/learning/genai/phase-6-llm-observability">Phase 6: See what's happening →</a>
+</nav>
+</div></div>
   <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>

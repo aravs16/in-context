@@ -44,11 +44,15 @@ const BASE_PATH = "/learning/genai";
 const BASE_TITLE = document.title;
 
 function phasePath(n, subId) {
-  return BASE_PATH + "/phase-" + n + (subId ? "/" + subId : "");
+  const p = window.PHASES.find((ph) => ph.n === n);
+  const seg = p && p.slug ? p.slug : "phase-" + n;
+  return BASE_PATH + "/" + seg + (subId ? "/" + subId : "");
 }
 
+// Accepts both the canonical slugged form (/phase-5-text-to-sql) and the
+// legacy numeric form (/phase-5) — Vercel 308s legacy → slugged in prod.
 function parsePhasePath() {
-  const m = window.location.pathname.match(/\/learning\/genai\/phase-(\d+)(?:\/([A-Za-z0-9-]+))?\/?$/);
+  const m = window.location.pathname.match(/\/learning\/genai\/phase-(\d+)(?:-[a-z0-9-]+)?(?:\/([A-Za-z0-9-]+))?\/?$/);
   if (!m) return null;
   const n = parseInt(m[1], 10);
   const idx = window.PHASES.findIndex((p) => p.n === n);
@@ -237,7 +241,7 @@ function Header({ view, setView, theme, setTheme, onHowTo, onAsk, onSubscribe })
           </div>
 
           <p className="lede">
-            A practical roadmap where every phase ships a working artifact and the next one extends
+            A practical generative AI roadmap where every phase ships a working artifact and the next one extends
             it — one running codebase growing from a single API call into a multi-agent system with
             memory, tools, guardrails, and evals. <strong>You don't need to know how to code</strong> —
             if you can describe what you want, a coding assistant writes it. Your job is to run it,
@@ -422,19 +426,21 @@ function SerpentineBoard({ onOpen }) {
 function PhaseCard({ phase, index, style, refCb, onOpen, onPeek, onUnpeek, peeking }) {
   const num = String(phase.n).padStart(2, "0");
   return (
-    <div
+    <a
       className={"card" + (peeking ? " peeking" : "")}
       data-phase={phase.n}
+      href={phasePath(phase.n)}
       style={style}
       ref={refCb}
-      role="button"
-      tabIndex={0}
       onMouseEnter={onPeek}
       onMouseLeave={onUnpeek}
       onFocus={onPeek}
       onBlur={onUnpeek}
-      onClick={onOpen}
-      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(); } }}
+      onClick={(e) => {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1) return;
+        e.preventDefault();
+        onOpen();
+      }}
     >
       <div className="card-top">
         {phase.icon && <i className={"ph-duotone ph-" + phase.icon + " phase-icon"} aria-hidden="true" />}
@@ -457,7 +463,7 @@ function PhaseCard({ phase, index, style, refCb, onOpen, onPeek, onUnpeek, peeki
           <div className="peek-cta">{phase.plan.length} steps · click to expand →</div>
         </div>
       )}
-    </div>
+    </a>
   );
 }
 
@@ -471,13 +477,15 @@ function VerticalTimeline({ onOpen }) {
           return (
             <div className="tl-item" key={p.n}>
               <div className="tl-dot">{num}</div>
-              <div
+              <a
                 className="tl-card"
                 data-phase={p.n}
-                role="button"
-                tabIndex={0}
-                onClick={() => onOpen(i)}
-                onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(i); } }}
+                href={phasePath(p.n)}
+                onClick={(e) => {
+                  if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1) return;
+                  e.preventDefault();
+                  onOpen(i);
+                }}
               >
                 {p.icon && <i className={"ph-duotone ph-" + p.icon + " phase-icon"} aria-hidden="true" />}
                 <div className="tl-meta">
@@ -493,7 +501,7 @@ function VerticalTimeline({ onOpen }) {
                     {p.concepts.slice(0, 3).map((c) => <span className="pill" key={c}>{c}</span>)}
                   </div>
                 </div>
-              </div>
+              </a>
             </div>
           );
         })}

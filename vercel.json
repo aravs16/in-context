@@ -4,9 +4,34 @@
   "framework": null,
   "trailingSlash": false,
   "cleanUrls": true,
+  "redirects": [
+    { "source": "/learning/genai/phase-1", "destination": "/learning/genai/phase-1-talk-to-an-llm", "permanent": true },
+    { "source": "/learning/genai/phase-1/:sub", "destination": "/learning/genai/phase-1-talk-to-an-llm/:sub", "permanent": true },
+    { "source": "/learning/genai/phase-2", "destination": "/learning/genai/phase-2-rag-give-the-llm-your-data", "permanent": true },
+    { "source": "/learning/genai/phase-2/:sub", "destination": "/learning/genai/phase-2-rag-give-the-llm-your-data/:sub", "permanent": true },
+    { "source": "/learning/genai/phase-3", "destination": "/learning/genai/phase-3-evals-stop-guessing", "permanent": true },
+    { "source": "/learning/genai/phase-3/:sub", "destination": "/learning/genai/phase-3-evals-stop-guessing/:sub", "permanent": true },
+    { "source": "/learning/genai/phase-4", "destination": "/learning/genai/phase-4-agents-and-tool-use", "permanent": true },
+    { "source": "/learning/genai/phase-4/:sub", "destination": "/learning/genai/phase-4-agents-and-tool-use/:sub", "permanent": true },
+    { "source": "/learning/genai/phase-5", "destination": "/learning/genai/phase-5-text-to-sql", "permanent": true },
+    { "source": "/learning/genai/phase-5/:sub", "destination": "/learning/genai/phase-5-text-to-sql/:sub", "permanent": true },
+    { "source": "/learning/genai/phase-6", "destination": "/learning/genai/phase-6-llm-observability", "permanent": true },
+    { "source": "/learning/genai/phase-6/:sub", "destination": "/learning/genai/phase-6-llm-observability/:sub", "permanent": true },
+    { "source": "/learning/genai/phase-7", "destination": "/learning/genai/phase-7-guardrails", "permanent": true },
+    { "source": "/learning/genai/phase-7/:sub", "destination": "/learning/genai/phase-7-guardrails/:sub", "permanent": true },
+    { "source": "/learning/genai/phase-8", "destination": "/learning/genai/phase-8-agent-memory", "permanent": true },
+    { "source": "/learning/genai/phase-8/:sub", "destination": "/learning/genai/phase-8-agent-memory/:sub", "permanent": true },
+    { "source": "/learning/genai/phase-9", "destination": "/learning/genai/phase-9-mcp", "permanent": true },
+    { "source": "/learning/genai/phase-9/:sub", "destination": "/learning/genai/phase-9-mcp/:sub", "permanent": true },
+    { "source": "/learning/genai/phase-10", "destination": "/learning/genai/phase-10-agent-evals", "permanent": true },
+    { "source": "/learning/genai/phase-10/:sub", "destination": "/learning/genai/phase-10-agent-evals/:sub", "permanent": true },
+    { "source": "/learning/genai/phase-11", "destination": "/learning/genai/phase-11-multi-agent", "permanent": true },
+    { "source": "/learning/genai/phase-11/:sub", "destination": "/learning/genai/phase-11-multi-agent/:sub", "permanent": true },
+    { "source": "/learning/genai/phase-12", "destination": "/learning/genai/phase-12-agent-harness", "permanent": true },
+    { "source": "/learning/genai/phase-12/:sub", "destination": "/learning/genai/phase-12-agent-harness/:sub", "permanent": true }
+  ],
   "rewrites": [
     { "source": "/p/(.*)", "destination": "/index.html" },
-    { "source": "/learning/genai/phase-:n", "destination": "/learning/genai.html" },
-    { "source": "/learning/genai/phase-:n/:sub", "destination": "/learning/genai.html" }
+    { "source": "/learning/genai/:path*", "destination": "/learning/genai.html" }
   ]
 }

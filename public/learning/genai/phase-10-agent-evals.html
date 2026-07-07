@@ -3,82 +3,30 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The GenAI Learning Path — A Beginner's Build-As-You-Learn Roadmap | In Context</title>
-<meta name="description" content="A free, beginner-first GenAI learning path. 12 phases — API basics, RAG, evals, agents, text-to-SQL, observability, guardrails, memory, MCP, agent eval, multi-agent, harnesses — each shipping a working artifact the next phase extends." />
+<title>Phase 10 — Test the whole loop | GenAI Learning Path | In Context</title>
+<meta name="description" content="Evaluate the agent end-to-end, not just individual prompts. Prompt eval (Phase 3) checks single LLM calls. Agent eval checks the whole loop: did the agent…" />
 <meta name="keywords" content="GenAI learning path, learn generative AI, AI agents tutorial, RAG tutorial, LLM beginner, MCP, prompt engineering, agent evaluation, Anthropic Claude, build AI agents" />
 <meta name="author" content="Aravind Singirikonda" />
 <meta name="robots" content="index,follow,max-image-preview:large" />
-<link rel="canonical" href="https://www.incontext.sh/learning/genai" />
+<link rel="canonical" href="https://www.incontext.sh/learning/genai/phase-10-agent-evals" />
 
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="In Context" />
-<meta property="og:title" content="The GenAI Learning Path — A Beginner's Build-As-You-Learn Roadmap" />
-<meta property="og:description" content="12 phases, one growing codebase. From your first LLM API call to a multi-agent system with memory, tools, guardrails, evals, and text-to-SQL. Free, no signup." />
-<meta property="og:url" content="https://www.incontext.sh/learning/genai" />
+<meta property="og:title" content="Phase 10 — Test the whole loop | GenAI Learning Path" />
+<meta property="og:description" content="Evaluate the agent end-to-end, not just individual prompts. Prompt eval (Phase 3) checks single LLM calls. Agent eval checks the whole loop: did the agent…" />
+<meta property="og:url" content="https://www.incontext.sh/learning/genai/phase-10-agent-evals" />
 <meta property="og:locale" content="en_US" />
-<meta property="og:image" content="https://www.incontext.sh/learning/genai/og/learning-path.png" />
+<meta property="og:image" content="https://www.incontext.sh/learning/genai/og/phase-10-agent-evals.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="The GenAI Learning Path" />
-<meta name="twitter:description" content="12 phases, build-as-you-learn. API calls → RAG → evals → agents → text-to-SQL → multi-agent. Free, beginner-first." />
+<meta name="twitter:title" content="Phase 10 — Test the whole loop | GenAI Learning Path" />
+<meta name="twitter:description" content="Evaluate the agent end-to-end, not just individual prompts. Prompt eval (Phase 3) checks single LLM calls. Agent eval checks the whole loop: did the agent…" />
 <meta name="twitter:creator" content="@aravs16" />
-<meta name="twitter:image" content="https://www.incontext.sh/learning/genai/og/learning-path.png" />
+<meta name="twitter:image" content="https://www.incontext.sh/learning/genai/og/phase-10-agent-evals.png" />
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Course",
-  "name": "The GenAI Learning Path",
-  "description": "A practical, beginner-first build-as-you-learn roadmap for Generative AI. Twelve phases growing one running codebase from a single LLM API call into a multi-agent system with memory, tools, guardrails, evals, and text-to-SQL.",
-  "url": "https://www.incontext.sh/learning/genai",
-  "inLanguage": "en",
-  "educationalLevel": "Beginner",
-  "learningResourceType": "Tutorial",
-  "isAccessibleForFree": true,
-  "audience": {
-    "@type": "EducationalAudience",
-    "educationalRole": "self-learner"
-  },
-  "provider": {
-    "@type": "Person",
-    "name": "Aravind Singirikonda",
-    "url": "https://www.incontext.sh"
-  },
-  "author": {
-    "@type": "Person",
-    "name": "Aravind Singirikonda",
-    "url": "https://www.incontext.sh"
-  },
-  "hasCourseInstance": {
-    "@type": "CourseInstance",
-    "courseMode": "online",
-    "courseWorkload": "PT40H"
-  },
-  "teaches": [
-    "LLM API basics", "Retrieval-Augmented Generation (RAG)", "Prompt and RAG evaluation with Promptfoo",
-    "Tool use and the agent loop", "Text-to-SQL with schema injection and validation",
-    "LLM observability and tracing", "Guardrails for LLM apps",
-    "Short-term and long-term memory for agents", "Model Context Protocol (MCP)",
-    "Agent-level evaluation", "Multi-agent orchestration", "Agent harness design"
-  ],
-  "syllabusSections": [
-    { "@type": "Syllabus", "name": "Phase 1 — Talk to an LLM",            "description": "Make your first API call. Get a feel for system prompts, temperature, and how the same prompt behaves across different models." },
-    { "@type": "Syllabus", "name": "Phase 2 — Give the LLM your data",    "description": "Build a RAG pipeline over your own documents with FAISS. Experiment with fixed-size, recursive, and semantic chunking." },
-    { "@type": "Syllabus", "name": "Phase 3 — Stop guessing if it works", "description": "Use Promptfoo to write a real eval suite. Compare models, prompts, and chunking strategies with data, not vibes." },
-    { "@type": "Syllabus", "name": "Phase 4 — Let the LLM use tools",     "description": "Build a single agent. Wrap RAG, web search, and a calculator as tools. Feel the agent loop." },
-    { "@type": "Syllabus", "name": "Phase 5 — Talk to your database",     "description": "Text-to-SQL: schema-aware prompting, generated query validation, a one-shot repair loop, and read-only safety." },
-    { "@type": "Syllabus", "name": "Phase 6 — See what's happening",      "description": "Instrument every LLM and tool call with Langfuse or Phoenix. Cut cost and latency with caching and model routing." },
-    { "@type": "Syllabus", "name": "Phase 7 — Keep the agent in its lane","description": "Add input guards, output validation, PII redaction, and an LLM-as-judge groundedness check." },
-    { "@type": "Syllabus", "name": "Phase 8 — Agents that remember",      "description": "Short-term and long-term memory. User facts, conversation summaries, identity loaded at session start." },
-    { "@type": "Syllabus", "name": "Phase 9 — Standardize your tools",    "description": "Convert a tool into an MCP server. Plug community MCP servers (filesystem, GitHub) into your agent." },
-    { "@type": "Syllabus", "name": "Phase 10 — Test the whole loop",      "description": "Agent-level evaluation: trajectory correctness, hallucination rate, refusal rate, cost per task — in CI." },
-    { "@type": "Syllabus", "name": "Phase 11 — From one agent to a team", "description": "Multi-agent with LangGraph or Strands. The six agentic patterns and when each one helps versus hurts." },
-    { "@type": "Syllabus", "name": "Phase 12 — The runtime around the model", "description": "Compare your hand-rolled agent loop to a real harness. Tool dispatch, retries, hooks, permissions, sessions." }
-  ]
-}
-</script>
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"LearningResource","name":"Phase 10 — Test the whole loop","description":"Evaluate the agent end-to-end, not just individual prompts. Prompt eval (Phase 3) checks single LLM calls. Agent eval checks the whole loop: did the agent…","url":"https://www.incontext.sh/learning/genai/phase-10-agent-evals","inLanguage":"en","educationalLevel":"Beginner","learningResourceType":"Tutorial","isAccessibleForFree":true,"teaches":["trajectory eval","behavior testing","regression CI","golden datasets"],"isPartOf":{"@type":"Course","name":"The GenAI Learning Path","url":"https://www.incontext.sh/learning/genai"},"author":{"@type":"Person","name":"Aravind Singirikonda","url":"https://www.incontext.sh/"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"In Context","item":"https://www.incontext.sh/"},{"@type":"ListItem","position":2,"name":"GenAI Learning Path","item":"https://www.incontext.sh/learning/genai"},{"@type":"ListItem","position":3,"name":"Phase 10 — Test the whole loop","item":"https://www.incontext.sh/learning/genai/phase-10-agent-evals"}]}]</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1783,7 +1731,94 @@
 </head>
 <body>
   <script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('genai-path-theme')||'ink')}catch(e){document.documentElement.setAttribute('data-theme','ink')}</script>
-  <div id="root"></div>
+  <div id="root">
+<div class="page ssr-phase">
+<nav class="ssr-crumbs"><a href="/">In Context</a> › <a href="/learning/genai">GenAI Learning Path</a> › <span>Phase 10</span></nav>
+<p class="ssr-kicker">PHASE 10 · AGENT EVAL</p>
+<h1>Test the whole loop</h1>
+<p class="ssr-goal"><strong>Goal:</strong> Evaluate the agent end-to-end, not just individual prompts.</p>
+<section><h2>What this is</h2>
+<p>Prompt eval (Phase 3) checks single LLM calls. <strong>Agent eval</strong> checks the whole loop: did the agent pick the right tool? With the right arguments? Did the multi-step trajectory reach a correct answer? This is harder because you're testing <em>behavior</em>, not just output.</p>
+<p>A typical agent test case has: a task, a starting state, an expected <strong>trajectory</strong> (which tools should be called, with roughly what args), and a final-answer assertion. You evaluate on multiple dimensions: <strong>trajectory correctness</strong>, <strong>hallucination rate</strong>, <strong>refusal rate</strong> (refusing things it shouldn't, or failing to refuse things it should), <strong>cost per task</strong>, and <strong>latency</strong>.</p>
+<p>Tools: Promptfoo now supports agent eval. LangSmith, Arize Phoenix, and Braintrust have richer agent-specific dashboards. Whichever you use, the hardest part is the same as before: writing the test cases. A solid 30-case golden dataset is more valuable than any framework.</p></section>
+<section><h2>The plan</h2><ol>
+<li>Write 10–20 agent test cases: a task + expected trajectory (which tools, what arguments) + final-answer assertion.</li>
+<li>Add behavioral assertions: "must call the SQL tool", "must not hallucinate a price", "must refuse if asked outside scope".</li>
+<li>Track dimensions: trajectory correctness, hallucination rate, refusal rate, $/task, p95 latency.</li>
+<li>Plug it into CI (GitHub Actions): fail the build if pass-rate drops below a threshold (say, 90%).</li>
+<li>Add a nightly run against a larger eval set so you catch slow drift across model updates.</li></ol></section>
+<section><h2>Ask your coding assistant</h2><ul>
+<li>What's the difference between output evaluation and trajectory evaluation?</li>
+<li>Promptfoo agent assertions — show me a config that checks tool calls.</li>
+<li>How does LangSmith evaluate agents end-to-end?</li>
+<li>What pass-rate threshold should I require before shipping an agent change?</li>
+<li>How do I build a 'golden dataset' for agent eval — and how big should it be?</li></ul></section>
+<section><h2>What you'll have when you're done</h2><ul>
+<li>You catch regressions before users do.</li>
+<li>Every prompt or model change has a measurable impact you can show in a PR.</li>
+<li>You can ship agent updates with confidence, not vibes.</li>
+<li>You've started a golden dataset of test cases — the real long-term moat for any LLM app.</li></ul></section>
+<section><h2>Deliverable</h2>
+<p><code>agent_evals/</code> — A regression suite that runs in CI and catches behavior drift across prompt, model, and tool changes.</p>
+<p>Concepts unlocked: trajectory eval · behavior testing · regression CI · golden datasets</p></section>
+<section><h2>Intuition</h2>
+<p>Back in Phase 3 you tested single LLM calls — one question, one answer, is it right? That worked because there was only one thing to check: the answer. But your agent now does much more than answer. It <em>decides</em>. It picks a tool, reads the result, maybe picks another tool, and only then writes its reply. Checking the final text alone misses everything that happened along the way.</p>
+<p>That "everything along the way" has a name. The full record of what the agent did — every tool it called, every result it got back, every decision it made before answering — is called the <strong>trajectory</strong>. It's the word we'll use for the rest of this phase, so let's lock it in now: <em>trajectory = the complete route the agent took from question to answer</em>.</p>
+<p>Here's the cleanest way to feel the difference. Phase 3's eval was like checking that a driver arrived at the right address — you only looked at the destination. <strong>Agent eval is a driving test.</strong> The examiner sits in the car and watches the whole trip: did you check your mirrors, signal before turning, stop at the red light? You can reach the right address while driving terribly — and an agent can produce a right-looking answer while behaving terribly. Phase 3 graded the <em>answer</em>; this phase grades the <em>journey</em>.</p>
+<blockquote><strong>What agent eval is.</strong> Prompt eval (Phase 3) checks a single answer; <strong>agent eval</strong> checks the whole <strong>trajectory</strong> — did the agent call the right tools, in a sensible order, with sane arguments, at acceptable cost? You're testing <em>behavior</em>, which is harder — and worth far more.</blockquote></section>
+<section><h2>What a test case looks like</h2>
+<p>So if we're grading the journey and not just the destination, a test case has to describe the journey we expect. An agent test case is richer than a Phase 3 prompt test. It has a <strong>task</strong> (the question or job), an <strong>expected trajectory</strong> (which tools should be called, roughly with what arguments), and a check on the <strong>final answer</strong>. And instead of one pass/fail, you score several dimensions at once:</p>
+<ul><li><strong>Trajectory correctness</strong> — did it call the right tools, in a sensible order, with <em>sane arguments</em>? Sane compared to what the task actually needs: for "where is order 4412?", <code>order_lookup("4412")</code> is sane; <code>order_lookup("all orders ever")</code> is not — the agent is flailing, asking a precise tool a vague question.</li><li><strong>Hallucination rate</strong> — did it invent facts the tools never returned? If the database said 287 and the answer says 300, that's a hallucination even though a tool <em>was</em> called.</li><li><strong>Refusal rate</strong> — refusing can go wrong in <em>two opposite directions</em>, and this metric watches both. Direction one: refusing something legitimate — a customer asks "how many orders shipped last week?" and the agent says "I can't help with that." Direction two: <em>failing</em> to refuse something it should have — someone asks a read-only support agent to "delete all cancelled orders," and it cheerfully tries. Both count as refusal failures.</li><li><strong>Cost and latency</strong> — dollars and seconds per task. A correct answer that takes 90 seconds and costs $2 still fails the test of real life.</li></ul>
+<blockquote><strong>Task + expected trajectory + answer check.</strong> One agent test case = the <strong>task</strong>, the <strong>trajectory</strong> you expect (tools, order, sane arguments), and a check on the <strong>final answer</strong> — scored alongside hallucination, refusal, cost, and latency.</blockquote></section>
+<section><h2>One test case, end to end</h2>
+<p>Definitions are abstract, so let's walk one real test case all the way through, using Zentara Logistics — the made-up shipping company we've followed since Phase 2. Zentara's support agent has two tools: the <strong>text-to-SQL tool</strong> from Phase 5 (it turns a plain-English question into a database query) and a web search tool. Here's the test case:</p>
+<p>Now the eval runner gives the agent that task and records everything it does. On a good run, the recorded trajectory looks like this:</p>
+<pre><code>TASK      "How many orders shipped from the Rotterdam warehouse last week?"
+TOOL CALL text_to_sql("orders shipped from Rotterdam, June 22-28")   &lt;- right tool, sane args
+RESULT    287
+ANSWER    "287 orders shipped from the Rotterdam warehouse last week."
+COST      $0.021        TIME 4.2s
+
+CHECKS    right tool? yes   forbidden tool avoided? yes
+          answer matches tool result (287 = 287)? yes
+          under budget? yes                              -&gt; PASS</code></pre>
+<p>And here's a failing run — the kind that slips right past a Phase 3 style answer-only check:</p>
+<pre><code>TASK      "How many orders shipped from the Rotterdam warehouse last week?"
+TOOL CALL (none)
+ANSWER    "Around 300 orders shipped from Rotterdam last week."
+COST      $0.008        TIME 1.9s
+
+CHECKS    right tool? NO - it never touched the database
+          answer matches tool result? nothing to match against
+                                                          -&gt; FAIL</code></pre>
+<p>Notice: the bad run is <em>cheaper and faster</em>, and "around 300" sounds perfectly plausible. Only the trajectory check — <em>it never called the SQL tool</em> — reveals that the agent made the number up. That's the entire case for grading the journey.</p>
+<blockquote><strong>Plausible is the enemy.</strong> Agents rarely fail loudly. They fail by producing confident, plausible answers via a broken trajectory. If you only read the answers, you will believe your agent works long after it has stopped working.</blockquote></section>
+<section><h2>Put it in CI</h2>
+<p>A suite you run by hand is a suite you'll forget to run. The fix is <strong>CI</strong> — "continuous integration," which sounds grand but is just this: <em>a robot that re-runs all your checks automatically, every single time the code changes</em>. You (well, your coding assistant) change a prompt, swap a model, tweak a tool — the robot notices, runs every test case in your suite, and reports the score.</p>
+<p>When people say "the build <strong>fails</strong>," here's what that means in practice — and what it doesn't. It does <em>not</em> mean your running app breaks or users see errors. It means the robot <strong>blocks the new change from going in</strong> until the failing checks are fixed. The version people are already using keeps running untouched. GitHub Actions — a free CI robot built into GitHub, the site where your code lives — is the common choice. Wire your agent evals into it so the change is blocked if the pass-rate drops below a threshold, say 90%. Now a prompt tweak, a model swap, or a tool change can't quietly break behavior.</p>
+<blockquote><strong>The dataset matters more than the tool.</strong> Promptfoo, LangSmith, Phoenix, and Braintrust all run agent evals. But the hardest, most valuable part is the same as Phase 3: writing the cases. A solid 30-case <strong>golden dataset</strong> — your hand-checked set of tasks with known-good trajectories — beats any fancy framework with three lazy tests.</blockquote></section>
+<section><h2>Build the suite</h2>
+<p>Time to build it for real: a behavior test suite for your agent, gated in CI — your <strong>regression net</strong> (regression — when something that used to work quietly breaks) for everything that comes after. One metric in the list below deserves a quick gloss before you paste: <strong>p95 latency</strong>, which you met in Phase 6, is the waiting time your slowest runs experience — 95% of runs finish faster than this number, 5% slower. Averages hide your worst moments; p95 shows them.</p>
+<p>Read what it builds — each case describes the <em>behavior</em> you expect, not just the words. This is the Rotterdam walkthrough from earlier, written down as a real test case:</p>
+<pre><code># one agent test case — checks the whole trajectory, not just the final text
+{
+  "task": "How many orders shipped last week?",
+  "expect_tools": ["text_to_sql"],     # must use the SQL tool from Phase 5
+  "forbid_tools": ["web_search"],      # must NOT go to the web for internal data
+  "answer_assert": "contains the number the tool returned",
+  "must_not": "invent a number the database never returned",
+}
+
+# scored across the whole suite:
+#   trajectory correctness · hallucination rate · refusal rate
+#   $/task · p95 latency (the time your slowest 5% of runs take — Phase 6)</code></pre>
+<blockquote><strong>Deliverable — agent_evals/.</strong> A regression suite that runs in CI and catches behavior drift across prompt, model, and tool changes. From here on, you can change things without crossing your fingers.</blockquote></section>
+<nav class="ssr-pager">
+<a rel="prev" href="/learning/genai/phase-9-mcp">← Phase 9: Standardize your tools</a>
+<a href="/learning/genai">All 12 phases</a>
+<a rel="next" href="/learning/genai/phase-11-multi-agent">Phase 11: From one agent to a team →</a>
+</nav>
+</div></div>
   <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>

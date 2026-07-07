@@ -3,82 +3,30 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The GenAI Learning Path — A Beginner's Build-As-You-Learn Roadmap | In Context</title>
-<meta name="description" content="A free, beginner-first GenAI learning path. 12 phases — API basics, RAG, evals, agents, text-to-SQL, observability, guardrails, memory, MCP, agent eval, multi-agent, harnesses — each shipping a working artifact the next phase extends." />
+<title>Phase 8 — Agents that remember | GenAI Learning Path | In Context</title>
+<meta name="description" content="Move from stateless chat to persistent, personalized interactions. An LLM call is stateless — the model forgets everything between requests. Memory is the…" />
 <meta name="keywords" content="GenAI learning path, learn generative AI, AI agents tutorial, RAG tutorial, LLM beginner, MCP, prompt engineering, agent evaluation, Anthropic Claude, build AI agents" />
 <meta name="author" content="Aravind Singirikonda" />
 <meta name="robots" content="index,follow,max-image-preview:large" />
-<link rel="canonical" href="https://www.incontext.sh/learning/genai" />
+<link rel="canonical" href="https://www.incontext.sh/learning/genai/phase-8-agent-memory" />
 
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="In Context" />
-<meta property="og:title" content="The GenAI Learning Path — A Beginner's Build-As-You-Learn Roadmap" />
-<meta property="og:description" content="12 phases, one growing codebase. From your first LLM API call to a multi-agent system with memory, tools, guardrails, evals, and text-to-SQL. Free, no signup." />
-<meta property="og:url" content="https://www.incontext.sh/learning/genai" />
+<meta property="og:title" content="Phase 8 — Agents that remember | GenAI Learning Path" />
+<meta property="og:description" content="Move from stateless chat to persistent, personalized interactions. An LLM call is stateless — the model forgets everything between requests. Memory is the…" />
+<meta property="og:url" content="https://www.incontext.sh/learning/genai/phase-8-agent-memory" />
 <meta property="og:locale" content="en_US" />
-<meta property="og:image" content="https://www.incontext.sh/learning/genai/og/learning-path.png" />
+<meta property="og:image" content="https://www.incontext.sh/learning/genai/og/phase-8-agent-memory.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="The GenAI Learning Path" />
-<meta name="twitter:description" content="12 phases, build-as-you-learn. API calls → RAG → evals → agents → text-to-SQL → multi-agent. Free, beginner-first." />
+<meta name="twitter:title" content="Phase 8 — Agents that remember | GenAI Learning Path" />
+<meta name="twitter:description" content="Move from stateless chat to persistent, personalized interactions. An LLM call is stateless — the model forgets everything between requests. Memory is the…" />
 <meta name="twitter:creator" content="@aravs16" />
-<meta name="twitter:image" content="https://www.incontext.sh/learning/genai/og/learning-path.png" />
+<meta name="twitter:image" content="https://www.incontext.sh/learning/genai/og/phase-8-agent-memory.png" />
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Course",
-  "name": "The GenAI Learning Path",
-  "description": "A practical, beginner-first build-as-you-learn roadmap for Generative AI. Twelve phases growing one running codebase from a single LLM API call into a multi-agent system with memory, tools, guardrails, evals, and text-to-SQL.",
-  "url": "https://www.incontext.sh/learning/genai",
-  "inLanguage": "en",
-  "educationalLevel": "Beginner",
-  "learningResourceType": "Tutorial",
-  "isAccessibleForFree": true,
-  "audience": {
-    "@type": "EducationalAudience",
-    "educationalRole": "self-learner"
-  },
-  "provider": {
-    "@type": "Person",
-    "name": "Aravind Singirikonda",
-    "url": "https://www.incontext.sh"
-  },
-  "author": {
-    "@type": "Person",
-    "name": "Aravind Singirikonda",
-    "url": "https://www.incontext.sh"
-  },
-  "hasCourseInstance": {
-    "@type": "CourseInstance",
-    "courseMode": "online",
-    "courseWorkload": "PT40H"
-  },
-  "teaches": [
-    "LLM API basics", "Retrieval-Augmented Generation (RAG)", "Prompt and RAG evaluation with Promptfoo",
-    "Tool use and the agent loop", "Text-to-SQL with schema injection and validation",
-    "LLM observability and tracing", "Guardrails for LLM apps",
-    "Short-term and long-term memory for agents", "Model Context Protocol (MCP)",
-    "Agent-level evaluation", "Multi-agent orchestration", "Agent harness design"
-  ],
-  "syllabusSections": [
-    { "@type": "Syllabus", "name": "Phase 1 — Talk to an LLM",            "description": "Make your first API call. Get a feel for system prompts, temperature, and how the same prompt behaves across different models." },
-    { "@type": "Syllabus", "name": "Phase 2 — Give the LLM your data",    "description": "Build a RAG pipeline over your own documents with FAISS. Experiment with fixed-size, recursive, and semantic chunking." },
-    { "@type": "Syllabus", "name": "Phase 3 — Stop guessing if it works", "description": "Use Promptfoo to write a real eval suite. Compare models, prompts, and chunking strategies with data, not vibes." },
-    { "@type": "Syllabus", "name": "Phase 4 — Let the LLM use tools",     "description": "Build a single agent. Wrap RAG, web search, and a calculator as tools. Feel the agent loop." },
-    { "@type": "Syllabus", "name": "Phase 5 — Talk to your database",     "description": "Text-to-SQL: schema-aware prompting, generated query validation, a one-shot repair loop, and read-only safety." },
-    { "@type": "Syllabus", "name": "Phase 6 — See what's happening",      "description": "Instrument every LLM and tool call with Langfuse or Phoenix. Cut cost and latency with caching and model routing." },
-    { "@type": "Syllabus", "name": "Phase 7 — Keep the agent in its lane","description": "Add input guards, output validation, PII redaction, and an LLM-as-judge groundedness check." },
-    { "@type": "Syllabus", "name": "Phase 8 — Agents that remember",      "description": "Short-term and long-term memory. User facts, conversation summaries, identity loaded at session start." },
-    { "@type": "Syllabus", "name": "Phase 9 — Standardize your tools",    "description": "Convert a tool into an MCP server. Plug community MCP servers (filesystem, GitHub) into your agent." },
-    { "@type": "Syllabus", "name": "Phase 10 — Test the whole loop",      "description": "Agent-level evaluation: trajectory correctness, hallucination rate, refusal rate, cost per task — in CI." },
-    { "@type": "Syllabus", "name": "Phase 11 — From one agent to a team", "description": "Multi-agent with LangGraph or Strands. The six agentic patterns and when each one helps versus hurts." },
-    { "@type": "Syllabus", "name": "Phase 12 — The runtime around the model", "description": "Compare your hand-rolled agent loop to a real harness. Tool dispatch, retries, hooks, permissions, sessions." }
-  ]
-}
-</script>
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"LearningResource","name":"Phase 8 — Agents that remember","description":"Move from stateless chat to persistent, personalized interactions. An LLM call is stateless — the model forgets everything between requests. Memory is the…","url":"https://www.incontext.sh/learning/genai/phase-8-agent-memory","inLanguage":"en","educationalLevel":"Beginner","learningResourceType":"Tutorial","isAccessibleForFree":true,"teaches":["memory tiers","compaction","user modeling","identity"],"isPartOf":{"@type":"Course","name":"The GenAI Learning Path","url":"https://www.incontext.sh/learning/genai"},"author":{"@type":"Person","name":"Aravind Singirikonda","url":"https://www.incontext.sh/"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"In Context","item":"https://www.incontext.sh/"},{"@type":"ListItem","position":2,"name":"GenAI Learning Path","item":"https://www.incontext.sh/learning/genai"},{"@type":"ListItem","position":3,"name":"Phase 8 — Agents that remember","item":"https://www.incontext.sh/learning/genai/phase-8-agent-memory"}]}]</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1783,7 +1731,119 @@
 </head>
 <body>
   <script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('genai-path-theme')||'ink')}catch(e){document.documentElement.setAttribute('data-theme','ink')}</script>
-  <div id="root"></div>
+  <div id="root">
+<div class="page ssr-phase">
+<nav class="ssr-crumbs"><a href="/">In Context</a> › <a href="/learning/genai">GenAI Learning Path</a> › <span>Phase 08</span></nav>
+<p class="ssr-kicker">PHASE 08 · MEMORY</p>
+<h1>Agents that remember</h1>
+<p class="ssr-goal"><strong>Goal:</strong> Move from stateless chat to persistent, personalized interactions.</p>
+<section><h2>What this is</h2>
+<p>An LLM call is stateless — the model forgets everything between requests. <strong>Memory</strong> is the system you build around the model to make it feel persistent.</p>
+<p>There are two tiers. <strong>Short-term memory</strong> is the conversation history within a single session: you store messages in a list, pass the last N turns into each new prompt. <strong>Long-term memory</strong> is facts about the user that survive across sessions: their name, preferences, past projects, recurring topics. Stored in SQLite or a vector DB keyed by user_id, loaded into the system prompt at session start.</p>
+<p>The third concept is <strong>identity</strong>: the user profile + persistent system prompt that makes "this agent" feel like <em>this</em> agent. And as conversations grow long, you'll need <strong>compaction</strong>: replace old turns with a summary so you don't blow the context window.</p></section>
+<section><h2>The plan</h2><ol>
+<li>Short-term: store messages in-memory keyed by <code>session_id</code>. Pass the last N turns into each new prompt.</li>
+<li>Long-term: at session end, call an LLM to extract durable facts ("user lives in Atlanta", "works on agentic AI at AWS"). Store them in SQLite, tagged by <code>user_id</code> and timestamp.</li>
+<li>On new session start: load the user's facts + a summary of their most recent session into the system prompt. The agent now picks up where it left off.</li>
+<li>Add a vector store over old conversation summaries — when a question relates to past topics, retrieve and inject them (long-term recall, not just last session).</li>
+<li>Handle context limits with compaction: when a session exceeds N tokens, summarize the oldest M turns and replace them with the summary.</li></ol></section>
+<section><h2>Ask your coding assistant</h2><ul>
+<li>How does ChatGPT 'remember' me between sessions? What's actually stored?</li>
+<li>Compare Mem0, Letta (formerly MemGPT), and LangChain's memory modules — what's the right tool for me?</li>
+<li>What is context-window management and why does it matter?</li>
+<li>Strategies for conversation summarization without losing key facts.</li>
+<li>How do I extract user facts from a conversation reliably?</li></ul></section>
+<section><h2>What you'll have when you're done</h2><ul>
+<li>Your agent remembers you across sessions and references past chats.</li>
+<li>Long conversations don't blow up the context window.</li>
+<li>You can build a personalized assistant, not a stateless chatbot.</li>
+<li>You understand the recall vs. cost tradeoff — more memory = bigger, slower, costlier prompts.</li></ul></section>
+<section><h2>Deliverable</h2>
+<p><code>memory.py</code> — The agent remembers across sessions, summarizes long chats, and personalizes replies.</p>
+<p>Concepts unlocked: memory tiers · compaction · user modeling · identity</p></section>
+<section><h2>Intuition</h2>
+<p>Back in Phase 1 you learned the most jarring fact in this course: the model remembers <strong>nothing</strong> between calls. Every single API call starts from a blank slate, and the "conversation" is an illusion your code creates by re-sending the whole transcript every time. So how does a chatbot greet you by name, or pick up a project you mentioned last week? It doesn't. <em>You</em> build the memory around it, and feed the right bits back in each time.</p>
+<p>Here's the analogy that carries this whole phase. Imagine a brilliant assistant with total amnesia — sharp as anyone while you're talking, but the moment a conversation ends, it's gone. Their fix: a <strong>notebook</strong>. Before every reply, they re-read their notes. After every conversation, they jot down what mattered. Ask them next week and they answer instantly — not because they remember, but because they <em>read it back to themselves</em> a second ago. That notebook is what "memory" means for an agent: text it saves, then re-loads into the prompt.</p>
+<p>One word to pin down before the example: a <strong>session</strong> is one continuous conversation — from the moment you open the chat to the moment you close it. Within a session, your code holds the growing message list. Between sessions, only what got written to the notebook survives.</p>
+<blockquote><strong>What memory really is.</strong> The model is <strong>stateless</strong> — nothing carries over between calls. "Memory" is the notebook system <em>you</em> build around it: well-chosen text, saved after conversations and loaded back into the prompt. The skill of this phase is choosing what to write down and what to read back.</blockquote></section>
+<section><h2>Two tiers</h2>
+<p>So the agent keeps a notebook. That notebook has two distinct parts — the page it's writing on <em>right now</em>, and the saved notes in the back. In agent terms, memory comes in <strong>two tiers</strong>:</p>
+<ul><li><strong>Short-term</strong> — the conversation <em>within</em> one session. This is just Phase 1's growing message list: you keep the messages and pass the last few turns into each new prompt. That's how the agent follows the thread of <em>this</em> chat. Nothing new to build — you've had this since Phase 1.</li><li><strong>Long-term</strong> — everything that should survive <em>across</em> sessions. Two kinds of notes live here. <strong>Saved facts</strong>: short, durable truths about the user — for Zentara's customer Maya, things like <em>"prefers email over phone"</em> and <em>"manages the Atlanta warehouse."</em> And <strong>session summaries</strong>: a few-sentence recap written at the end of each conversation — <em>"last week we set up their refund workflow."</em> Both get saved (a small database works fine — or the vector database from Phase 2, if you want to search memories by meaning) and loaded into the system prompt when a new session starts.</li></ul>
+<p>Why both kinds? They answer different questions. A saved fact answers <em>"who is this person?"</em> — true today, true next month. A session summary answers <em>"what were we doing?"</em> — the story so far, one chapter per conversation. An agent that loads only facts knows Maya but forgets the project; one that loads only summaries knows the project but keeps asking how she'd like to be contacted.</p>
+<p>"Loaded into the system prompt" is a bit abstract — here's what it literally means. This is the actual text sent to the model, assembled from both tiers, before Maya's new question is even added:</p>
+<pre><code>You are Zentara Logistics' support agent, talking to Maya.
+
+Known facts (long-term):
+- Prefers email over phone
+- Manages the Atlanta warehouse
+
+Last session summary (long-term):
+- Set up her refund workflow: refunds under $50
+  auto-approve, larger ones go to a human.
+  She wants to add email notifications next.
+
+Recent messages (short-term, this session):
+- user: "can we pick up where we left off?"
+- assistant: "Sure — ready to add those email
+  notifications to the refund workflow?"</code></pre>
+<p>That's the whole trick, in full: just <strong>text, assembled from the notebook, pasted in front of the conversation.</strong> Nothing about the model changed — it's still the amnesiac from Phase 1. You just handed it the right reminders before it started predicting.</p>
+<blockquote><strong>The whole trick behind "it remembers me".</strong> At the start of a new session, load the user's saved facts and a short summary of last time into the system prompt. The agent picks up right where it left off — without remembering a thing.</blockquote></section>
+<section><h2>When chats get long</h2>
+<p>Short-term memory has a catch. Remember from Phase 1 that the whole transcript is re-sent on <em>every</em> call — and the model can only read so much at once. That limit is its <strong>context window</strong>: the maximum amount of text one call can hold. A busy support chat can run to hundreds of turns; eventually the transcript simply won't fit. And even before it stops fitting, it hurts — every extra turn is re-sent (and paid for) on every single call.</p>
+<p>The fix is <strong>compaction</strong>. Think of the notebook again: when the page fills up, you don't copy every old line onto a fresh page — you write one condensed note at the top ("so far we've…") and keep going. Compaction does exactly that to a chat: <strong>summarize the oldest turns into a few sentences, replace them with that summary, and keep the recent turns word-for-word.</strong> You trade exact wording for room.</p>
+<p>Watch it happen — messages fill the window, and the oldest ones squeeze into a single summary card:</p>
+<h3>Before and after — what compaction actually does</h3>
+<p>Here's a real Zentara support session, six messages in and pushing the limit:</p>
+<pre><code>1  user:      "A customer on order #4127 wants a refund —
+              the item arrived damaged."
+2  assistant: "Got it. Order #4127 is $38, under the $50
+              auto-approve limit. Refund issued."
+3  user:      "She asked if we can send a replacement
+              instead next time."
+4  assistant: "Noted — I've marked replacement-first as
+              her preference."
+5  user:      "New topic: what's our policy on late
+              international shipments?"
+6  assistant: "Zentara refunds shipping fees on international
+              orders that arrive more than 10 days late."</code></pre>
+<p>Compaction asks the model to summarize the oldest four messages, then swaps them out. This is what the list looks like afterwards:</p>
+<pre><code>★  [summary of msgs 1–4]:
+   "Issued a $38 auto-approved refund for damaged
+   order #4127. Customer prefers a replacement over
+   a refund in future cases."
+
+5  user:      "New topic: what's our policy on late
+              international shipments?"
+6  assistant: "Zentara refunds shipping fees on international
+              orders that arrive more than 10 days late."</code></pre>
+<p>Look at what survived and what didn't. The <em>facts</em> made it: the order number, the $38, the replacement preference — if message 7 asks "what did we refund on #4127?", the agent can still answer. The <em>exact wording</em> is gone. And the two most recent turns stayed untouched, word-for-word, because the current thread is where precision matters most.</p>
+<blockquote><strong>Compaction is lossy.</strong> Whatever the summary drops, the agent has <em>truly</em> forgotten — there's no original to go back to inside the chat. That's why compaction targets the <strong>oldest</strong> turns and keeps recent ones verbatim: the further back a detail is, the less likely you need its exact wording.</blockquote>
+<p>And here's the neat part: long-term memory is built with the very same move. At the end of a session, you ask the model to write the session summary (compaction's trick, applied to the whole chat) and to pull out durable facts ("prefers email over phone") to save. One habit, two payoffs: <strong>summarize to remember; extract to personalize.</strong></p>
+<blockquote><strong>Compaction in one line.</strong> <strong>Compaction</strong> = replace the oldest turns of a long chat with a short model-written summary, so the conversation keeps fitting in the context window. The gist stays; the space comes back.</blockquote></section>
+<section><h2>Build memory</h2>
+<p>Time to give your agent its notebook: short-term within a session, long-term across sessions, and compaction for chats that run long.</p>
+<p>Read what it builds — the notebook routine in code: memory loaded into the prompt at the start of a session, written back at the end:</p>
+<pre><code># memory.py — make a stateless model feel persistent
+def build_prompt(user_id, session_id, question):
+    facts  = load_facts(user_id)            # long-term: saved facts
+    summary = last_summary(user_id)         # long-term: last session's recap
+    recent = last_turns(session_id, n=8)    # short-term: this session
+    system = f"You are talking to {facts}. Last time: {summary}"
+    if too_long(recent):
+        recent = compact(recent)            # summarize oldest turns to fit
+    return system, recent + [{"role": "user", "content": question}]
+
+def end_session(user_id, session_id):
+    facts = extract_facts(history(session_id))   # ask the model what to remember
+    save_facts(user_id, facts)
+    save_summary(user_id, summarize(history(session_id)))</code></pre>
+<blockquote><strong>Deliverable — memory.py.</strong> The agent remembers across sessions, compacts long chats so they fit, and personalizes its replies — built entirely from saving and re-loading text around a model that still remembers nothing.</blockquote></section>
+<nav class="ssr-pager">
+<a rel="prev" href="/learning/genai/phase-7-guardrails">← Phase 7: Keep the agent in its lane</a>
+<a href="/learning/genai">All 12 phases</a>
+<a rel="next" href="/learning/genai/phase-9-mcp">Phase 9: Standardize your tools →</a>
+</nav>
+</div></div>
   <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>

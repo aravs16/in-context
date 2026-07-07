@@ -3,82 +3,30 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The GenAI Learning Path — A Beginner's Build-As-You-Learn Roadmap | In Context</title>
-<meta name="description" content="A free, beginner-first GenAI learning path. 12 phases — API basics, RAG, evals, agents, text-to-SQL, observability, guardrails, memory, MCP, agent eval, multi-agent, harnesses — each shipping a working artifact the next phase extends." />
+<title>Phase 12 — The runtime around the model | GenAI Learning Path | In Context</title>
+<meta name="description" content="Understand what production agent frameworks actually do for you. The agent harness is everything around the model — tool dispatch, retry/backoff, context…" />
 <meta name="keywords" content="GenAI learning path, learn generative AI, AI agents tutorial, RAG tutorial, LLM beginner, MCP, prompt engineering, agent evaluation, Anthropic Claude, build AI agents" />
 <meta name="author" content="Aravind Singirikonda" />
 <meta name="robots" content="index,follow,max-image-preview:large" />
-<link rel="canonical" href="https://www.incontext.sh/learning/genai" />
+<link rel="canonical" href="https://www.incontext.sh/learning/genai/phase-12-agent-harness" />
 
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="In Context" />
-<meta property="og:title" content="The GenAI Learning Path — A Beginner's Build-As-You-Learn Roadmap" />
-<meta property="og:description" content="12 phases, one growing codebase. From your first LLM API call to a multi-agent system with memory, tools, guardrails, evals, and text-to-SQL. Free, no signup." />
-<meta property="og:url" content="https://www.incontext.sh/learning/genai" />
+<meta property="og:title" content="Phase 12 — The runtime around the model | GenAI Learning Path" />
+<meta property="og:description" content="Understand what production agent frameworks actually do for you. The agent harness is everything around the model — tool dispatch, retry/backoff, context…" />
+<meta property="og:url" content="https://www.incontext.sh/learning/genai/phase-12-agent-harness" />
 <meta property="og:locale" content="en_US" />
-<meta property="og:image" content="https://www.incontext.sh/learning/genai/og/learning-path.png" />
+<meta property="og:image" content="https://www.incontext.sh/learning/genai/og/phase-12-agent-harness.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="The GenAI Learning Path" />
-<meta name="twitter:description" content="12 phases, build-as-you-learn. API calls → RAG → evals → agents → text-to-SQL → multi-agent. Free, beginner-first." />
+<meta name="twitter:title" content="Phase 12 — The runtime around the model | GenAI Learning Path" />
+<meta name="twitter:description" content="Understand what production agent frameworks actually do for you. The agent harness is everything around the model — tool dispatch, retry/backoff, context…" />
 <meta name="twitter:creator" content="@aravs16" />
-<meta name="twitter:image" content="https://www.incontext.sh/learning/genai/og/learning-path.png" />
+<meta name="twitter:image" content="https://www.incontext.sh/learning/genai/og/phase-12-agent-harness.png" />
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Course",
-  "name": "The GenAI Learning Path",
-  "description": "A practical, beginner-first build-as-you-learn roadmap for Generative AI. Twelve phases growing one running codebase from a single LLM API call into a multi-agent system with memory, tools, guardrails, evals, and text-to-SQL.",
-  "url": "https://www.incontext.sh/learning/genai",
-  "inLanguage": "en",
-  "educationalLevel": "Beginner",
-  "learningResourceType": "Tutorial",
-  "isAccessibleForFree": true,
-  "audience": {
-    "@type": "EducationalAudience",
-    "educationalRole": "self-learner"
-  },
-  "provider": {
-    "@type": "Person",
-    "name": "Aravind Singirikonda",
-    "url": "https://www.incontext.sh"
-  },
-  "author": {
-    "@type": "Person",
-    "name": "Aravind Singirikonda",
-    "url": "https://www.incontext.sh"
-  },
-  "hasCourseInstance": {
-    "@type": "CourseInstance",
-    "courseMode": "online",
-    "courseWorkload": "PT40H"
-  },
-  "teaches": [
-    "LLM API basics", "Retrieval-Augmented Generation (RAG)", "Prompt and RAG evaluation with Promptfoo",
-    "Tool use and the agent loop", "Text-to-SQL with schema injection and validation",
-    "LLM observability and tracing", "Guardrails for LLM apps",
-    "Short-term and long-term memory for agents", "Model Context Protocol (MCP)",
-    "Agent-level evaluation", "Multi-agent orchestration", "Agent harness design"
-  ],
-  "syllabusSections": [
-    { "@type": "Syllabus", "name": "Phase 1 — Talk to an LLM",            "description": "Make your first API call. Get a feel for system prompts, temperature, and how the same prompt behaves across different models." },
-    { "@type": "Syllabus", "name": "Phase 2 — Give the LLM your data",    "description": "Build a RAG pipeline over your own documents with FAISS. Experiment with fixed-size, recursive, and semantic chunking." },
-    { "@type": "Syllabus", "name": "Phase 3 — Stop guessing if it works", "description": "Use Promptfoo to write a real eval suite. Compare models, prompts, and chunking strategies with data, not vibes." },
-    { "@type": "Syllabus", "name": "Phase 4 — Let the LLM use tools",     "description": "Build a single agent. Wrap RAG, web search, and a calculator as tools. Feel the agent loop." },
-    { "@type": "Syllabus", "name": "Phase 5 — Talk to your database",     "description": "Text-to-SQL: schema-aware prompting, generated query validation, a one-shot repair loop, and read-only safety." },
-    { "@type": "Syllabus", "name": "Phase 6 — See what's happening",      "description": "Instrument every LLM and tool call with Langfuse or Phoenix. Cut cost and latency with caching and model routing." },
-    { "@type": "Syllabus", "name": "Phase 7 — Keep the agent in its lane","description": "Add input guards, output validation, PII redaction, and an LLM-as-judge groundedness check." },
-    { "@type": "Syllabus", "name": "Phase 8 — Agents that remember",      "description": "Short-term and long-term memory. User facts, conversation summaries, identity loaded at session start." },
-    { "@type": "Syllabus", "name": "Phase 9 — Standardize your tools",    "description": "Convert a tool into an MCP server. Plug community MCP servers (filesystem, GitHub) into your agent." },
-    { "@type": "Syllabus", "name": "Phase 10 — Test the whole loop",      "description": "Agent-level evaluation: trajectory correctness, hallucination rate, refusal rate, cost per task — in CI." },
-    { "@type": "Syllabus", "name": "Phase 11 — From one agent to a team", "description": "Multi-agent with LangGraph or Strands. The six agentic patterns and when each one helps versus hurts." },
-    { "@type": "Syllabus", "name": "Phase 12 — The runtime around the model", "description": "Compare your hand-rolled agent loop to a real harness. Tool dispatch, retries, hooks, permissions, sessions." }
-  ]
-}
-</script>
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"LearningResource","name":"Phase 12 — The runtime around the model","description":"Understand what production agent frameworks actually do for you. The agent harness is everything around the model — tool dispatch, retry/backoff, context…","url":"https://www.incontext.sh/learning/genai/phase-12-agent-harness","inLanguage":"en","educationalLevel":"Beginner","learningResourceType":"Tutorial","isAccessibleForFree":true,"teaches":["the model vs. the system around it","production complexity","build vs. buy"],"isPartOf":{"@type":"Course","name":"The GenAI Learning Path","url":"https://www.incontext.sh/learning/genai"},"author":{"@type":"Person","name":"Aravind Singirikonda","url":"https://www.incontext.sh/"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"In Context","item":"https://www.incontext.sh/"},{"@type":"ListItem","position":2,"name":"GenAI Learning Path","item":"https://www.incontext.sh/learning/genai"},{"@type":"ListItem","position":3,"name":"Phase 12 — The runtime around the model","item":"https://www.incontext.sh/learning/genai/phase-12-agent-harness"}]}]</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1783,7 +1731,85 @@
 </head>
 <body>
   <script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('genai-path-theme')||'ink')}catch(e){document.documentElement.setAttribute('data-theme','ink')}</script>
-  <div id="root"></div>
+  <div id="root">
+<div class="page ssr-phase">
+<nav class="ssr-crumbs"><a href="/">In Context</a> › <a href="/learning/genai">GenAI Learning Path</a> › <span>Phase 12</span></nav>
+<p class="ssr-kicker">PHASE 12 · HARNESS</p>
+<h1>The runtime around the model</h1>
+<p class="ssr-goal"><strong>Goal:</strong> Understand what production agent frameworks actually do for you.</p>
+<section><h2>What this is</h2>
+<p>The <strong>agent harness</strong> is everything around the model — tool dispatch, retry/backoff, context management, streaming output, interrupt handling, permission prompts, session persistence, pre/post-tool hooks. Frameworks like LangGraph, Strands, and Claude Code <em>are</em> harnesses.</p>
+<p>Understanding what a harness provides (and what you've been doing manually) is the difference between "I wrote an agent" and "I have a production agent system." Most of the engineering complexity in agentic apps lives in the harness, not the model.</p>
+<p>The final exercise: compare your hand-rolled agent loop side-by-side with a real harness like Claude Code or LangGraph. What did they reinvent? What's worth borrowing? What did you do better because you understood the underlying problem?</p></section>
+<section><h2>The plan</h2><ol>
+<li>Make a feature comparison matrix: tool dispatch, retries, streaming, hooks, permissions, session persistence, observability. Fill in: your hand-rolled loop, LangGraph, Strands, Claude Code.</li>
+<li>Pick one feature your loop is missing (most commonly: streaming, or pre/post-tool hooks). Add it.</li>
+<li>Optional: build a minimal harness — agent loop with pluggable hooks (<code>before_tool</code>, <code>after_tool</code>, <code>on_error</code>), a permission system, and session state.</li>
+<li>Write a short doc: when to use a heavy framework vs. when to build your own. What does Claude Code's harness give you that you'd otherwise reinvent?</li></ol></section>
+<section><h2>Ask your coding assistant</h2><ul>
+<li>What does an agent 'harness' actually do? Make me a checklist.</li>
+<li>Claude Code architecture deep-dives — what's in the harness?</li>
+<li>LangGraph internals — how does its state management work?</li>
+<li>What permission models are used in agentic systems? (allow-all, prompt-per-action, scoped, etc.)</li>
+<li>When should you build your own harness vs. adopt a framework?</li></ul></section>
+<section><h2>What you'll have when you're done</h2><ul>
+<li>You understand the production complexity that lives <em>outside</em> the model.</li>
+<li>You can evaluate any new agent framework in 30 minutes — you know what to look for.</li>
+<li>You can decide build-vs-buy on agent infra with clarity.</li>
+<li>You see Claude Code (and similar tools) as a harness running a model — demystified.</li></ul></section>
+<section><h2>Deliverable</h2>
+<p><code>harness.md</code> — A feature comparison + writeup of harnesses you've used, plus one feature added to your own loop.</p>
+<p>Concepts unlocked: the model vs. the system around it · production complexity · build vs. buy</p></section>
+<section><h2>Intuition</h2>
+<p>Back in Phase 4, we called the code that carries messages and runs tools "the harness," and the heart of it "the loop." Now look at everything else you've built since: retries when a call fails, capping the loop, trimming context, saving memory, wrapping guardrails, tracing every call. Notice that <em>almost none of that is the model</em> — it's all machinery <strong>around</strong> the model.</p>
+<p>One thing to get straight before we widen the lens: <strong>the loop didn't get renamed.</strong> Your Phase 4 loop is still there, still doing exactly the same job — carry the question in, run the tools, carry the answer out. It's just <em>one component</em> inside a bigger harness. The word didn't change; the picture got wider: loop + streaming + permissions + session state + everything else in this phase.</p>
+<p>Three of those words are new, so here they are in plain terms before you meet them in a table. <strong>Streaming</strong> — the answer appears word by word as the model writes it, instead of all at once at the end (you've watched ChatGPT do this every time you've used it). <strong>Permissions</strong> — the harness stops and asks <em>you</em> before running a risky tool, like sending an email or deleting a file. <strong>Session persistence</strong> — close your laptop mid-conversation, come back tomorrow, and the conversation is still there. That last one should sound familiar: it's your Phase 8 memory work — saving and re-loading session state — wearing its production name.</p>
+<p>Here's the capstone realization: look at that right-hand column again — <strong>you have already built most of it.</strong> The loop is your Phase 4 <code>agent.py</code>. Context management is your Phase 8 compaction. Session persistence is your Phase 8 <code>memory.py</code>. Observability — recording what every call did and cost — is your Phase 6 tracing. And your Phase 7 guardrails? They attach to the harness through hooks, which you'll meet in a moment. The harness isn't a new thing to learn. It's the building this whole course has been constructing, one room at a time.</p>
+<p>Frameworks like LangGraph, Strands, and even Claude Code itself are harnesses — someone else's version of that same building. Understanding what a harness does is the difference between "I wrote an agent loop" and "I have a production agent system."</p>
+<blockquote><strong>What a harness is.</strong> The <strong>harness</strong> is everything around the model: the loop (tool dispatch), retries, context management, streaming, permissions, session state, hooks. The Phase 4 loop is one component of it — the one at the center. Most of the engineering complexity in agentic apps lives in the harness, not the model.</blockquote></section>
+<section><h2>What a harness does</h2>
+<p>In the intuition we listed seven jobs a harness handles. Here they are one by one — with a tag showing where in this course you already did each one by hand:</p>
+<ul><li><strong>Tool dispatch</strong> — routing tool calls to your real functions and feeding results back. This <em>is</em> your Phase 4 loop.</li><li><strong>Retries &amp; backoff</strong> — network calls fail; a harness retries them (waiting a bit longer each time — that's the "backoff") so your agent doesn't crash.</li><li><strong>Context management</strong> — trimming and compacting so you never blow the window. Your Phase 8 compaction work.</li><li><strong>Streaming</strong> — showing the answer word by word as it's generated, instead of a long silence and then a wall of text.</li><li><strong>Hooks</strong> — run <em>your</em> code before or after each tool call, or when something errors. This is exactly where your Phase 7 guardrails attach: an input check as a before-hook, a PII redactor as an after-hook.</li><li><strong>Permissions</strong> — pause and ask the human before a risky tool runs. Remember Phase 4's warning that the model can't tell arithmetic from sending a real email? Permissions are the harness acting on that warning.</li><li><strong>Session state</strong> — save where a conversation left off and load it back next time. Your Phase 8 memory, productionized. (Add Phase 6's tracing and you have observability too.)</li></ul>
+<p>Notice that three of those — retries, streaming, permissions — never got a "your Phase X work" tag. You never built them, on purpose. Hold that thought; it's the crux of the next section.</p>
+<p>Now, these seven don't sit side by side like drawers in a cabinet. They fire <em>in order</em>, at different moments of a single request, with the loop at the center and everything else wrapped around it. Follow one message all the way through:</p>
+<p>Read the numbers: the session loads <em>before</em> the loop starts, context gets trimmed <em>before</em> the model sees it, permissions and hooks fire <em>between</em> the model asking for a tool and the tool actually running, and streaming happens on the way <em>out</em>. One request, seven components, each at its moment.</p>
+<blockquote><strong>The loop is the center, not the whole.</strong> Every request passes through the same shape: <strong>load state → fit context → loop with the model → guard the tools → stream out → save state</strong>. When a framework's docs mention any of these words, you now know exactly where in that shape it sits.</blockquote></section>
+<section><h2>Build vs buy</h2>
+<p>So should you use a framework or roll your own? Now you can actually decide, because you understand the underlying problem. A framework saves you from rebuilding all that plumbing — but adds its own concepts to learn and constraints to live with. A hand-rolled loop is simple and fully yours — until you need streaming, retries, and hooks, and slowly rebuild a worse framework. Here are the concrete signals, both directions:</p>
+<h3>Build your own loop when…</h3>
+<ul><li><strong>You need full control of the loop</strong> — custom stopping rules, an unusual order of steps, logic a framework would fight you on.</li><li><strong>Your tools are unusual</strong> — they don't fit the standard "function with a description" shape (long-running jobs, hardware, weird approval flows).</li><li><strong>You need tight cost control</strong> — you want to see, count, and trim every token yourself, the way you did in Phases 6 and 8.</li><li><strong>The whole job fits in ~50 lines</strong> — your <code>agent.py</code> already covers it. Don't import a framework to do what one loop does.</li></ul>
+<h3>Adopt a harness when…</h3>
+<ul><li><strong>It's a standard chat or coding-assistant use case</strong> — the well-worn path every framework was built and battle-tested for.</li><li><strong>You want streaming, permissions, and session persistence for free</strong> — exactly the three components you never built by hand. That was deliberate: they're fiddly, solved problems.</li><li><strong>You'd rather ship the product than maintain plumbing</strong> — retries, backoff, and reconnects are not where your app wins or loses.</li></ul>
+<blockquote><strong>The point of building it by hand first.</strong> You spent this course doing the harness work manually on purpose. That's why you can now read any framework's feature list and see exactly what it gives you — and tell when its magic is worth the lock-in and when a 50-line loop is plenty.</blockquote></section>
+<section><h2>Compare &amp; extend</h2>
+<p>For the finale: put your hand-rolled agent next to a real harness, see what they do that you don't, and add one missing piece to your own loop.</p>
+<p>Two references so you can sanity-check what your assistant produces. First, the matrix — here's what two correctly filled-in rows of <code>harness.md</code> look like (yours will have all seven rows and a Strands column too):</p>
+<pre><code>| Feature          | my loop (agent.py)             | LangGraph       | Claude Code    |
+|------------------|--------------------------------|-----------------|----------------|
+| tool dispatch    | ✓ hand-written run_tool()      | ✓ built in      | ✓ built in     |
+| retries/backoff  | ✗ one failed call crashes it   | ✓ configurable  | ✓ automatic    |
+| streaming        | ✗ silence, then the full answer| ✓               | ✓ word by word |</code></pre>
+<p>Second, the code change. If your assistant adds <strong>streaming</strong>, the diff to your Phase 4 loop should be surprisingly small — one call swapped for a streaming version. You don't write this; you just check that what your assistant wrote has this shape:</p>
+<pre><code># BEFORE (Phase 4): silence, then the whole reply at once
+reply = client.messages.create(
+    model="claude-sonnet-4-6", max_tokens=1024,
+    tools=TOOLS, messages=messages)
+
+# AFTER: same call, streamed — words print as the model makes them
+with client.messages.stream(
+        model="claude-sonnet-4-6", max_tokens=1024,
+        tools=TOOLS, messages=messages) as stream:
+    for text in stream.text_stream:
+        print(text, end="", flush=True)   # &lt;- this is "streaming"
+    reply = stream.get_final_message()    # the loop continues as before</code></pre>
+<p>Notice what didn't change: the loop, the tools, the cap. Streaming wraps <em>around</em> the same call — one more piece of harness, zero change to the model. (If your assistant adds a <strong>hook</strong> instead, look for the same smallness: your guardrail function called right before or after <code>run_tool</code>.)</p>
+<blockquote><strong>Deliverable — harness.md.</strong> A feature comparison of the harnesses you've used, plus one new feature added to your own loop. You can now look at any agent framework and know exactly what it's doing for you — because you've built, by hand, almost everything it sells.</blockquote></section>
+<nav class="ssr-pager">
+<a rel="prev" href="/learning/genai/phase-11-multi-agent">← Phase 11: From one agent to a team</a>
+<a href="/learning/genai">All 12 phases</a>
+
+</nav>
+</div></div>
   <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>

@@ -3,82 +3,30 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The GenAI Learning Path — A Beginner's Build-As-You-Learn Roadmap | In Context</title>
-<meta name="description" content="A free, beginner-first GenAI learning path. 12 phases — API basics, RAG, evals, agents, text-to-SQL, observability, guardrails, memory, MCP, agent eval, multi-agent, harnesses — each shipping a working artifact the next phase extends." />
+<title>Phase 1 — Talk to an LLM | GenAI Learning Path | In Context</title>
+<meta name="description" content="Make your first API call and develop intuition for how LLMs respond. An LLM is just an HTTP API. You send a list of messages (a system message describing…" />
 <meta name="keywords" content="GenAI learning path, learn generative AI, AI agents tutorial, RAG tutorial, LLM beginner, MCP, prompt engineering, agent evaluation, Anthropic Claude, build AI agents" />
 <meta name="author" content="Aravind Singirikonda" />
 <meta name="robots" content="index,follow,max-image-preview:large" />
-<link rel="canonical" href="https://www.incontext.sh/learning/genai" />
+<link rel="canonical" href="https://www.incontext.sh/learning/genai/phase-1-talk-to-an-llm" />
 
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="In Context" />
-<meta property="og:title" content="The GenAI Learning Path — A Beginner's Build-As-You-Learn Roadmap" />
-<meta property="og:description" content="12 phases, one growing codebase. From your first LLM API call to a multi-agent system with memory, tools, guardrails, evals, and text-to-SQL. Free, no signup." />
-<meta property="og:url" content="https://www.incontext.sh/learning/genai" />
+<meta property="og:title" content="Phase 1 — Talk to an LLM | GenAI Learning Path" />
+<meta property="og:description" content="Make your first API call and develop intuition for how LLMs respond. An LLM is just an HTTP API. You send a list of messages (a system message describing…" />
+<meta property="og:url" content="https://www.incontext.sh/learning/genai/phase-1-talk-to-an-llm" />
 <meta property="og:locale" content="en_US" />
-<meta property="og:image" content="https://www.incontext.sh/learning/genai/og/learning-path.png" />
+<meta property="og:image" content="https://www.incontext.sh/learning/genai/og/phase-1-talk-to-an-llm.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="The GenAI Learning Path" />
-<meta name="twitter:description" content="12 phases, build-as-you-learn. API calls → RAG → evals → agents → text-to-SQL → multi-agent. Free, beginner-first." />
+<meta name="twitter:title" content="Phase 1 — Talk to an LLM | GenAI Learning Path" />
+<meta name="twitter:description" content="Make your first API call and develop intuition for how LLMs respond. An LLM is just an HTTP API. You send a list of messages (a system message describing…" />
 <meta name="twitter:creator" content="@aravs16" />
-<meta name="twitter:image" content="https://www.incontext.sh/learning/genai/og/learning-path.png" />
+<meta name="twitter:image" content="https://www.incontext.sh/learning/genai/og/phase-1-talk-to-an-llm.png" />
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Course",
-  "name": "The GenAI Learning Path",
-  "description": "A practical, beginner-first build-as-you-learn roadmap for Generative AI. Twelve phases growing one running codebase from a single LLM API call into a multi-agent system with memory, tools, guardrails, evals, and text-to-SQL.",
-  "url": "https://www.incontext.sh/learning/genai",
-  "inLanguage": "en",
-  "educationalLevel": "Beginner",
-  "learningResourceType": "Tutorial",
-  "isAccessibleForFree": true,
-  "audience": {
-    "@type": "EducationalAudience",
-    "educationalRole": "self-learner"
-  },
-  "provider": {
-    "@type": "Person",
-    "name": "Aravind Singirikonda",
-    "url": "https://www.incontext.sh"
-  },
-  "author": {
-    "@type": "Person",
-    "name": "Aravind Singirikonda",
-    "url": "https://www.incontext.sh"
-  },
-  "hasCourseInstance": {
-    "@type": "CourseInstance",
-    "courseMode": "online",
-    "courseWorkload": "PT40H"
-  },
-  "teaches": [
-    "LLM API basics", "Retrieval-Augmented Generation (RAG)", "Prompt and RAG evaluation with Promptfoo",
-    "Tool use and the agent loop", "Text-to-SQL with schema injection and validation",
-    "LLM observability and tracing", "Guardrails for LLM apps",
-    "Short-term and long-term memory for agents", "Model Context Protocol (MCP)",
-    "Agent-level evaluation", "Multi-agent orchestration", "Agent harness design"
-  ],
-  "syllabusSections": [
-    { "@type": "Syllabus", "name": "Phase 1 — Talk to an LLM",            "description": "Make your first API call. Get a feel for system prompts, temperature, and how the same prompt behaves across different models." },
-    { "@type": "Syllabus", "name": "Phase 2 — Give the LLM your data",    "description": "Build a RAG pipeline over your own documents with FAISS. Experiment with fixed-size, recursive, and semantic chunking." },
-    { "@type": "Syllabus", "name": "Phase 3 — Stop guessing if it works", "description": "Use Promptfoo to write a real eval suite. Compare models, prompts, and chunking strategies with data, not vibes." },
-    { "@type": "Syllabus", "name": "Phase 4 — Let the LLM use tools",     "description": "Build a single agent. Wrap RAG, web search, and a calculator as tools. Feel the agent loop." },
-    { "@type": "Syllabus", "name": "Phase 5 — Talk to your database",     "description": "Text-to-SQL: schema-aware prompting, generated query validation, a one-shot repair loop, and read-only safety." },
-    { "@type": "Syllabus", "name": "Phase 6 — See what's happening",      "description": "Instrument every LLM and tool call with Langfuse or Phoenix. Cut cost and latency with caching and model routing." },
-    { "@type": "Syllabus", "name": "Phase 7 — Keep the agent in its lane","description": "Add input guards, output validation, PII redaction, and an LLM-as-judge groundedness check." },
-    { "@type": "Syllabus", "name": "Phase 8 — Agents that remember",      "description": "Short-term and long-term memory. User facts, conversation summaries, identity loaded at session start." },
-    { "@type": "Syllabus", "name": "Phase 9 — Standardize your tools",    "description": "Convert a tool into an MCP server. Plug community MCP servers (filesystem, GitHub) into your agent." },
-    { "@type": "Syllabus", "name": "Phase 10 — Test the whole loop",      "description": "Agent-level evaluation: trajectory correctness, hallucination rate, refusal rate, cost per task — in CI." },
-    { "@type": "Syllabus", "name": "Phase 11 — From one agent to a team", "description": "Multi-agent with LangGraph or Strands. The six agentic patterns and when each one helps versus hurts." },
-    { "@type": "Syllabus", "name": "Phase 12 — The runtime around the model", "description": "Compare your hand-rolled agent loop to a real harness. Tool dispatch, retries, hooks, permissions, sessions." }
-  ]
-}
-</script>
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"LearningResource","name":"Phase 1 — Talk to an LLM","description":"Make your first API call and develop intuition for how LLMs respond. An LLM is just an HTTP API. You send a list of messages (a system message describing…","url":"https://www.incontext.sh/learning/genai/phase-1-talk-to-an-llm","inLanguage":"en","educationalLevel":"Beginner","learningResourceType":"Tutorial","isAccessibleForFree":true,"teaches":["API keys","messages format","model selection","token counting"],"isPartOf":{"@type":"Course","name":"The GenAI Learning Path","url":"https://www.incontext.sh/learning/genai"},"author":{"@type":"Person","name":"Aravind Singirikonda","url":"https://www.incontext.sh/"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"In Context","item":"https://www.incontext.sh/"},{"@type":"ListItem","position":2,"name":"GenAI Learning Path","item":"https://www.incontext.sh/learning/genai"},{"@type":"ListItem","position":3,"name":"Phase 1 — Talk to an LLM","item":"https://www.incontext.sh/learning/genai/phase-1-talk-to-an-llm"}]}]</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1783,7 +1731,131 @@
 </head>
 <body>
   <script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('genai-path-theme')||'ink')}catch(e){document.documentElement.setAttribute('data-theme','ink')}</script>
-  <div id="root"></div>
+  <div id="root">
+<div class="page ssr-phase">
+<nav class="ssr-crumbs"><a href="/">In Context</a> › <a href="/learning/genai">GenAI Learning Path</a> › <span>Phase 01</span></nav>
+<p class="ssr-kicker">PHASE 01 · FOUNDATIONS</p>
+<h1>Talk to an LLM</h1>
+<p class="ssr-goal"><strong>Goal:</strong> Make your first API call and develop intuition for how LLMs respond.</p>
+<section><h2>What this is</h2>
+<p>An LLM is just an HTTP API. You send a list of <strong>messages</strong> (a system message describing who the assistant is, plus user/assistant turns) and you get back a generated message. That's the whole thing.</p>
+<p>The same model can produce wildly different outputs depending on the <strong>system prompt</strong> (its instructions), <strong>temperature</strong> (how random the sampling is), and <strong>max tokens</strong> (how long the reply can be). Before you build anything fancy, you need a gut feel for how these knobs change behavior.</p>
+<p>You'll also learn that <strong>different models</strong> have very different tradeoffs. A small, cheap model (Claude Haiku, GPT-4o-mini) is fast but less capable. A frontier model (Claude Sonnet/Opus, GPT-4o) is smarter but slower and ~30× more expensive. Picking the right one is a real engineering decision.</p></section>
+<section><h2>The plan</h2><ol>
+<li>Sign up for an API account (Anthropic or OpenAI). Generate a key. Store it in a <code>.env</code> file — never commit it.</li>
+<li>Install the SDK: <code>pip install anthropic</code> or <code>pip install openai</code>.</li>
+<li>Write a ~20-line Python script: read a prompt from <code>sys.argv</code>, send it to the API, print the response.</li>
+<li>Add a <code>--model</code> flag. Run the same prompt against a small model and a frontier model. Note: response quality, latency, tokens used, dollar cost.</li>
+<li>Add <code>--system</code> and <code>--temperature</code> flags. See how a sharp system prompt ("You are a terse senior engineer") completely changes the output.</li></ol></section>
+<section><h2>Ask your coding assistant</h2><ul>
+<li>What's the messages format for the Anthropic / OpenAI SDK? Show me a minimal example.</li>
+<li>How do I load API keys safely with python-dotenv?</li>
+<li>What does temperature actually do — explain in one paragraph.</li>
+<li>Help me count input and output tokens before sending so I can predict cost.</li>
+<li>What's a system prompt and why does it matter?</li></ul></section>
+<section><h2>What you'll have when you're done</h2><ul>
+<li>You can call any LLM from the terminal in under a minute.</li>
+<li>You've felt the speed/quality/cost triangle in real numbers.</li>
+<li>You understand what a system prompt is and why it changes everything.</li>
+<li>You have a reusable <code>llm_chat.py</code> you'll build on for the next 10 phases.</li></ul></section>
+<section><h2>Deliverable</h2>
+<p><code>llm_chat.py</code> — A CLI that takes a prompt, optional model and system message, and returns a response.</p>
+<p>Concepts unlocked: API keys · messages format · model selection · token counting</p></section>
+<section><h2>Intuition</h2>
+<p>Forget the hype for a minute. You've already used a tiny language model today — your phone's keyboard. You type a few words and it guesses the next one:</p>
+<p>That's the whole trick — just small. Your keyboard learned from the texts <em>you've</em> typed: a few years of messages, maybe a million words if you're chatty. Now scale that up — and "scale" here isn't an adjective, it's a number. Stack the three sizes next to each other:</p>
+<ul><li><strong>Every message you've ever typed</strong> — roughly a million words. That's your keyboard's entire education.</li><li><strong>All of English Wikipedia</strong> — about 4½ <em>billion</em> words. Thousands of times more than your texts.</li><li><strong>A frontier LLM's training data</strong> — <em>trillions</em> of words: millions of books, huge slices of the public web, mountains of code. To this thing, all of Wikipedia is a rounding error — and it's read roughly <strong>a million times more text than every message you've ever typed</strong>. Reading a book a day, you'd need tens of thousands of lifetimes to catch up.</li></ul>
+<p>To predict the next word well across <em>all of that</em> — legal contracts, Python code, love poems, physics forums — the guesser can't get by on habits like your keyboard does. It has to soak up grammar, facts, reasoning patterns, coding style, the shape of an argument. Not because anyone taught it those things — because they're the only way to keep winning the guessing game at that scale.</p>
+<p>Push it far enough and something strange happens: "just guess the next word" becomes good enough to <strong>write an essay, fix a bug in your code, or explain quantum tunneling</strong> — because for each of those, producing the right next word, over and over, <em>is</em> the task.</p>
+<blockquote><strong>The one-line intuition.</strong> An LLM is <strong>autocomplete that read the internet</strong> — a next-word guesser scaled up until the guessing turned into something that feels like intelligence. Not a database, not a search engine, not a mind.</blockquote>
+<h3>Two things to hold onto</h3>
+<p><strong>1. It's a tool, not a being.</strong> It has no memory of you between requests, no goals, no awareness. Each time, it's text in, text out, in isolation — the "conversation" is an illusion you create by re-sending the history every time. That's why it can't "remember" yesterday unless you remind it.</p>
+<p><strong>2. It predicts what's <em>likely</em>, not what's <em>true</em>.</strong> It completes text the way the internet would, not the way reality is. Usually those line up; when they don't, you get a fluent, confident, wrong answer — a <strong>hallucination</strong>. Fixing that is the whole point of Phase 2.</p>
+<p>Keep <em>"autocomplete that read the internet"</em> in your head. Everything else in this course — prompts, tools, memory, agents — is just clever ways to use that one trick.</p></section>
+<section><h2>What is an LLM?</h2>
+<p>We've got the gut feel — now let's be exact about what it is. An LLM is a <strong>math function</strong>: the <code>f(x)</code> kind from school, where you put something in and get something out, and the same input always gives the same output. Here's the whole thing, start to finish:</p>
+<p>Read it left to right. Computers only do math, so your <strong>words are turned into numbers</strong> first. Those numbers run through the function — and here's the important part: the function is <strong>billions of numbers it <em>learned</em> by reading text</strong>, not rules a human wrote. Out come more numbers — <strong>a score for every possible next word</strong> — and the top one is turned back into text.</p>
+<p>Notice it never "looks up" Paris in a database. It learned that across everything it read, <em>Paris</em> is overwhelmingly the most likely word after that phrase. To an LLM, <strong>knowledge is just very confident prediction</strong> — which is also why shaky knowledge comes out as a confident-sounding guess.</p>
+<blockquote><strong>The whole thing.</strong> An LLM is a <strong>math function with billions of learned numbers inside</strong>. Words in → numbers → function → numbers → a word out. Everything in this course is built on that one pass.</blockquote>
+<p>That trained function has a name: a <strong>model</strong>. It's the word you'll see all over this course (<em>"which model?"</em>, <em>"Claude is a model"</em>) — and now you know exactly what it means: a big math function full of numbers learned from text.</p>
+<p>One thing to file away: the function part is perfectly repeatable — the same words in give the same scores out, every time. Any randomness you see happens <em>afterward</em>, in a separate step that picks <em>which</em> of the high-scoring words to actually use.</p>
+<p>But notice what this picture produces: exactly <strong>one word</strong>. A chatbot writes whole paragraphs. The gap between "one word out" and "an essay out" is closed by a single, almost embarrassingly simple trick — and that's the next section.</p></section>
+<section><h2>The prediction loop</h2>
+<p>We just watched one prediction — one word out. To get a whole sentence, you do the obvious thing: <strong>append that word and ask again.</strong> Predict, append, predict, append — a loop, with the model reading its own growing text each time.</p>
+<p>In picture form, the whole engine is three boxes — and one arrow that bends back on itself. That bent arrow is the entire idea: <strong>the output gets glued onto the input</strong>, and the model reads its own last word as part of the next question:</p>
+<p>This is <strong>autoregressive generation</strong> — <em>auto</em> because it feeds on its own output, <em>regressive</em> because each step looks back at everything so far. The model never plans the whole sentence — it just keeps answering "what's next?" one piece at a time. It stops when it predicts a special <em>end-of-text</em> token (or you cap the length).</p>
+<blockquote><strong>Word vs token.</strong> The loop actually runs on <strong>tokens</strong>, not words. A token is a chunk of text — often ~4 characters or a word-piece. <code>cat</code> is one token; <code>windowsill</code> might be two. When people talk about cost and context limits, they're counting tokens.</blockquote>
+<p>How does it choose among the likely words? Always grab the single most likely one and you get safe, predictable text; allow a little randomness and you get creativity. That dial is called <strong>temperature</strong> — we'll get to it soon.</p></section>
+<section><h2>What is a prompt?</h2>
+<p>We just saw the model only ever continues text. So here's a simple way to think about a <strong>prompt</strong>: it's just the text you hand the model to continue. You set up the start so the most likely continuation is the answer you want.</p>
+<p>Type <code>The capital of France is</code> and the likeliest continuation is <em>Paris</em>. Type <code>Write a haiku about autumn:</code> and the likeliest continuation is a haiku. You're not commanding the model — you're <strong>steering its prediction</strong> by choosing the setup.</p>
+<p>In practice a prompt has two layers. The <strong>system prompt</strong> sets persona and rules for the whole conversation (<em>"You are a terse senior engineer"</em>); the <strong>user message</strong> is the specific ask. Both are just text placed in front of the model's prediction. (If you're wondering whether the system prompt "sticks" between messages — good instinct; the next section shows exactly how it travels.)</p>
+<blockquote><strong>What "prompting" really is.</strong> Prompting isn't magic words. It's <strong>arranging the text so your desired answer becomes the most likely continuation.</strong> That's the entire skill — and the rest of this course is increasingly clever ways to set up that text (with your data, with tools, with memory).</blockquote></section>
+<section><h2>Reaching the model</h2>
+<p>We keep saying "send the model some text" — but where does it actually go? For the <strong>best</strong> models, not your laptop. Two reasons: they're <strong>enormous</strong> (far bigger than a laptop can comfortably handle), and the companies that built them <strong>don't hand out the model file</strong>, so you can't download Claude or GPT. Instead you reach them through an <strong>API</strong>: you send your text over the internet and it sends the answer back. Same model — you're just talking to it across the web instead of running it yourself.</p>
+<blockquote><strong>Wait — can't I run a model on my own computer?.</strong> Yes, actually — just not the giant ones. There are smaller <strong>open</strong> models (Llama, Mistral, Gemma) you can download and run right on your laptop with a tool like <strong>Ollama</strong>, fully offline. They're less capable than frontier models like Claude, but they genuinely run on your machine. "It only lives in the cloud" isn't a hard rule — we just use an API here so you're always working with a top-tier model.</blockquote>
+<p>The input is a list of <strong>messages</strong> and the output is the generated message. That's the entire interface you build on for the rest of the course.</p>
+<p>Here's what that exchange looks like as real code — and this is the first code in the whole course, so let's be clear: <strong>you never have to write this yourself.</strong> Your coding assistant writes it for you in the Build section at the end of this phase. Don't parse the syntax; just notice the shape — a list of messages goes in, one message comes back out:</p>
+<pre><code>from anthropic import Anthropic
+
+client = Anthropic()  # reads ANTHROPIC_API_KEY from your environment
+
+msg = client.messages.create(
+    model="claude-sonnet-4-6",
+    max_tokens=512,
+    system="You are a terse senior engineer.",
+    messages=[{"role": "user", "content": "Explain a hash map in two sentences."}])
+
+print(msg.content[0].text)</code></pre>
+<p>Three lines are worth spotting, because they're the three ideas you already know: <code>model</code> picks <em>which</em> model answers, <code>system</code> is the system prompt from last section, and <code>messages</code> is the conversation so far. Everything else — <code>Anthropic()</code>, <code>.content[0].text</code> — is plumbing that unpacks the envelope the reply arrives in. Plumbing is your assistant's job, not yours.</p>
+<blockquote><strong>The messages format.</strong> Every turn is <code>{"role": ..., "content": ...}</code> with role <code>user</code> or <code>assistant</code>. The <strong>system</strong> prompt rides alongside as its own field. A multi-turn chat is just this list growing — you resend the whole history every time, because the model <strong>has no memory</strong>: each request starts fresh. The "memory" is you, re-sending the transcript.</blockquote></section>
+<section><h2>The three knobs</h2>
+<p>So far you've sent the model some text and gotten a reply. But every request carries a few <strong>settings</strong> too — small dials that change how the model answers, even when your text is exactly the same. Three of them matter most. Here's what each one does.</p>
+<ul><li><strong>System prompt</strong> — the rules and personality you set for the whole chat. It's the biggest influence on how the model behaves. <em>"You are a terse senior engineer"</em> produces a completely different reply than the default.</li><li><strong>Temperature</strong> — how much randomness in the next-token pick. <code>0</code> = always the top token (repeatable, good for facts/code); higher = more varied (good for brainstorming).</li><li><strong>Max tokens</strong> — a hard cap on how long the reply can be. Too low and answers get cut off mid-sentence.</li></ul>
+<p>Temperature is the easiest one to <em>see</em>. It reshapes those next-word scores from earlier: a low temperature narrows them to one clear winner; a high temperature flattens them so more words are in play:</p>
+<blockquote><strong>Default to low for anything that must be right.</strong> If you're extracting data, writing code, or answering factual questions, use a low temperature. Save the high settings for brainstorming. A "creative" temperature on a SQL generator just gives you creative bugs.</blockquote>
+<p>One choice rides on every request that's bigger than any of these three dials — and we've been quietly defaulting it this whole time. That's next.</p></section>
+<section><h2>Picking a model</h2>
+<p>That bigger choice is <strong>which model</strong> to use — the <code>model=</code> line in every request. They're not all the same, and no model is best at everything. Picture a triangle with a corner for each thing you care about: <strong>speed</strong>, <strong>quality</strong>, <strong>cost</strong>. Every model lives somewhere on that triangle, and moving toward one corner means moving away from another:</p>
+<p>You can't have all three corners at once — a model that's the smartest <em>and</em> the fastest <em>and</em> the cheapest doesn't exist. So picking a model is really answering one question: <em>which corner does this task actually need?</em></p>
+<ul><li><strong>Small & cheap</strong> (Claude Haiku, GPT-4o-mini) — fast and inexpensive, less capable. Great for classification, extraction, high-volume simple calls.</li><li><strong>Frontier</strong> (Claude Sonnet / Opus, GPT-4o) — smarter, slower, can cost ~30× more per token. Worth it for hard reasoning, code, and agents.</li><li><strong>The move</strong> — start on a strong model to prove the task is even possible, then drop to the smallest model that still passes.</li></ul>
+<p>That's the whole game. For a simple, high-volume task, a small model is almost as good for a tiny fraction of the cost. For a genuinely hard reasoning task, the frontier model earns its price. The catch is knowing <em>which</em> task you've got — and you only really know by measuring.</p>
+<blockquote><strong>You can't pick blind.</strong> "Smallest model that still passes" assumes you can measure <em>passes</em>. You can't eyeball that reliably — which is exactly why <strong>Phase 3</strong> builds an eval harness. For now, just feel the difference: run the same prompt on a small and a frontier model and compare quality, latency, and cost.</blockquote></section>
+<section><h2>Build llm_chat.py</h2>
+<p>Time to build the deliverable — but you won't type it. You'll <strong>describe it to your coding assistant</strong> and run what it produces: a tiny command-line tool that takes a prompt (plus optional model, system, and temperature) and prints the reply. Every later phase builds on this file.</p>
+<p>Don't just run it — read it. Here's roughly what it'll produce, and what each part is doing:</p>
+<pre><code># llm_chat.py — your first reusable LLM call
+import sys, argparse
+from anthropic import Anthropic
+
+client = Anthropic()  # ANTHROPIC_API_KEY from your .env
+
+def chat(prompt, model="claude-sonnet-4-6", system=None, temperature=1.0):
+    msg = client.messages.create(
+        model=model,
+        max_tokens=1024,
+        temperature=temperature,
+        system=system or "You are a helpful assistant.",
+        messages=[{"role": "user", "content": prompt}])
+    return msg.content[0].text, msg.usage
+
+if __name__ == "__main__":
+    ap = argparse.ArgumentParser()
+    ap.add_argument("prompt")
+    ap.add_argument("--model", default="claude-sonnet-4-6")
+    ap.add_argument("--system")
+    ap.add_argument("--temperature", type=float, default=1.0)
+    a = ap.parse_args()
+    text, usage = chat(a.prompt, a.model, a.system, a.temperature)
+    print(text)
+    print(f"\n[{usage.input_tokens} in / {usage.output_tokens} out]", file=sys.stderr)</code></pre>
+<blockquote><strong>Deliverable — llm_chat.py.</strong> A CLI that takes a prompt, optional model and system message, and returns a response. When you're done you can call any LLM from the terminal in under a minute, you've felt the speed/quality/cost triangle in real numbers, and you have the file <strong>Phase 2</strong> plugs its retrieval into.</blockquote></section>
+<nav class="ssr-pager">
+
+<a href="/learning/genai">All 12 phases</a>
+<a rel="next" href="/learning/genai/phase-2-rag-give-the-llm-your-data">Phase 2: Give the LLM your data →</a>
+</nav>
+</div></div>
   <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>

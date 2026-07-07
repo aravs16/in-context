@@ -1,6 +1,6 @@
 # SEO Plan — incontext.sh / GenAI Learning Path
 
-_Audit date: 2026-07-07. Status: PLANNED — not yet implemented._
+_Audit date: 2026-07-07. P0 + P1 + P2 (partial) implemented 2026-07-07; GSC steps and P3 are manual._
 
 ## Diagnosis: why the site isn't indexed yet
 
@@ -48,11 +48,11 @@ Findings from probing the live site (in order of impact):
 
 ## P0 — Unblock indexing (do first)
 
-- [ ] **Fix Vercel rewrite**: replace the two `phase-:n` rewrites with a
+- [x] **Fix Vercel rewrite**: replace the two `phase-:n` rewrites with a
       catch-all: `{ "source": "/learning/genai/:path*", "destination": "/learning/genai.html" }`
       (prerendered phase files, once added, win over the rewrite via
       filesystem precedence).
-- [ ] **Human-readable slugs** (canonical), `phase-N` kept as 308 redirects:
+- [x] **Human-readable slugs** (canonical), `phase-N` kept as 308 redirects:
 
   | Old | New slug |
   |---|---|
@@ -71,35 +71,35 @@ Findings from probing the live site (in order of impact):
 
   Router (`parsePhasePath` in `learning/genai/app.jsx`) accepts both forms;
   `phasePath()` emits the slugged form; slugs live in `phases-data.js`.
-- [ ] **Prerender each phase at build time** (extend `build.js`, same pattern
+- [x] **Prerender each phase at build time** (extend `build.js`, same pattern
       as blog posts → `public/learning/genai/phase-*.html`):
       unique `<title>` ("Phase 5 — Talk to Your Database: Text-to-SQL with
       LLMs | GenAI Learning Path"), unique meta description, canonical,
       per-phase `LearningResource`/`Article` + `BreadcrumbList` JSON-LD, and
       the phase's goal/plan/lesson text as real HTML before React hydrates.
       **Single biggest ranking win.**
-- [ ] **Real `<a href>` phase links**: wrap grid/timeline cards in anchors
+- [x] **Real `<a href>` phase links**: wrap grid/timeline cards in anchors
       (keep JS click behavior); add prev/next links between phases.
-- [ ] **Generate `feed.xml`** (RSS for posts) in `build.js`.
-- [ ] **Regenerate sitemap** with slugged URLs + `lastmod`.
+- [x] **Generate `feed.xml`** (RSS for posts) in `build.js`.
+- [x] **Regenerate sitemap** with slugged URLs + `lastmod`.
 - [ ] **GSC (manual, after deploy)**: add Domain property `incontext.sh`
       (DNS TXT verify) → resubmit sitemap → URL-inspect + Request Indexing
       for `/`, `/learning/genai`, then phases (~10/day quota).
 
 ## P1 — On-page polish
 
-- [ ] **og:image / twitter:image** for the LP hub and each phase — currently
+- [x] **og:image / twitter:image** for the LP hub and each phase — currently
       `summary_large_image` is declared with no image. Reuse the sharp
       SVG→PNG pipeline in `build.js` to stamp branded 1200×630 cards.
-- [ ] Add "generative AI" (full phrase) to visible hub copy near the H1.
-- [ ] Visible breadcrumbs on phase pages (In Context → Learning Path →
+- [x] Add "generative AI" (full phrase) to visible hub copy near the H1.
+- [x] Visible breadcrumbs on phase pages (In Context → Learning Path →
       Phase N) matching the BreadcrumbList JSON-LD.
 - [ ] Blog ↔ LP internal linking: related posts link to specific phases and
       vice versa.
 
 ## P2 — Performance (Core Web Vitals)
 
-- [ ] Swap React dev UMD builds → production builds (all pages).
+- [x] Swap React dev UMD builds → production builds (all pages).
 - [ ] Precompile JSX with esbuild at build time instead of shipping
       Babel-standalone to the browser (biggest LCP/TBT win; applies to blog
       pages and LP).
@@ -120,3 +120,9 @@ Findings from probing the live site (in order of impact):
   it. Domain property in GSC makes it moot.
 - Blog post pages (`/p/*`) are already prerendered with good meta + JSON-LD —
   the LP just needs to reach parity.
+- Implementation detail: OG cards were generated locally with ffmpeg drawtext
+  (committed as static files under `public/learning/genai/og/`) instead of
+  sharp — no build-time dependency needed. Regenerate by editing titles in
+  the cards if phase titles change.
+- Phase prerendering works by templating `genai.html` (head + `#root` swap),
+  so styles/scripts/hydration stay identical by construction.

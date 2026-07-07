@@ -3,82 +3,30 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The GenAI Learning Path — A Beginner's Build-As-You-Learn Roadmap | In Context</title>
-<meta name="description" content="A free, beginner-first GenAI learning path. 12 phases — API basics, RAG, evals, agents, text-to-SQL, observability, guardrails, memory, MCP, agent eval, multi-agent, harnesses — each shipping a working artifact the next phase extends." />
+<title>Phase 11 — From one agent to a team | GenAI Learning Path | In Context</title>
+<meta name="description" content="Decompose hard problems across specialized agents. One agent with too many tools gets confused — it picks the wrong tool, drifts off-task on long jobs,…" />
 <meta name="keywords" content="GenAI learning path, learn generative AI, AI agents tutorial, RAG tutorial, LLM beginner, MCP, prompt engineering, agent evaluation, Anthropic Claude, build AI agents" />
 <meta name="author" content="Aravind Singirikonda" />
 <meta name="robots" content="index,follow,max-image-preview:large" />
-<link rel="canonical" href="https://www.incontext.sh/learning/genai" />
+<link rel="canonical" href="https://www.incontext.sh/learning/genai/phase-11-multi-agent" />
 
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="In Context" />
-<meta property="og:title" content="The GenAI Learning Path — A Beginner's Build-As-You-Learn Roadmap" />
-<meta property="og:description" content="12 phases, one growing codebase. From your first LLM API call to a multi-agent system with memory, tools, guardrails, evals, and text-to-SQL. Free, no signup." />
-<meta property="og:url" content="https://www.incontext.sh/learning/genai" />
+<meta property="og:title" content="Phase 11 — From one agent to a team | GenAI Learning Path" />
+<meta property="og:description" content="Decompose hard problems across specialized agents. One agent with too many tools gets confused — it picks the wrong tool, drifts off-task on long jobs,…" />
+<meta property="og:url" content="https://www.incontext.sh/learning/genai/phase-11-multi-agent" />
 <meta property="og:locale" content="en_US" />
-<meta property="og:image" content="https://www.incontext.sh/learning/genai/og/learning-path.png" />
+<meta property="og:image" content="https://www.incontext.sh/learning/genai/og/phase-11-multi-agent.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="The GenAI Learning Path" />
-<meta name="twitter:description" content="12 phases, build-as-you-learn. API calls → RAG → evals → agents → text-to-SQL → multi-agent. Free, beginner-first." />
+<meta name="twitter:title" content="Phase 11 — From one agent to a team | GenAI Learning Path" />
+<meta name="twitter:description" content="Decompose hard problems across specialized agents. One agent with too many tools gets confused — it picks the wrong tool, drifts off-task on long jobs,…" />
 <meta name="twitter:creator" content="@aravs16" />
-<meta name="twitter:image" content="https://www.incontext.sh/learning/genai/og/learning-path.png" />
+<meta name="twitter:image" content="https://www.incontext.sh/learning/genai/og/phase-11-multi-agent.png" />
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Course",
-  "name": "The GenAI Learning Path",
-  "description": "A practical, beginner-first build-as-you-learn roadmap for Generative AI. Twelve phases growing one running codebase from a single LLM API call into a multi-agent system with memory, tools, guardrails, evals, and text-to-SQL.",
-  "url": "https://www.incontext.sh/learning/genai",
-  "inLanguage": "en",
-  "educationalLevel": "Beginner",
-  "learningResourceType": "Tutorial",
-  "isAccessibleForFree": true,
-  "audience": {
-    "@type": "EducationalAudience",
-    "educationalRole": "self-learner"
-  },
-  "provider": {
-    "@type": "Person",
-    "name": "Aravind Singirikonda",
-    "url": "https://www.incontext.sh"
-  },
-  "author": {
-    "@type": "Person",
-    "name": "Aravind Singirikonda",
-    "url": "https://www.incontext.sh"
-  },
-  "hasCourseInstance": {
-    "@type": "CourseInstance",
-    "courseMode": "online",
-    "courseWorkload": "PT40H"
-  },
-  "teaches": [
-    "LLM API basics", "Retrieval-Augmented Generation (RAG)", "Prompt and RAG evaluation with Promptfoo",
-    "Tool use and the agent loop", "Text-to-SQL with schema injection and validation",
-    "LLM observability and tracing", "Guardrails for LLM apps",
-    "Short-term and long-term memory for agents", "Model Context Protocol (MCP)",
-    "Agent-level evaluation", "Multi-agent orchestration", "Agent harness design"
-  ],
-  "syllabusSections": [
-    { "@type": "Syllabus", "name": "Phase 1 — Talk to an LLM",            "description": "Make your first API call. Get a feel for system prompts, temperature, and how the same prompt behaves across different models." },
-    { "@type": "Syllabus", "name": "Phase 2 — Give the LLM your data",    "description": "Build a RAG pipeline over your own documents with FAISS. Experiment with fixed-size, recursive, and semantic chunking." },
-    { "@type": "Syllabus", "name": "Phase 3 — Stop guessing if it works", "description": "Use Promptfoo to write a real eval suite. Compare models, prompts, and chunking strategies with data, not vibes." },
-    { "@type": "Syllabus", "name": "Phase 4 — Let the LLM use tools",     "description": "Build a single agent. Wrap RAG, web search, and a calculator as tools. Feel the agent loop." },
-    { "@type": "Syllabus", "name": "Phase 5 — Talk to your database",     "description": "Text-to-SQL: schema-aware prompting, generated query validation, a one-shot repair loop, and read-only safety." },
-    { "@type": "Syllabus", "name": "Phase 6 — See what's happening",      "description": "Instrument every LLM and tool call with Langfuse or Phoenix. Cut cost and latency with caching and model routing." },
-    { "@type": "Syllabus", "name": "Phase 7 — Keep the agent in its lane","description": "Add input guards, output validation, PII redaction, and an LLM-as-judge groundedness check." },
-    { "@type": "Syllabus", "name": "Phase 8 — Agents that remember",      "description": "Short-term and long-term memory. User facts, conversation summaries, identity loaded at session start." },
-    { "@type": "Syllabus", "name": "Phase 9 — Standardize your tools",    "description": "Convert a tool into an MCP server. Plug community MCP servers (filesystem, GitHub) into your agent." },
-    { "@type": "Syllabus", "name": "Phase 10 — Test the whole loop",      "description": "Agent-level evaluation: trajectory correctness, hallucination rate, refusal rate, cost per task — in CI." },
-    { "@type": "Syllabus", "name": "Phase 11 — From one agent to a team", "description": "Multi-agent with LangGraph or Strands. The six agentic patterns and when each one helps versus hurts." },
-    { "@type": "Syllabus", "name": "Phase 12 — The runtime around the model", "description": "Compare your hand-rolled agent loop to a real harness. Tool dispatch, retries, hooks, permissions, sessions." }
-  ]
-}
-</script>
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"LearningResource","name":"Phase 11 — From one agent to a team","description":"Decompose hard problems across specialized agents. One agent with too many tools gets confused — it picks the wrong tool, drifts off-task on long jobs,…","url":"https://www.incontext.sh/learning/genai/phase-11-multi-agent","inLanguage":"en","educationalLevel":"Beginner","learningResourceType":"Tutorial","isAccessibleForFree":true,"teaches":["orchestration","handoffs","the 6 patterns","when multi-agent hurts"],"isPartOf":{"@type":"Course","name":"The GenAI Learning Path","url":"https://www.incontext.sh/learning/genai"},"author":{"@type":"Person","name":"Aravind Singirikonda","url":"https://www.incontext.sh/"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"In Context","item":"https://www.incontext.sh/"},{"@type":"ListItem","position":2,"name":"GenAI Learning Path","item":"https://www.incontext.sh/learning/genai"},{"@type":"ListItem","position":3,"name":"Phase 11 — From one agent to a team","item":"https://www.incontext.sh/learning/genai/phase-11-multi-agent"}]}]</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1783,7 +1731,82 @@
 </head>
 <body>
   <script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('genai-path-theme')||'ink')}catch(e){document.documentElement.setAttribute('data-theme','ink')}</script>
-  <div id="root"></div>
+  <div id="root">
+<div class="page ssr-phase">
+<nav class="ssr-crumbs"><a href="/">In Context</a> › <a href="/learning/genai">GenAI Learning Path</a> › <span>Phase 11</span></nav>
+<p class="ssr-kicker">PHASE 11 · MULTI-AGENT</p>
+<h1>From one agent to a team</h1>
+<p class="ssr-goal"><strong>Goal:</strong> Decompose hard problems across specialized agents.</p>
+<section><h2>What this is</h2>
+<p>One agent with too many tools gets confused — it picks the wrong tool, drifts off-task on long jobs, blows the context window. <strong>Multi-agent</strong> means decomposing the problem across specialized agents that hand work to each other.</p>
+<p>Anthropic's <em>Building Effective AI Agents</em> codifies <strong>6 patterns</strong>: prompt chaining (sequential), routing (pick the right specialist), parallelization (fan-out), orchestrator-workers (a manager that delegates), evaluator-optimizer (one agent reviews another's work), and autonomous agents (long-running, goal-directed loops). Internalize these — they're the vocabulary for any multi-agent design.</p>
+<p>Frameworks: <strong>LangGraph</strong> (graph-based, explicit state, the most flexible), <strong>Strands</strong> (lighter, AWS-aligned, easier to start), <strong>OpenAI Swarm</strong> (peer-to-peer handoff, minimal). Pick one. They all express the same patterns differently.</p>
+<p><strong>The honest caveat:</strong> multi-agent is overkill for most apps. A single well-prompted agent with good tools beats a 6-agent swarm 80% of the time. Reach for multi-agent when a single agent demonstrably fails — not because the architecture sounds cool.</p></section>
+<section><h2>The plan</h2><ol>
+<li>Read Anthropic's <em>Building Effective AI Agents</em> end-to-end. Sketch a one-line example of each of the 6 patterns from your own domain.</li>
+<li>Pick LangGraph or Strands. Rebuild your Phase 4 agent as an <strong>orchestrator-workers</strong> setup: a planner agent + RAG agent + SQL agent, coordinated by an orchestrator.</li>
+<li>Try the <strong>swarm</strong> pattern: agents hand off based on capability with no central coordinator.</li>
+<li>Compare orchestration styles on the same task. Supervisor for clear hierarchy; peer-to-peer when routing is fuzzy.</li>
+<li>Be honest in writing: where did multi-agent <em>help</em>? Where did it just add latency and bugs? Save that note.</li></ol></section>
+<section><h2>Ask your coding assistant</h2><ul>
+<li>Anthropic's 'Building Effective AI Agents' — what are the 6 patterns and when does each fit?</li>
+<li>LangGraph quickstart vs. Strands quickstart — which fits a small project?</li>
+<li>When does multi-agent help vs. hurt vs. a single agent with more tools?</li>
+<li>What is OpenAI's Swarm pattern? What's it good for?</li>
+<li>Compare AutoGen, CrewAI, LangGraph, Strands at a high level.</li></ul></section>
+<section><h2>What you'll have when you're done</h2><ul>
+<li>You can decompose a complex task across specialists with intent.</li>
+<li>You've internalized the 6 patterns and know when each fits.</li>
+<li>You've seen the real multi-agent failure modes (infinite handoffs, context blow-up, coordination overhead).</li>
+<li>You know when <em>not</em> to use multi-agent — usually a single agent with better tools wins.</li></ul></section>
+<section><h2>Deliverable</h2>
+<p><code>swarm.py</code> — A planner + researcher + SQL agent, coordinated by an orchestrator — with notes on what helped and what didn't.</p>
+<p>Concepts unlocked: orchestration · handoffs · the 6 patterns · when multi-agent hurts</p></section>
+<section><h2>Intuition</h2>
+<p>Your agent has come a long way: it answers from your docs (Phase 2), queries your database (Phase 5), and since Phase 10 you can even test its behavior. But keep piling tools onto that one agent and it starts to crack: with fifteen tools it picks the wrong one, on long jobs it drifts off-task, and it blows the context window trying to hold everything at once. A single brain can only juggle so much.</p>
+<p>Restaurants solved this exact problem long ago. A tiny café has one cook who does everything — takes the order, grills, plates, washes up. It works until the dinner rush, when that one cook starts burning things. A busy kitchen runs differently: a <strong>head chef</strong> reads each incoming order and calls out the pieces; each <strong>station</strong> — grill, sauté, pastry — owns exactly one job with its own equipment; finished plates come back to the head chef, who assembles the dish. Crucially, nobody shouts across the kitchen at each other — everything flows through the head chef.</p>
+<p><strong>Multi-agent</strong> is that kitchen. You split the job across <em>specialist</em> agents — each with one narrow job and a small set of tools — coordinated by one agent that hands out work and combines the results.</p>
+<blockquote><strong>What multi-agent is.</strong> <strong>Multi-agent</strong> breaks a hard problem into specialized agents that pass work between them — a kitchen brigade instead of one overwhelmed cook. Each agent has a narrow job and a small set of tools, so it stays focused.</blockquote></section>
+<section><h2>How agents talk</h2>
+<p>So a team beats an overloaded generalist. But what does “hand work to each other” actually mean, mechanically? Is one agent messaging another? Sharing a chat room? Reading each other's minds?</p>
+<p>Here's the satisfying part: <strong>you already know the mechanism.</strong> It's the Phase 4 tool call, and nothing more. In Phase 4, your harness — the code around the model — told the LLM “a <code>calculator</code> tool exists,” and when the model asked for it, your code ran it and fed the text result back. To call a whole <em>agent</em>, the orchestrator's harness does exactly the same thing: it lists the worker as a tool. When the orchestrator asks for it, the harness runs the worker's entire agent loop — its own prompt, its own tools, as many rounds as it needs — and feeds the worker's final answer back as an ordinary tool result.</p>
+<p>You'll never write this yourself — your coding assistant will — but seeing it kills the mystery. To the orchestrator, a whole agent sits in the tool list right next to a calculator, and the model can't tell the difference:</p>
+<pre><code># to the orchestrator, a whole agent is just one more tool
+def ask_researcher(question):
+    return researcher_agent(question)   # runs a FULL agent loop, returns its final text
+
+TOOLS = [ask_researcher_def, calculator_def]  # side by side — request in, text out, either way</code></pre>
+<blockquote><strong>An agent is just a tool that thinks.</strong> To the caller, a worker agent looks like any other tool: a request goes in, text comes back. The only difference is what happens inside — a full agent loop instead of one function. Every multi-agent pattern you'll meet is built from this one move.</blockquote></section>
+<section><h2>The patterns</h2>
+<p>Once agents can call agents, the question becomes: <em>how do you wire the kitchen?</em> Anthropic's <em>Building Effective AI Agents</em> — the short guide most teams start from — names five ways to arrange a team. (Its sixth pattern is one you already know: the single autonomous agent, the one you built in Phase 4.) These five are the vocabulary for any multi-agent design:</p>
+<ul><li><strong>Routing</strong> — a dispatcher reads the request and sends it to the right specialist. <em>Kitchen:</em> the expediter reads a ticket and calls it to the right station. <em>Zentara:</em> a front-door agent sends “where's my parcel?” to the tracking agent and “this invoice is wrong” to the billing agent.</li><li><strong>Orchestrator-workers</strong> — a manager agent breaks the task into pieces, hands each to a worker, then combines the results. (You'll build this one.) <em>Kitchen:</em> the head chef splits a banquet order across stations and plates the final dish. <em>Zentara:</em> “prepare the Meridian account review” — docs questions go to the RAG worker, numbers to the SQL worker, and a writer assembles the report.</li><li><strong>Prompt chaining</strong> — a fixed sequence: the output of one agent feeds the next. <em>Kitchen:</em> an assembly line — prep, cook, plate, always in that order. <em>Zentara:</em> draft a delay-apology email → check it against the refund policy → translate it for the customer's region.</li><li><strong>Evaluator-optimizer</strong> — one agent does the work, a second reviews it and sends it back for another pass. <em>Kitchen:</em> the head chef tastes the dish and returns it until it's right. <em>Zentara:</em> one agent drafts a customs declaration, a checker agent verifies every code, and it loops until clean.</li><li><strong>Parallelization</strong> — fan the same work out to several agents at once and merge the answers. <em>Kitchen:</em> three cooks each prep a batch simultaneously for a big order. <em>Zentara:</em> quote one shipment with three carrier agents at the same time, then pick the cheapest.</li></ul>
+<p>Here's the pattern you'll build — orchestrator-workers — drawn as a kitchen: the head chef in the middle, stations around it.</p>
+<p><em>Reading the arrows:</em> <strong>solid arrows</strong> are work being handed out — the head chef passing tickets to stations. <strong>Dashed arrows</strong> are results reporting back. Every hand-out and every report-back is the same Phase 4 move from the last section: a tool call in, text back out.</p></section>
+<section><h2>The honest caveat</h2>
+<p>Before you rush off to build a brigade, here's the part most tutorials skip: <strong>multi-agent is overkill for most apps.</strong> A single well-prompted agent with good tools beats a six-agent swarm about 80% of the time — and the swarm adds latency, cost, and a pile of new ways to fail. A food truck with a three-item menu does not need a head chef and five stations.</p>
+<p>The signals that you genuinely need a team are specific:</p>
+<ul><li><strong>Tool confusion</strong> — one agent with 12+ tools keeps picking the wrong one, and trimming descriptions didn't fix it.</li><li><strong>Long-task drift</strong> — jobs with many steps where the agent loses the thread before the end.</li><li><strong>Genuinely parallel work</strong> — independent pieces (three carrier quotes, five documents to summarize) that could truly run at the same time.</li></ul>
+<blockquote><strong>When NOT to use a team.</strong> One agent with good tools beats a team you can't debug. Every handoff is a seam where information gets dropped or garbled — and a wrong answer can now be hiding inside any of five agents <em>or</em> in the seams between them. Remember Phase 6: you needed traces to see inside <em>one</em> agent. A team multiplies that — you need a trace for every agent plus every handoff, or debugging becomes guesswork. Don't go multi-agent because the diagram looks impressive; do it when a single agent <em>demonstrably</em> can't cope.</blockquote></section>
+<section><h2>Build a small team</h2>
+<p>Time to run the kitchen yourself. You'll rebuild your Phase 4 agent — <code>agent.py</code>, the one that routes questions to your RAG, a web search, or a calculator — as an orchestrator-workers team: a planner, a RAG agent, and a SQL agent, coordinated by an orchestrator. Then, just as important, you'll write down honestly where the team helped and where it just added overhead.</p>
+<p>Read what it builds — the head chef in code. The orchestrator plans, hands each step to the right station, and plates the result:</p>
+<pre><code># swarm.py — an orchestrator delegating to specialist agents
+def orchestrator(task):
+    plan = planner_agent(task)                # read the ticket: break the task into steps
+    results = []
+    for step in plan:
+        if step.kind == "docs":
+            results.append(rag_agent(step))   # Phase 2 RAG, working one station
+        elif step.kind == "data":
+            results.append(sql_agent(step))   # Phase 5 SQL, working another
+    return writer_agent(task, results)        # plate it: combine into a final answer</code></pre>
+<blockquote><strong>Deliverable — swarm.py.</strong> A planner + researcher + SQL agent coordinated by an orchestrator — plus an honest note on what the team helped with and what it didn't. Knowing when <em>not</em> to use multi-agent is half the skill. Next, in the finale, you'll step back and put a name on all the machinery you've built around the model.</blockquote></section>
+<nav class="ssr-pager">
+<a rel="prev" href="/learning/genai/phase-10-agent-evals">← Phase 10: Test the whole loop</a>
+<a href="/learning/genai">All 12 phases</a>
+<a rel="next" href="/learning/genai/phase-12-agent-harness">Phase 12: The runtime around the model →</a>
+</nav>
+</div></div>
   <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>

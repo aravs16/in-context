@@ -3,82 +3,30 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The GenAI Learning Path — A Beginner's Build-As-You-Learn Roadmap | In Context</title>
-<meta name="description" content="A free, beginner-first GenAI learning path. 12 phases — API basics, RAG, evals, agents, text-to-SQL, observability, guardrails, memory, MCP, agent eval, multi-agent, harnesses — each shipping a working artifact the next phase extends." />
+<title>Phase 6 — See what's happening | GenAI Learning Path | In Context</title>
+<meta name="description" content="Instrument the agent so you can debug and optimize it. Once your agent makes multiple LLM and tool calls per request, you can't debug it from the final…" />
 <meta name="keywords" content="GenAI learning path, learn generative AI, AI agents tutorial, RAG tutorial, LLM beginner, MCP, prompt engineering, agent evaluation, Anthropic Claude, build AI agents" />
 <meta name="author" content="Aravind Singirikonda" />
 <meta name="robots" content="index,follow,max-image-preview:large" />
-<link rel="canonical" href="https://www.incontext.sh/learning/genai" />
+<link rel="canonical" href="https://www.incontext.sh/learning/genai/phase-6-llm-observability" />
 
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="In Context" />
-<meta property="og:title" content="The GenAI Learning Path — A Beginner's Build-As-You-Learn Roadmap" />
-<meta property="og:description" content="12 phases, one growing codebase. From your first LLM API call to a multi-agent system with memory, tools, guardrails, evals, and text-to-SQL. Free, no signup." />
-<meta property="og:url" content="https://www.incontext.sh/learning/genai" />
+<meta property="og:title" content="Phase 6 — See what's happening | GenAI Learning Path" />
+<meta property="og:description" content="Instrument the agent so you can debug and optimize it. Once your agent makes multiple LLM and tool calls per request, you can't debug it from the final…" />
+<meta property="og:url" content="https://www.incontext.sh/learning/genai/phase-6-llm-observability" />
 <meta property="og:locale" content="en_US" />
-<meta property="og:image" content="https://www.incontext.sh/learning/genai/og/learning-path.png" />
+<meta property="og:image" content="https://www.incontext.sh/learning/genai/og/phase-6-llm-observability.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="The GenAI Learning Path" />
-<meta name="twitter:description" content="12 phases, build-as-you-learn. API calls → RAG → evals → agents → text-to-SQL → multi-agent. Free, beginner-first." />
+<meta name="twitter:title" content="Phase 6 — See what's happening | GenAI Learning Path" />
+<meta name="twitter:description" content="Instrument the agent so you can debug and optimize it. Once your agent makes multiple LLM and tool calls per request, you can't debug it from the final…" />
 <meta name="twitter:creator" content="@aravs16" />
-<meta name="twitter:image" content="https://www.incontext.sh/learning/genai/og/learning-path.png" />
+<meta name="twitter:image" content="https://www.incontext.sh/learning/genai/og/phase-6-llm-observability.png" />
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Course",
-  "name": "The GenAI Learning Path",
-  "description": "A practical, beginner-first build-as-you-learn roadmap for Generative AI. Twelve phases growing one running codebase from a single LLM API call into a multi-agent system with memory, tools, guardrails, evals, and text-to-SQL.",
-  "url": "https://www.incontext.sh/learning/genai",
-  "inLanguage": "en",
-  "educationalLevel": "Beginner",
-  "learningResourceType": "Tutorial",
-  "isAccessibleForFree": true,
-  "audience": {
-    "@type": "EducationalAudience",
-    "educationalRole": "self-learner"
-  },
-  "provider": {
-    "@type": "Person",
-    "name": "Aravind Singirikonda",
-    "url": "https://www.incontext.sh"
-  },
-  "author": {
-    "@type": "Person",
-    "name": "Aravind Singirikonda",
-    "url": "https://www.incontext.sh"
-  },
-  "hasCourseInstance": {
-    "@type": "CourseInstance",
-    "courseMode": "online",
-    "courseWorkload": "PT40H"
-  },
-  "teaches": [
-    "LLM API basics", "Retrieval-Augmented Generation (RAG)", "Prompt and RAG evaluation with Promptfoo",
-    "Tool use and the agent loop", "Text-to-SQL with schema injection and validation",
-    "LLM observability and tracing", "Guardrails for LLM apps",
-    "Short-term and long-term memory for agents", "Model Context Protocol (MCP)",
-    "Agent-level evaluation", "Multi-agent orchestration", "Agent harness design"
-  ],
-  "syllabusSections": [
-    { "@type": "Syllabus", "name": "Phase 1 — Talk to an LLM",            "description": "Make your first API call. Get a feel for system prompts, temperature, and how the same prompt behaves across different models." },
-    { "@type": "Syllabus", "name": "Phase 2 — Give the LLM your data",    "description": "Build a RAG pipeline over your own documents with FAISS. Experiment with fixed-size, recursive, and semantic chunking." },
-    { "@type": "Syllabus", "name": "Phase 3 — Stop guessing if it works", "description": "Use Promptfoo to write a real eval suite. Compare models, prompts, and chunking strategies with data, not vibes." },
-    { "@type": "Syllabus", "name": "Phase 4 — Let the LLM use tools",     "description": "Build a single agent. Wrap RAG, web search, and a calculator as tools. Feel the agent loop." },
-    { "@type": "Syllabus", "name": "Phase 5 — Talk to your database",     "description": "Text-to-SQL: schema-aware prompting, generated query validation, a one-shot repair loop, and read-only safety." },
-    { "@type": "Syllabus", "name": "Phase 6 — See what's happening",      "description": "Instrument every LLM and tool call with Langfuse or Phoenix. Cut cost and latency with caching and model routing." },
-    { "@type": "Syllabus", "name": "Phase 7 — Keep the agent in its lane","description": "Add input guards, output validation, PII redaction, and an LLM-as-judge groundedness check." },
-    { "@type": "Syllabus", "name": "Phase 8 — Agents that remember",      "description": "Short-term and long-term memory. User facts, conversation summaries, identity loaded at session start." },
-    { "@type": "Syllabus", "name": "Phase 9 — Standardize your tools",    "description": "Convert a tool into an MCP server. Plug community MCP servers (filesystem, GitHub) into your agent." },
-    { "@type": "Syllabus", "name": "Phase 10 — Test the whole loop",      "description": "Agent-level evaluation: trajectory correctness, hallucination rate, refusal rate, cost per task — in CI." },
-    { "@type": "Syllabus", "name": "Phase 11 — From one agent to a team", "description": "Multi-agent with LangGraph or Strands. The six agentic patterns and when each one helps versus hurts." },
-    { "@type": "Syllabus", "name": "Phase 12 — The runtime around the model", "description": "Compare your hand-rolled agent loop to a real harness. Tool dispatch, retries, hooks, permissions, sessions." }
-  ]
-}
-</script>
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"LearningResource","name":"Phase 6 — See what's happening","description":"Instrument the agent so you can debug and optimize it. Once your agent makes multiple LLM and tool calls per request, you can't debug it from the final…","url":"https://www.incontext.sh/learning/genai/phase-6-llm-observability","inLanguage":"en","educationalLevel":"Beginner","learningResourceType":"Tutorial","isAccessibleForFree":true,"teaches":["tracing","prompt caching","token economics","model routing"],"isPartOf":{"@type":"Course","name":"The GenAI Learning Path","url":"https://www.incontext.sh/learning/genai"},"author":{"@type":"Person","name":"Aravind Singirikonda","url":"https://www.incontext.sh/"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"In Context","item":"https://www.incontext.sh/"},{"@type":"ListItem","position":2,"name":"GenAI Learning Path","item":"https://www.incontext.sh/learning/genai"},{"@type":"ListItem","position":3,"name":"Phase 6 — See what's happening","item":"https://www.incontext.sh/learning/genai/phase-6-llm-observability"}]}]</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1783,7 +1731,81 @@
 </head>
 <body>
   <script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('genai-path-theme')||'ink')}catch(e){document.documentElement.setAttribute('data-theme','ink')}</script>
-  <div id="root"></div>
+  <div id="root">
+<div class="page ssr-phase">
+<nav class="ssr-crumbs"><a href="/">In Context</a> › <a href="/learning/genai">GenAI Learning Path</a> › <span>Phase 06</span></nav>
+<p class="ssr-kicker">PHASE 06 · OBSERVABILITY</p>
+<h1>See what's happening</h1>
+<p class="ssr-goal"><strong>Goal:</strong> Instrument the agent so you can debug and optimize it.</p>
+<section><h2>What this is</h2>
+<p>Once your agent makes multiple LLM and tool calls per request, you can't debug it from the final output alone. You need <strong>traces</strong> — a structured timeline of every step: which prompt went in, what came out, how many tokens, how long it took, what it cost.</p>
+<p>Tools like <strong>Langfuse</strong> (cloud, easy) and <strong>Arize Phoenix</strong> (local, open-source) wrap your LLM SDK calls and ship spans to a UI. You can click any request and walk through every model call and tool invocation in order. This turns "why did it answer wrong?" from hours of guessing into a 30-second scrub.</p>
+<p>Once you have traces, you also have <strong>aggregate metrics</strong>: avg/p95 latency, tokens per request, $/request. Now you can <em>optimize</em>: enable <strong>prompt caching</strong>, route simple subtasks to a smaller model, trim retrieved context, ask for structured JSON output instead of parsing prose. A 30–50% cost cut without quality loss is typical.</p></section>
+<section><h2>The plan</h2><ol>
+<li>Pick Langfuse (managed, free tier) or Arize Phoenix (run locally with Docker). Either has a Python decorator that auto-instruments LLM calls.</li>
+<li>Wrap every LLM call: log model, prompt, response, input/output tokens, latency, computed cost.</li>
+<li>Wrap every tool call: name, args, return value, latency. Now the full trace tree is visible per request.</li>
+<li>Compute aggregate metrics over the last N requests: avg & p95 latency, tokens/req, $/req. Display in a notebook or simple dashboard.</li>
+<li>Apply cost cuts: turn on <strong>prompt caching</strong> for your system prompt + tool definitions (massive win), route easy subtasks to Haiku, trim retrieved context to top-3 chunks, switch to structured JSON outputs.</li></ol></section>
+<section><h2>Ask your coding assistant</h2><ul>
+<li>What is distributed tracing? What's OpenTelemetry?</li>
+<li>Langfuse Python quickstart — auto-instrumenting Anthropic calls.</li>
+<li>How does Anthropic prompt caching work? What's the 90% discount about?</li>
+<li>What metrics should I track for an LLM app in production?</li>
+<li>Concrete strategies to cut LLM cost without dropping quality.</li></ul></section>
+<section><h2>What you'll have when you're done</h2><ul>
+<li>You can debug any agent failure by clicking through its trace.</li>
+<li>You know what your agent actually costs per request, in dollars.</li>
+<li>You've cut latency or cost by 30–50% with prompt caching + smaller models.</li>
+<li>You can answer 'what got better/worse in this PR' with numbers, not feelings.</li></ul></section>
+<section><h2>Deliverable</h2>
+<p><code>traces.ipynb</code> — A dashboard showing per-request traces and aggregate metrics (latency, tokens, $).</p>
+<p>Concepts unlocked: tracing · prompt caching · token economics · model routing</p></section>
+<section><h2>Intuition</h2>
+<p>In the last phase you gave your agent a second tool — it can now answer from documents <em>and</em> from your database. Which means one question can trigger several calls behind the scenes: a doc search, a SQL query, the model thinking two or three times. When the final answer comes back <em>wrong</em>, it tells you almost nothing about <em>why</em>. Which of those steps went sideways? You can't see it.</p>
+<p>What you need is for every request to keep a <strong>diary</strong>: each step writes an entry — what went in, what came out, how long it took (the wait time — engineers call it <strong>latency</strong>), and what it cost. That diary has a name: a <strong>trace</strong>.</p>
+<p>Watch one request write its diary. The chip up top is the request traveling through your agent; the timeline underneath is the trace filling in, one entry per step:</p>
+<p>Notice what the timeline gives you that the final answer never could: you can see which step was slow, which step cost money, and what each step actually did. Once every request leaves a diary like this, debugging stops being detective work.</p>
+<blockquote><strong>A trace is the request's diary.</strong> A <strong>trace</strong> is a step-by-step timeline of one request — every model call and tool call, with its inputs, outputs, time, and cost. It turns "why did it do that?" from guesswork into reading.</blockquote></section>
+<section><h2>What a trace shows</h2>
+<p>Each entry in the diary has a technical name: a <strong>span</strong> — one model call or one tool call, with its details. Stack the spans in order and you get the full <strong>trace tree</strong> for that request. Tools like <strong>Langfuse</strong> (hosted — it runs on their servers, you just sign up) or <strong>Arize Phoenix</strong> (runs on your own laptop) record the spans for you and show the tree in a UI you can click through.</p>
+<p>Make it concrete — here's what one real request's trace tree actually looks like, spans in order:</p>
+<p>Without a trace, all you'd see is that final answer, 1.37 seconds later. With one, you can see <em>exactly</em> where the time went — here, almost all of it is the last LLM call, not the search. That's the difference between guessing at a fix and reading the actual bottleneck.</p>
+<blockquote><strong>You don't write traces by hand.</strong> These tools give you a <strong>wrapper</strong> — a line that sits around your model calls and records everything automatically. You add it once and the timeline shows up on its own.</blockquote></section>
+<section><h2>Reading a trace: a real bug</h2>
+<p>You've seen what a healthy trace looks like. Now use one to catch a real bug — this is the moment traces earn their keep.</p>
+<p>A Zentara employee asks the agent: <em>"How much parental leave do I get?"</em> It answers, confidently: <em>"Zentara offers 15 days of paid vacation per year."</em> Fluent, polite — and about the wrong policy entirely.</p>
+<p>Your first instinct is to blame the prompt: <em>"maybe I should tell it to be more careful about leave types…"</em> You could spend an evening rewording instructions. Instead, open the trace:</p>
+<p>So the fix is in <strong>retrieval</strong> — better chunking, a better search query, maybe smaller chunks per Phase 2 — not in the prompt. A rewritten prompt would have changed nothing, because the model was never the problem. Thirty seconds of reading saved you an evening of tuning the innocent step.</p>
+<blockquote><strong>Fix the step, not the symptom.</strong> A wrong answer only tells you <em>that</em> something failed. The trace tells you <em>which step</em> failed. Without it, you tune whatever step you can see — usually the prompt — while the guilty one stays broken.</blockquote></section>
+<section><h2>From seeing to saving</h2>
+<p>Traces don't just catch bugs — once every call is recorded, you also get the <strong>numbers</strong>. Start with money. Zentara's agent averages <code>$0.006</code> per question. Sounds like nothing — until 500 employees ask it 4 questions a day: 2,000 requests × $0.006 = <strong>$12 a day, about $360 a month</strong>. Small numbers multiply.</p>
+<p>Time gets measured too. Alongside the <em>average</em> latency you'll see <strong>p95 latency</strong> everywhere, so here's what it means: line up all your response times from fastest to slowest — p95 is the time that 95% of requests beat. In plain words: <em>almost everyone waits less than this</em>. It's your bad-day number, and it matters more than the average, because users remember the slow requests, not the typical ones.</p>
+<p>And once you can measure cost, you can cut it — usually <strong>30–50% with no quality loss</strong>. On Zentara's $360/month, that's $110–180 back:</p>
+<ul><li><strong>Prompt caching</strong> — your system prompt and tool definitions are the same every call, so cache them and stop paying to re-read them. Often the single biggest win.</li><li><strong>Route by difficulty</strong> — send easy sub-tasks to a small cheap model; keep the frontier model for the hard parts.</li><li><strong>Trim the context</strong> — fewer retrieved chunks, shorter prompts. Less to read means less to pay for.</li><li><strong>Ask for structured output</strong> — have the model return JSON instead of prose you have to parse.</li></ul>
+<blockquote><strong>You can't optimize what you can't measure.</strong> This is why observability comes before tuning — the trace shows you exactly where the time and money are going, so you fix the real bottleneck instead of guessing.</blockquote></section>
+<section><h2>Add tracing</h2>
+<p>Add tracing to the agent you've been building, then read the numbers. You'll use <strong>Langfuse</strong> (free hosted tier) or <strong>Phoenix</strong> (local). One heads-up before the code will do anything: Langfuse needs a <strong>free account and two API keys</strong> (a public one and a secret one) so it knows where to send your traces. That's a five-minute signup at cloud.langfuse.com — and the prompt below asks your assistant to walk you through it first. Phoenix skips the signup entirely because it runs on your machine.</p>
+<p>Read what it sets up — the key idea is a wrapper that records each call automatically:</p>
+<pre><code># needs your Langfuse keys in .env first (free account — your assistant
+# walks you through it). Then: wrap the client once, every call is traced.
+from langfuse.anthropic import Anthropic   # drop-in wrapper, auto-traces calls
+client = Anthropic()
+
+client.messages.create(
+    model="claude-sonnet-4-6", max_tokens=512,
+    messages=[{"role": "user", "content": question}])
+# recorded automatically: prompt, response, tokens, latency, cost
+
+# later: read the aggregate numbers, or open the Langfuse UI
+#   avg latency · p95 latency · tokens/request · $/request</code></pre>
+<blockquote><strong>Deliverable — traces.ipynb.</strong> A dashboard of per-request traces plus the aggregate numbers (latency, tokens, $). Now you can debug by reading, and cut cost by 30–50% on purpose instead of by luck.</blockquote></section>
+<nav class="ssr-pager">
+<a rel="prev" href="/learning/genai/phase-5-text-to-sql">← Phase 5: Talk to your database</a>
+<a href="/learning/genai">All 12 phases</a>
+<a rel="next" href="/learning/genai/phase-7-guardrails">Phase 7: Keep the agent in its lane →</a>
+</nav>
+</div></div>
   <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>

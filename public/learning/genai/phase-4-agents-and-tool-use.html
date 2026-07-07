@@ -3,82 +3,30 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The GenAI Learning Path — A Beginner's Build-As-You-Learn Roadmap | In Context</title>
-<meta name="description" content="A free, beginner-first GenAI learning path. 12 phases — API basics, RAG, evals, agents, text-to-SQL, observability, guardrails, memory, MCP, agent eval, multi-agent, harnesses — each shipping a working artifact the next phase extends." />
+<title>Phase 4 — Let the LLM use tools | GenAI Learning Path | In Context</title>
+<meta name="description" content="Move from one-shot Q&amp;A to an LLM that decides actions. An agent is an LLM that can call tools (functions you define) and decide what to do next. You hand…" />
 <meta name="keywords" content="GenAI learning path, learn generative AI, AI agents tutorial, RAG tutorial, LLM beginner, MCP, prompt engineering, agent evaluation, Anthropic Claude, build AI agents" />
 <meta name="author" content="Aravind Singirikonda" />
 <meta name="robots" content="index,follow,max-image-preview:large" />
-<link rel="canonical" href="https://www.incontext.sh/learning/genai" />
+<link rel="canonical" href="https://www.incontext.sh/learning/genai/phase-4-agents-and-tool-use" />
 
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="In Context" />
-<meta property="og:title" content="The GenAI Learning Path — A Beginner's Build-As-You-Learn Roadmap" />
-<meta property="og:description" content="12 phases, one growing codebase. From your first LLM API call to a multi-agent system with memory, tools, guardrails, evals, and text-to-SQL. Free, no signup." />
-<meta property="og:url" content="https://www.incontext.sh/learning/genai" />
+<meta property="og:title" content="Phase 4 — Let the LLM use tools | GenAI Learning Path" />
+<meta property="og:description" content="Move from one-shot Q&amp;A to an LLM that decides actions. An agent is an LLM that can call tools (functions you define) and decide what to do next. You hand…" />
+<meta property="og:url" content="https://www.incontext.sh/learning/genai/phase-4-agents-and-tool-use" />
 <meta property="og:locale" content="en_US" />
-<meta property="og:image" content="https://www.incontext.sh/learning/genai/og/learning-path.png" />
+<meta property="og:image" content="https://www.incontext.sh/learning/genai/og/phase-4-agents-and-tool-use.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="The GenAI Learning Path" />
-<meta name="twitter:description" content="12 phases, build-as-you-learn. API calls → RAG → evals → agents → text-to-SQL → multi-agent. Free, beginner-first." />
+<meta name="twitter:title" content="Phase 4 — Let the LLM use tools | GenAI Learning Path" />
+<meta name="twitter:description" content="Move from one-shot Q&amp;A to an LLM that decides actions. An agent is an LLM that can call tools (functions you define) and decide what to do next. You hand…" />
 <meta name="twitter:creator" content="@aravs16" />
-<meta name="twitter:image" content="https://www.incontext.sh/learning/genai/og/learning-path.png" />
+<meta name="twitter:image" content="https://www.incontext.sh/learning/genai/og/phase-4-agents-and-tool-use.png" />
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Course",
-  "name": "The GenAI Learning Path",
-  "description": "A practical, beginner-first build-as-you-learn roadmap for Generative AI. Twelve phases growing one running codebase from a single LLM API call into a multi-agent system with memory, tools, guardrails, evals, and text-to-SQL.",
-  "url": "https://www.incontext.sh/learning/genai",
-  "inLanguage": "en",
-  "educationalLevel": "Beginner",
-  "learningResourceType": "Tutorial",
-  "isAccessibleForFree": true,
-  "audience": {
-    "@type": "EducationalAudience",
-    "educationalRole": "self-learner"
-  },
-  "provider": {
-    "@type": "Person",
-    "name": "Aravind Singirikonda",
-    "url": "https://www.incontext.sh"
-  },
-  "author": {
-    "@type": "Person",
-    "name": "Aravind Singirikonda",
-    "url": "https://www.incontext.sh"
-  },
-  "hasCourseInstance": {
-    "@type": "CourseInstance",
-    "courseMode": "online",
-    "courseWorkload": "PT40H"
-  },
-  "teaches": [
-    "LLM API basics", "Retrieval-Augmented Generation (RAG)", "Prompt and RAG evaluation with Promptfoo",
-    "Tool use and the agent loop", "Text-to-SQL with schema injection and validation",
-    "LLM observability and tracing", "Guardrails for LLM apps",
-    "Short-term and long-term memory for agents", "Model Context Protocol (MCP)",
-    "Agent-level evaluation", "Multi-agent orchestration", "Agent harness design"
-  ],
-  "syllabusSections": [
-    { "@type": "Syllabus", "name": "Phase 1 — Talk to an LLM",            "description": "Make your first API call. Get a feel for system prompts, temperature, and how the same prompt behaves across different models." },
-    { "@type": "Syllabus", "name": "Phase 2 — Give the LLM your data",    "description": "Build a RAG pipeline over your own documents with FAISS. Experiment with fixed-size, recursive, and semantic chunking." },
-    { "@type": "Syllabus", "name": "Phase 3 — Stop guessing if it works", "description": "Use Promptfoo to write a real eval suite. Compare models, prompts, and chunking strategies with data, not vibes." },
-    { "@type": "Syllabus", "name": "Phase 4 — Let the LLM use tools",     "description": "Build a single agent. Wrap RAG, web search, and a calculator as tools. Feel the agent loop." },
-    { "@type": "Syllabus", "name": "Phase 5 — Talk to your database",     "description": "Text-to-SQL: schema-aware prompting, generated query validation, a one-shot repair loop, and read-only safety." },
-    { "@type": "Syllabus", "name": "Phase 6 — See what's happening",      "description": "Instrument every LLM and tool call with Langfuse or Phoenix. Cut cost and latency with caching and model routing." },
-    { "@type": "Syllabus", "name": "Phase 7 — Keep the agent in its lane","description": "Add input guards, output validation, PII redaction, and an LLM-as-judge groundedness check." },
-    { "@type": "Syllabus", "name": "Phase 8 — Agents that remember",      "description": "Short-term and long-term memory. User facts, conversation summaries, identity loaded at session start." },
-    { "@type": "Syllabus", "name": "Phase 9 — Standardize your tools",    "description": "Convert a tool into an MCP server. Plug community MCP servers (filesystem, GitHub) into your agent." },
-    { "@type": "Syllabus", "name": "Phase 10 — Test the whole loop",      "description": "Agent-level evaluation: trajectory correctness, hallucination rate, refusal rate, cost per task — in CI." },
-    { "@type": "Syllabus", "name": "Phase 11 — From one agent to a team", "description": "Multi-agent with LangGraph or Strands. The six agentic patterns and when each one helps versus hurts." },
-    { "@type": "Syllabus", "name": "Phase 12 — The runtime around the model", "description": "Compare your hand-rolled agent loop to a real harness. Tool dispatch, retries, hooks, permissions, sessions." }
-  ]
-}
-</script>
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"LearningResource","name":"Phase 4 — Let the LLM use tools","description":"Move from one-shot Q&A to an LLM that decides actions. An agent is an LLM that can call tools (functions you define) and decide what to do next. You hand…","url":"https://www.incontext.sh/learning/genai/phase-4-agents-and-tool-use","inLanguage":"en","educationalLevel":"Beginner","learningResourceType":"Tutorial","isAccessibleForFree":true,"teaches":["function calling","the agent loop","ReAct","tool descriptions"],"isPartOf":{"@type":"Course","name":"The GenAI Learning Path","url":"https://www.incontext.sh/learning/genai"},"author":{"@type":"Person","name":"Aravind Singirikonda","url":"https://www.incontext.sh/"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"In Context","item":"https://www.incontext.sh/"},{"@type":"ListItem","position":2,"name":"GenAI Learning Path","item":"https://www.incontext.sh/learning/genai"},{"@type":"ListItem","position":3,"name":"Phase 4 — Let the LLM use tools","item":"https://www.incontext.sh/learning/genai/phase-4-agents-and-tool-use"}]}]</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1783,7 +1731,101 @@
 </head>
 <body>
   <script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('genai-path-theme')||'ink')}catch(e){document.documentElement.setAttribute('data-theme','ink')}</script>
-  <div id="root"></div>
+  <div id="root">
+<div class="page ssr-phase">
+<nav class="ssr-crumbs"><a href="/">In Context</a> › <a href="/learning/genai">GenAI Learning Path</a> › <span>Phase 04</span></nav>
+<p class="ssr-kicker">PHASE 04 · AGENT</p>
+<h1>Let the LLM use tools</h1>
+<p class="ssr-goal"><strong>Goal:</strong> Move from one-shot Q&A to an LLM that decides actions.</p>
+<section><h2>What this is</h2>
+<p>An <strong>agent</strong> is an LLM that can call <strong>tools</strong> (functions you define) and decide what to do next. You hand it a list of available tools with descriptions and parameter schemas. Instead of replying with text, the model can reply with "call <code>search_docs(query='...')</code>". Your code runs the tool, feeds the result back, and the model continues — maybe calling more tools, maybe answering. This think-act-observe loop is the agent.</p>
+<p>The key shift from a workflow to an agent: in a <strong>workflow</strong>, you decide the order of steps. In an <strong>agent</strong>, the LLM decides. That's powerful (handles novel inputs) and dangerous (the LLM picks badly when tool descriptions are vague).</p>
+<p>Tool descriptions are <strong>secretly another prompt</strong>. A good description tells the model when to use the tool, what it does, and what arguments mean. Bad descriptions cause the model to pick the wrong tool or hallucinate arguments — the #1 cause of agent failure.</p></section>
+<section><h2>The plan</h2><ol>
+<li>Use the raw SDK (no LangChain yet — you need to feel the loop before a framework hides it).</li>
+<li>Define 3 tools as Python functions with clear docstrings and type hints. Wrap them in the SDK's tool format.</li>
+<li>Write the agent loop: while the model responds with a <code>tool_use</code>, run the tool and append the result; otherwise, return the final answer. Cap at ~10 iterations to prevent runaway loops.</li>
+<li>Wrap your Phase 2 RAG pipeline as a <code>search_docs</code> tool.</li>
+<li>Add 2 more general tools: a calculator and a web-search tool (Brave or Tavily API).</li></ol></section>
+<section><h2>Ask your coding assistant</h2><ul>
+<li>How does tool use / function calling work in Claude or GPT? Show a minimal example.</li>
+<li>How should I write tool descriptions so the model picks the right one?</li>
+<li>What's the ReAct pattern (Reason + Act)?</li>
+<li>How do I prevent an agent from looping forever?</li>
+<li>Anthropic's tool use guide — what are the must-know patterns?</li></ul></section>
+<section><h2>What you'll have when you're done</h2><ul>
+<li>You have an assistant that picks the right capability for a question.</li>
+<li>You understand the difference between a workflow and an agent (and when each is right).</li>
+<li>You've felt how tool descriptions act as a second prompt.</li>
+<li>You've felt the agent loop end-to-end — Phase 5 plugs structured data (text-to-SQL) into the same shape.</li></ul></section>
+<section><h2>Deliverable</h2>
+<p><code>agent.py</code> — A chatbot that routes questions to the right tool: RAG, web search, or calculator.</p>
+<p>Concepts unlocked: function calling · the agent loop · ReAct · tool descriptions</p></section>
+<section><h2>Intuition</h2>
+<p>Everything so far has the model <em>talking</em> — it reads text and writes text back. But it can't <em>do</em> anything: it can't look something up, run a calculation, or check today's date. Ask a plain model <code>8,347 × 219</code> and it'll hand you a confident, wrong number.</p>
+<p>The obvious fix: give it a calculator. But here's the part almost everyone gets backwards at first — <strong>the model itself never touches the calculator.</strong> Remember Phase 1: an LLM is a math function, reached over an API, running on someone else's computers. It has no hands, no internet connection, no ability to run code. All it can ever do is send back <em>more text</em>.</p>
+<p>Here's a picture worth keeping for the rest of the course: the LLM is a <strong>brain in a jar</strong>. Brilliant, endlessly well-read — but sealed behind glass. It can hear you and talk back, and that is the entire list of things it can do. To get anything done in the real world, it needs a pair of <strong>hands outside the jar</strong>: something that listens for “please press the calculator buttons for me,” actually presses them, and reads the display back through the glass. This whole phase is about building those hands.</p>
+<p>So what does “give it a calculator” actually look like? Just one small round trip:</p>
+<p>Notice what the LLM actually contributed: not the answer 1,828,993 — just the <strong>numbers and the operator</strong>, <code>a=8347, b=219, op=×</code>. That's still just a prediction, the same next-word mechanism from Phase 1 — it's predicting <em>which tool-call text</em> comes next, not computing anything. The real multiplication happens somewhere else entirely, which is exactly what the rest of this phase is about.</p>
+<blockquote><strong>The critical correction.</strong> The LLM <strong>never executes a tool.</strong> It can only reply with text saying <em>which</em> tool it wants and <em>what</em> arguments to use. Something else has to actually run it and report back — code that runs on your side, called the <strong>harness</strong>. (And no, you won't be writing that code by hand — your coding assistant writes it for you, in the Build section.) Get this backwards and nothing else in this phase will make sense.</blockquote></section>
+<section><h2>The harness</h2>
+<p>In the intuition we left the LLM as a brain in a jar, asking for a pair of hands. The <strong>harness</strong> is those hands. Concretely, it's just a program: it holds the real tool functions (an actual calculator, an actual web search), sends the LLM a request, reads what it replies, and — when the LLM asks for a tool — is the one that actually runs it.</p>
+<p>And here's <em>where</em> those hands live: <strong>on your side</strong>. The harness runs wherever you run your program — your laptop today, maybe a server you control later. The model, meanwhile, stays exactly where it's been since Phase 1: behind the API, on the provider's computers. Two different machines, talking over the internet. Nothing about the model moved; you just put smarter code on your end of the line.</p>
+<p>One more detail that trips people up: the LLM never sees your real function. It only ever sees a <strong>description</strong> — the tool's name, what it does, and what arguments it takes. That description is what you hand the model as plain text; the actual working code never leaves your side. It stays inside the harness.</p>
+<p>Step 3 said “the loop runs the real function” — but what actually counts as a tool here? Almost anything. A <strong>tool</strong> isn't one specific kind of thing; it's just some real action your code can perform, wrapped up with a name and a description so the LLM knows it's available.</p>
+<ul><li><strong>A plain function</strong> — <code>calculator(a, b)</code>: pure code, no network, just arithmetic.</li><li><strong>A call to an external API</strong> — <code>get_weather(city)</code>: reaches out to a weather service over the internet and returns whatever it says.</li><li><strong>A database query</strong> — <code>run_sql(query)</code>: runs SQL against your company's database and returns the rows. (This is exactly Phase 5's tool.)</li><li><strong>A file read</strong> — <code>read_file(path)</code>: opens a file sitting on your machine and returns its text.</li><li><strong>One of your own systems</strong> — <code>search_docs(query)</code>: runs the RAG pipeline you built in Phase 2.</li><li><strong>A real-world side effect</strong> — <code>send_email(to, subject, body)</code>, <code>create_calendar_event(...)</code>: doesn't just return information, it actually changes something.</li></ul>
+<blockquote><strong>The LLM can't tell the difference.</strong> From the model's side, every tool looks identical — a name, a description, some arguments. Whether calling it means doing harmless arithmetic or sending a real email to a real customer is entirely up to what <em>your</em> code does when the harness runs it. Guard the risky ones accordingly (more on this in Phase 7).</blockquote>
+<blockquote><strong>Same shape as Phase 1's loop.</strong> This is still the predict-and-continue loop from Phase 1. The only difference: some of the "words" the model can produce are tool calls instead of plain text — and now there's a harness in the middle, carrying messages back and forth and doing the actual work.</blockquote></section>
+<section><h2>The agent loop</h2>
+<p>Put all of that on repeat and you get the full <strong>agent loop</strong>. Watch it happen, start to finish, on the calculator example:</p>
+<p>Notice the harness does <em>all</em> the moving — it carries the question to the LLM, carries the decision back, runs the real tool, carries the result back, and finally carries the answer out. The LLM only ever sits in one place and decides.</p>
+<p>Did you catch “one <em>or more</em>”? The model can ask for several tools in a single reply when they don't depend on each other. Ask <em>“which is warmer today, Boston or Seattle?”</em> and it may request <code>get_weather("Boston")</code> <strong>and</strong> <code>get_weather("Seattle")</code> in the same turn — the harness simply runs both and sends both results back together. When one call <em>depends</em> on another's result, though, it has to go one round at a time — you'll see exactly that in the next section.</p>
+<blockquote><strong>Always cap the loop.</strong> Cap it at some number of rounds (say, 10) so a confused agent that keeps asking for tools can't spin forever. Enforcing that cap is entirely the harness's job — the model has no concept of "too many rounds."</blockquote>
+<blockquote><strong>Workflow vs agent.</strong> In a <strong>workflow</strong>, <em>you</em> hard-code the order of steps. In an <strong>agent</strong>, the <em>model</em> decides the order — the harness just carries out whatever it asks for. Agents handle surprises a fixed script can't — but they also fail in ways a fixed script can't. Reach for an agent only when you genuinely can't lay out the steps ahead of time.</blockquote></section>
+<section><h2>Two tools, one question</h2>
+<p>One round trip is enough for a calculator. Real questions usually aren't that polite. Here's one from Zentara Logistics — our made-up shipping company — that <em>no single tool</em> can answer: <em>“Where is order #4817 right now?”</em></p>
+<p>The harness has two tools on offer: <code>lookup_order(order_id)</code> — fetches an order's status and which truck it's on — and <code>get_truck_location(truck_id)</code> — returns a truck's live GPS position. Neither alone gets you there. Watch the loop chain them:</p>
+<p>Two things to notice. First, the second tool call <strong>used the first one's result</strong> — the model couldn't have asked for T-42's location before learning the truck was T-42. That's why chained calls go one round at a time, unlike the two-cities weather example. Second, <strong>nobody scripted that order</strong>. There's no line of code anywhere saying “first look up the order, then check the truck.” The model read each result and decided what it needed next.</p>
+<blockquote><strong>This is what "agent" actually means.</strong> The model plans the route — which tool, with what arguments, based on what it just learned — and the harness does every step of the actual walking. Decision-making and doing are split across two machines: the model behind the API decides; your code at home does.</blockquote></section>
+<section><h2>Describing your tools</h2>
+<p>In the Zentara example, how did the model know <code>lookup_order</code> even existed, or what to pass it? Only from its <strong>description</strong>. That's why the single biggest thing that makes or breaks an agent isn't the model — it's how you describe your tools to it. A tool description is really just another prompt: it's the <em>only</em> information the LLM has when deciding whether to reach for that tool.</p>
+<p>Good news: a good description follows one simple rule. Every time, it answers three questions:</p>
+<p>Watch the rule pass and fail on the same tool:</p>
+<blockquote><strong>This is the #1 cause of agent failure.</strong> Vague tool descriptions make the model pick the wrong tool or make up arguments. Spend your effort writing clear <strong>what / when / arguments</strong> descriptions — it helps more than a bigger model.</blockquote></section>
+<section><h2>Build the agent</h2>
+<p>Time to build <code>agent.py</code> — a harness that routes each question to the right tool: your Phase 2 RAG for document questions, a web search for current events, a calculator for math. You'll have the loop written plainly (no framework yet) so you can see every moving part.</p>
+<p>Read what it builds. The heart of it is the loop — the harness keeps running tools until the model stops asking for them. (The sample below uses Anthropic's SDK, the course default. If you picked OpenAI back in Phase 1, your assistant will produce the equivalent — the names differ, the shape of the loop is identical.)</p>
+<pre><code># agent.py — the harness: carries messages, runs tools, never lets the model touch either
+from anthropic import Anthropic
+client = Anthropic()
+
+TOOLS = [search_docs_def, web_search_def, calculator_def]  # descriptions only — name + schema
+
+def run(question):
+    messages = [{"role": "user", "content": question}]
+    for _ in range(10):                       # the harness caps the loop
+        reply = client.messages.create(
+            model="claude-sonnet-4-6", max_tokens=1024,
+            tools=TOOLS, messages=messages)
+        messages.append({"role": "assistant", "content": reply.content})
+        calls = [b for b in reply.content if b.type == "tool_use"]
+        if not calls:                         # no tool call -&gt; this IS the final answer
+            return reply.content[0].text
+        results = [
+            {"type": "tool_result", "tool_use_id": c.id,
+             "content": run_tool(c.name, c.input)}   # the harness runs it — never the model
+            for c in calls
+        ]
+        messages.append({"role": "user", "content": results})
+    return "Stopped: too many tool calls."</code></pre>
+<blockquote><strong>Spot the plural.</strong> See the variable <code>calls</code>? Plural on purpose. That's the several-tools-at-once case from the agent-loop section: if the model asks for two tools in one reply, the harness runs each real function and sends <em>all</em> the results back together.</blockquote>
+<blockquote><strong>Deliverable — agent.py.</strong> A harness that routes each question to the right tool — RAG, web search, or calculator — runs it for real, and loops until the model can answer. Phase 5 hands it one more tool: your database.</blockquote></section>
+<nav class="ssr-pager">
+<a rel="prev" href="/learning/genai/phase-3-evals-stop-guessing">← Phase 3: Stop guessing if it works</a>
+<a href="/learning/genai">All 12 phases</a>
+<a rel="next" href="/learning/genai/phase-5-text-to-sql">Phase 5: Talk to your database →</a>
+</nav>
+</div></div>
   <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>

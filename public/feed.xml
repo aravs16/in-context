@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+  <title>In Context</title>
+  <link>https://www.incontext.sh/</link>
+  <atom:link href="https://www.incontext.sh/feed.xml" rel="self" type="application/rss+xml" />
+  <description>Essays on agentic AI, safety, and the practice of building with LLMs — by Aravind Singirikonda.</description>
+  <language>en-us</language>
+  <item>
+    <title>Engine, Track, Driver, Payload — a frame for enterprise GenAI</title>
+    <link>https://www.incontext.sh/p/engine-track-driver-payload</link>
+    <guid isPermaLink="true">https://www.incontext.sh/p/engine-track-driver-payload</guid>
+    <pubDate>Tue, 09 Jun 2026 12:00:00 GMT</pubDate>
+    <description>A simple mental model for getting enterprise GenAI past the demo stage and into the operating model — without breaking what makes the business work.</description>
+  </item>
+  <item>
+    <title>How to break into GenAI</title>
+    <link>https://www.incontext.sh/p/how-to-break-into-genai</link>
+    <guid isPermaLink="true">https://www.incontext.sh/p/how-to-break-into-genai</guid>
+    <pubDate>Tue, 26 May 2026 12:00:00 GMT</pubDate>
+    <description>I get asked this every week. The question has two distinct problems hidden inside it — learning the work and finding the job — and they have to be solved in parallel. Here's the version I keep sending people.</description>
+  </item>
+  <item>
+    <title>Articulate isn't wise</title>
+    <link>https://www.incontext.sh/p/articulate-isnt-wise</link>
+    <guid isPermaLink="true">https://www.incontext.sh/p/articulate-isnt-wise</guid>
+    <pubDate>Mon, 25 May 2026 12:00:00 GMT</pubDate>
+    <description>AI is now more articulate about grief, anxiety, and loneliness than most humans are about their own feelings. We trust the voice that sounds like it knows. That's quietly become the wrong move.</description>
+  </item>
+  <item>
+    <title>Education in the age of AI</title>
+    <link>https://www.incontext.sh/p/education-in-the-age-of-ai</link>
+    <guid isPermaLink="true">https://www.incontext.sh/p/education-in-the-age-of-ai</guid>
+    <pubDate>Wed, 20 May 2026 12:00:00 GMT</pubDate>
+    <description>Most schools optimize for recall, not understanding. The constraint that forced that trade-off just broke — and the version of education that's coming can be radically better, if we choose it.</description>
+  </item>
+  <item>
+    <title>The GenAI strategy stack — a framework for enterprise AI adoption</title>
+    <link>https://www.incontext.sh/p/genai-strategy-stack</link>
+    <guid isPermaLink="true">https://www.incontext.sh/p/genai-strategy-stack</guid>
+    <pubDate>Mon, 27 Apr 2026 12:00:00 GMT</pubDate>
+    <description>Every week I sit with companies working through their GenAI strategy. The same four-layer shape keeps showing up underneath every conversation — and the teams that ship invest across all of it.</description>
+  </item>
+  <item>
+    <title>The five-line Claude Code hook that gives me back 30 minutes a day</title>
+    <link>https://www.incontext.sh/p/claude-code-notification-hook</link>
+    <guid isPermaLink="true">https://www.incontext.sh/p/claude-code-notification-hook</guid>
+    <pubDate>Wed, 15 Apr 2026 12:00:00 GMT</pubDate>
+    <description>Kick off a Claude Code task, switch screens, get pulled into something else, come back 20 minutes later and find it sitting there waiting for a Yes/No. There's a dead-simple fix.</description>
+  </item>
+  <item>
+    <title>ccview — a tiny TUI companion for Claude Code</title>
+    <link>https://www.incontext.sh/p/ccview</link>
+    <guid isPermaLink="true">https://www.incontext.sh/p/ccview</guid>
+    <pubDate>Wed, 08 Apr 2026 12:00:00 GMT</pubDate>
+    <description>I've been running Claude Code for almost everything lately — personal finances, research, side projects. The output is great. The terminal is a terrible place to read it. So I built a small thing.</description>
+  </item>
+  <item>
+    <title>What &quot;safe&quot; means when you ship GenAI to an enterprise</title>
+    <link>https://www.incontext.sh/p/enterprise-safety</link>
+    <guid isPermaLink="true">https://www.incontext.sh/p/enterprise-safety</guid>
+    <pubDate>Wed, 18 Feb 2026 12:00:00 GMT</pubDate>
+    <description>When safety comes up in a customer conversation, it almost never means what the AI labs mean. Here's what enterprise safety actually involves — and where the two conversations finally meet.</description>
+  </item>
+  <item>
+    <title>The Flappy Bird test</title>
+    <link>https://www.incontext.sh/p/flappy-bird-test</link>
+    <guid isPermaLink="true">https://www.incontext.sh/p/flappy-bird-test</guid>
+    <pubDate>Tue, 22 Jul 2025 12:00:00 GMT</pubDate>
+    <description>When I want to know if a new coding assistant is actually any good, I ask it to build Flappy Bird. One small prompt catches almost everything that matters.</description>
+  </item>
+</channel>
+</rss>

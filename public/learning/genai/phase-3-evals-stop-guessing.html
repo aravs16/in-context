@@ -3,82 +3,30 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The GenAI Learning Path — A Beginner's Build-As-You-Learn Roadmap | In Context</title>
-<meta name="description" content="A free, beginner-first GenAI learning path. 12 phases — API basics, RAG, evals, agents, text-to-SQL, observability, guardrails, memory, MCP, agent eval, multi-agent, harnesses — each shipping a working artifact the next phase extends." />
+<title>Phase 3 — Stop guessing if it works | GenAI Learning Path | In Context</title>
+<meta name="description" content="Measure quality systematically instead of eyeballing outputs. Evaluation is how you know your LLM app actually works — not by reading a few outputs and…" />
 <meta name="keywords" content="GenAI learning path, learn generative AI, AI agents tutorial, RAG tutorial, LLM beginner, MCP, prompt engineering, agent evaluation, Anthropic Claude, build AI agents" />
 <meta name="author" content="Aravind Singirikonda" />
 <meta name="robots" content="index,follow,max-image-preview:large" />
-<link rel="canonical" href="https://www.incontext.sh/learning/genai" />
+<link rel="canonical" href="https://www.incontext.sh/learning/genai/phase-3-evals-stop-guessing" />
 
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="In Context" />
-<meta property="og:title" content="The GenAI Learning Path — A Beginner's Build-As-You-Learn Roadmap" />
-<meta property="og:description" content="12 phases, one growing codebase. From your first LLM API call to a multi-agent system with memory, tools, guardrails, evals, and text-to-SQL. Free, no signup." />
-<meta property="og:url" content="https://www.incontext.sh/learning/genai" />
+<meta property="og:title" content="Phase 3 — Stop guessing if it works | GenAI Learning Path" />
+<meta property="og:description" content="Measure quality systematically instead of eyeballing outputs. Evaluation is how you know your LLM app actually works — not by reading a few outputs and…" />
+<meta property="og:url" content="https://www.incontext.sh/learning/genai/phase-3-evals-stop-guessing" />
 <meta property="og:locale" content="en_US" />
-<meta property="og:image" content="https://www.incontext.sh/learning/genai/og/learning-path.png" />
+<meta property="og:image" content="https://www.incontext.sh/learning/genai/og/phase-3-evals-stop-guessing.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="The GenAI Learning Path" />
-<meta name="twitter:description" content="12 phases, build-as-you-learn. API calls → RAG → evals → agents → text-to-SQL → multi-agent. Free, beginner-first." />
+<meta name="twitter:title" content="Phase 3 — Stop guessing if it works | GenAI Learning Path" />
+<meta name="twitter:description" content="Measure quality systematically instead of eyeballing outputs. Evaluation is how you know your LLM app actually works — not by reading a few outputs and…" />
 <meta name="twitter:creator" content="@aravs16" />
-<meta name="twitter:image" content="https://www.incontext.sh/learning/genai/og/learning-path.png" />
+<meta name="twitter:image" content="https://www.incontext.sh/learning/genai/og/phase-3-evals-stop-guessing.png" />
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Course",
-  "name": "The GenAI Learning Path",
-  "description": "A practical, beginner-first build-as-you-learn roadmap for Generative AI. Twelve phases growing one running codebase from a single LLM API call into a multi-agent system with memory, tools, guardrails, evals, and text-to-SQL.",
-  "url": "https://www.incontext.sh/learning/genai",
-  "inLanguage": "en",
-  "educationalLevel": "Beginner",
-  "learningResourceType": "Tutorial",
-  "isAccessibleForFree": true,
-  "audience": {
-    "@type": "EducationalAudience",
-    "educationalRole": "self-learner"
-  },
-  "provider": {
-    "@type": "Person",
-    "name": "Aravind Singirikonda",
-    "url": "https://www.incontext.sh"
-  },
-  "author": {
-    "@type": "Person",
-    "name": "Aravind Singirikonda",
-    "url": "https://www.incontext.sh"
-  },
-  "hasCourseInstance": {
-    "@type": "CourseInstance",
-    "courseMode": "online",
-    "courseWorkload": "PT40H"
-  },
-  "teaches": [
-    "LLM API basics", "Retrieval-Augmented Generation (RAG)", "Prompt and RAG evaluation with Promptfoo",
-    "Tool use and the agent loop", "Text-to-SQL with schema injection and validation",
-    "LLM observability and tracing", "Guardrails for LLM apps",
-    "Short-term and long-term memory for agents", "Model Context Protocol (MCP)",
-    "Agent-level evaluation", "Multi-agent orchestration", "Agent harness design"
-  ],
-  "syllabusSections": [
-    { "@type": "Syllabus", "name": "Phase 1 — Talk to an LLM",            "description": "Make your first API call. Get a feel for system prompts, temperature, and how the same prompt behaves across different models." },
-    { "@type": "Syllabus", "name": "Phase 2 — Give the LLM your data",    "description": "Build a RAG pipeline over your own documents with FAISS. Experiment with fixed-size, recursive, and semantic chunking." },
-    { "@type": "Syllabus", "name": "Phase 3 — Stop guessing if it works", "description": "Use Promptfoo to write a real eval suite. Compare models, prompts, and chunking strategies with data, not vibes." },
-    { "@type": "Syllabus", "name": "Phase 4 — Let the LLM use tools",     "description": "Build a single agent. Wrap RAG, web search, and a calculator as tools. Feel the agent loop." },
-    { "@type": "Syllabus", "name": "Phase 5 — Talk to your database",     "description": "Text-to-SQL: schema-aware prompting, generated query validation, a one-shot repair loop, and read-only safety." },
-    { "@type": "Syllabus", "name": "Phase 6 — See what's happening",      "description": "Instrument every LLM and tool call with Langfuse or Phoenix. Cut cost and latency with caching and model routing." },
-    { "@type": "Syllabus", "name": "Phase 7 — Keep the agent in its lane","description": "Add input guards, output validation, PII redaction, and an LLM-as-judge groundedness check." },
-    { "@type": "Syllabus", "name": "Phase 8 — Agents that remember",      "description": "Short-term and long-term memory. User facts, conversation summaries, identity loaded at session start." },
-    { "@type": "Syllabus", "name": "Phase 9 — Standardize your tools",    "description": "Convert a tool into an MCP server. Plug community MCP servers (filesystem, GitHub) into your agent." },
-    { "@type": "Syllabus", "name": "Phase 10 — Test the whole loop",      "description": "Agent-level evaluation: trajectory correctness, hallucination rate, refusal rate, cost per task — in CI." },
-    { "@type": "Syllabus", "name": "Phase 11 — From one agent to a team", "description": "Multi-agent with LangGraph or Strands. The six agentic patterns and when each one helps versus hurts." },
-    { "@type": "Syllabus", "name": "Phase 12 — The runtime around the model", "description": "Compare your hand-rolled agent loop to a real harness. Tool dispatch, retries, hooks, permissions, sessions." }
-  ]
-}
-</script>
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"LearningResource","name":"Phase 3 — Stop guessing if it works","description":"Measure quality systematically instead of eyeballing outputs. Evaluation is how you know your LLM app actually works — not by reading a few outputs and…","url":"https://www.incontext.sh/learning/genai/phase-3-evals-stop-guessing","inLanguage":"en","educationalLevel":"Beginner","learningResourceType":"Tutorial","isAccessibleForFree":true,"teaches":["offline eval","regression testing","LLM-as-judge","data-backed selection"],"isPartOf":{"@type":"Course","name":"The GenAI Learning Path","url":"https://www.incontext.sh/learning/genai"},"author":{"@type":"Person","name":"Aravind Singirikonda","url":"https://www.incontext.sh/"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"In Context","item":"https://www.incontext.sh/"},{"@type":"ListItem","position":2,"name":"GenAI Learning Path","item":"https://www.incontext.sh/learning/genai"},{"@type":"ListItem","position":3,"name":"Phase 3 — Stop guessing if it works","item":"https://www.incontext.sh/learning/genai/phase-3-evals-stop-guessing"}]}]</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1783,7 +1731,108 @@
 </head>
 <body>
   <script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('genai-path-theme')||'ink')}catch(e){document.documentElement.setAttribute('data-theme','ink')}</script>
-  <div id="root"></div>
+  <div id="root">
+<div class="page ssr-phase">
+<nav class="ssr-crumbs"><a href="/">In Context</a> › <a href="/learning/genai">GenAI Learning Path</a> › <span>Phase 03</span></nav>
+<p class="ssr-kicker">PHASE 03 · EVAL</p>
+<h1>Stop guessing if it works</h1>
+<p class="ssr-goal"><strong>Goal:</strong> Measure quality systematically instead of eyeballing outputs.</p>
+<section><h2>What this is</h2>
+<p><strong>Evaluation</strong> is how you know your LLM app actually works — not by reading a few outputs and saying "looks good", but with a test suite that runs on every change. Without eval, you're flying blind: a small prompt tweak can quietly break 30% of cases and you'll never notice until a user complains.</p>
+<p><strong>Promptfoo</strong> is the most popular open-source eval framework. You write test cases in YAML (a question + assertions like "answer must contain X" or "an LLM judge gives this a 4/5"), define one or more <strong>providers</strong> (model + prompt template combinations), and run <code>promptfoo eval</code>. It gives you a side-by-side table with pass/fail, latency, and cost per cell.</p>
+<p>There's a vocabulary worth learning: <strong>offline eval</strong> (running tests against a fixed dataset, like CI) vs. <strong>online eval</strong> (measuring real user interactions in production). You're starting with offline. The hardest part isn't the tool — it's writing good test cases.</p></section>
+<section><h2>The plan</h2><ol>
+<li>Install: <code>npm install -g promptfoo</code>.</li>
+<li>Write 10–20 test cases for your Phase 2 RAG pipeline. Mix easy questions (clear single-answer) with edge cases (ambiguous, multi-doc, out-of-scope).</li>
+<li>Configure 3–4 providers in <code>promptfooconfig.yaml</code>: e.g. (Sonnet + naive chunking), (Sonnet + recursive chunking), (Haiku + recursive chunking), (Haiku + verbose prompt).</li>
+<li>Use mixed assertions: <code>equals</code> and <code>contains</code> for factual questions, <code>llm-rubric</code> (LLM-as-judge) for fuzzy ones, <code>javascript</code> for custom checks.</li>
+<li>Run <code>promptfoo eval</code> and open the web UI. Pick a winner based on pass-rate × cost × latency — not just accuracy.</li>
+<li>Re-run any time you change a prompt, swap a model, or update the RAG pipeline. This is your regression net for the rest of the journey.</li></ol></section>
+<section><h2>Ask your coding assistant</h2><ul>
+<li>What is LLM evaluation and why is eyeballing not enough?</li>
+<li>Show me a minimal Promptfoo config with two providers and three assertions.</li>
+<li>What's the difference between <code>equals</code>, <code>contains</code>, and <code>llm-rubric</code> assertions?</li>
+<li>How do I write a good eval dataset? How many cases do I need?</li>
+<li>What is LLM-as-judge and when does it fail?</li></ul></section>
+<section><h2>What you'll have when you're done</h2><ul>
+<li>You can pick the right model + prompt + chunking combo based on data, not vibes.</li>
+<li>You have a regression suite that catches breakage when you change anything.</li>
+<li>You know what makes a good test case (and how painful it is to write 50).</li>
+<li>You can quantify a 'better' prompt with real numbers — accuracy, p95 latency, $/call.</li></ul></section>
+<section><h2>Deliverable</h2>
+<p><code>promptfooconfig.yaml</code> — A results table showing which model + prompt + chunking combo wins on your data.</p>
+<p>Concepts unlocked: offline eval · regression testing · LLM-as-judge · data-backed selection</p></section>
+<section><h2>Intuition</h2>
+<p>You just built <code>rag.py</code> in Phase 2. How do you know it's any good? Probably the same way everyone starts: you ran a few questions, read the answers, and thought "yeah, looks fine." That feeling is exactly what this phase fixes.</p>
+<p>Reading a handful of outputs hides two things. You only ever see the cases you happened to try — and when you tweak a prompt or swap a model, you have no way to tell whether you just made it better or quietly broke it.</p>
+<p>The fix borrows a name from ordinary software: a <strong>test suite</strong>. Don't let the term put you off — a <strong>test case</strong> is just a question you already know the right answer to, written down together with that answer. A <strong>test suite</strong> is a saved list of those, kept in a plain file, that you can run over and over. No code needed to understand it: it's a quiz you wrote for your own app, with the answer key attached.</p>
+<blockquote><strong>The whole shift.</strong> Stop asking <em>"does this output look good?"</em> and start asking <em>"what percent of my test cases pass?"</em> That number is something you can track, compare across changes, and push up over time.</blockquote></section>
+<section><h2>What an eval is</h2>
+<p>An <strong>eval</strong> is that test suite idea, applied to your LLM app: a list of cases, each with a <strong>question</strong> and a <strong>check</strong> for whether the answer is acceptable. You run the whole list and get a score.</p>
+<p>Make it concrete. For your Phase 2 RAG bot, one test case might be: the question <em>"what's our refund window?"</em> with the check <em>"the answer must contain '30 days'."</em> Write 30–50 of these — easy ones and tricky ones — run them all, and you get a single number: <strong>this version passed 44 of 50</strong>. Tweak a prompt, re-run, and you can see at a glance whether that number went up or down.</p>
+<p>There's one thing we glossed over: what does the check actually compare the answer <em>to</em>? And what really runs when you hit "go" on 50 test cases? That's next.</p>
+<blockquote><strong>Offline vs online.</strong> You're building <strong>offline</strong> eval — a fixed set of cases you run yourself, like a test suite. Later, <strong>online</strong> eval watches real users in <strong>production</strong> — the software word for when your app is live and real people, not just you, are using it. Start offline; it catches most breakage before it ever reaches a user.</blockquote></section>
+<section><h2>The golden dataset</h2>
+<p>Every test case needs two things: a <strong>question</strong>, and what the <strong>right answer actually looks like</strong> — written by a human, once, ahead of time. That whole collection of question-and-right-answer pairs has a name: your <strong>golden dataset</strong>. "Golden" just means: this is the ground truth everything else gets checked against. (If the word rings a bell — Phase 2's pitfalls section talked about checking whether the <em>gold chunk</em> made it into retrieval — it's the same use of the word: gold = the known-correct reference.)</p>
+<p>A few rows from Zentara's golden dataset might look like this:</p>
+<pre><code>question                                reference answer
+--------------------------------------  ------------------
+what's our refund window?                30 days
+do you ship internationally?             No, US only
+what's the parental leave policy?        18 weeks paid
+who won the 2049 World Cup?              (trap — not in the docs;
+                                          should say it doesn't know)</code></pre>
+<p>You write the <strong>reference answer</strong> yourself, from what you already know is true — you never ask the model to grade its own homework. This is also, honestly, the tedious part: writing 30–50 of these well is most of the real work in eval.</p>
+<h3>What makes a golden dataset good</h3>
+<ul><li><strong>Easy factual rows</strong> — one clear question, one clear answer (<em>"what's our refund window?"</em> → <em>"30 days"</em>). If these ever fail, something is badly broken.</li><li><strong>Tricky rows</strong> — ambiguous phrasing, or an answer buried deep in one document. These are the rows that actually move when you change chunking or prompts.</li><li><strong>Trap rows</strong> — questions your documents don't answer at all (<em>"who won the 2049 World Cup?"</em>). The right behaviour is <em>"I don't know"</em>; a confident made-up answer must count as a fail.</li><li><strong>Real phrasing</strong> — write questions the way an employee would actually type them (<em>"how long do I get off for a new baby?"</em>), not the tidy way the documents phrase them.</li></ul>
+<blockquote><strong>Steal from reality.</strong> The best rows aren't invented at a desk. Every time someone asks your bot a question and gets a bad answer, that question — with the answer it <em>should</em> have given — becomes a new row. Your golden dataset grows out of real failures.</blockquote>
+<p>So you have a file of questions and reference answers. What actually happens when you press "go"? Let's run one row all the way through.</p></section>
+<section><h2>Running the eval</h2>
+<p>An eval run is the same short trip, repeated for <em>every row</em> of the golden dataset. Here's one full trip, on the course's running example — Zentara's leave-policy question:</p>
+<p>Now a row that <em>fails</em> — and why the fail is the whole point. Question: <em>"do you ship internationally?"</em> Reference answer: <em>"No, US only."</em> Your system answers: <em>"Yes — Zentara ships to over 40 countries worldwide."</em> The check looks for <em>"US only"</em>, doesn't find it → ✗ fail. That answer is a confident hallucination — Phase 2's worst pitfall — and you would almost certainly have missed it by skimming three outputs. The scoreboard just caught it for you.</p>
+<p>Every row takes the same trip. As one picture:</p>
+<p>That's one row at a time. Here's a whole run — Zentara test questions flowing through your RAG system, each actual answer compared against its golden answer, the scoreboard filling as verdicts land:</p>
+<p>Final score: 3 of 4 — a 75% pass rate. And notice which part of the screen matters most: the ✗. A passing row only confirms what you hoped; the failing row <em>names</em> the exact question, the exact wrong answer, and the reference it missed. That's your to-do list, for free, on every run.</p>
+<blockquote><strong>The whole mechanism, in one line.</strong> For every row in your golden dataset: run the question through your real system, compare the actual answer to the golden reference answer, tally pass or fail. The score you get out is your eval.</blockquote>
+<p>The one blank left: how does the check decide "close enough," when two correct answers can be worded completely differently? That's not one-size-fits-all — there are a few kinds of checks, from strict to fuzzy.</p></section>
+<section><h2>Kinds of checks</h2>
+<p>So how does that comparison actually decide match-or-no-match? Three kinds of checks, from strict to fuzzy — each shown on one Zentara test case:</p>
+<ul><li><strong>Exact match</strong> — the answer must equal one specific value, character for character. Example: <em>"how many days is the refund window?"</em> → the answer must be exactly <em>"30"</em>. Good for a yes/no or a single number.</li><li><strong>Contains</strong> — the answer must include a key word or phrase; anything around it is fine. Example: <em>"what's the parental leave policy?"</em> → the answer must contain <em>"18 weeks"</em>, however it's worded.</li><li><strong>LLM-as-judge</strong> — a <em>second, separate</em> model (never the one being tested — no one grades their own homework) reads the answer and grades it against a rubric. Example: <em>"summarize our onboarding policy"</em> → the judge is asked <em>"is this accurate and grounded in the retrieved docs, with no invented facts — yes or no?"</em> For open-ended answers where there's no single right string.</li></ul>
+<p>See how the choice matters on one question — <em>"is our office open on Saturdays?"</em> An <strong>exact-match</strong> check that demands the answer be literally <em>"No."</em> is too strict: the model might say <em>"No, we're closed on weekends,"</em> which is correct but fails. A <strong>contains</strong> check for the word <em>"closed"</em> is more forgiving and still catches wrong answers. And for something open-ended like <em>"summarize our weekend hours,"</em> there's no single right wording, so only an <strong>LLM-as-judge</strong> will do.</p>
+<blockquote><strong>Rule of thumb.</strong> Use the <strong>strictest</strong> check you can get away with. Exact match where a single answer exists, contains where a key fact must appear, and save the LLM judge for genuinely open-ended answers — it's the most powerful and the most expensive.</blockquote>
+<blockquote><strong>LLM-as-judge is handy, not free or perfect.</strong> Every judged test costs an extra model call, and the judge can be wrong or biased — it tends to favour longer, more confident-sounding answers. Use it only for the fuzzy cases; use exact or contains wherever a real check exists.</blockquote></section>
+<section><h2>Build the eval</h2>
+<p>Time to wrap a real test suite around the <code>rag.py</code> you built in Phase 2. You'll use <strong>Promptfoo</strong>, the popular open-source eval tool: you describe your test cases and a few model setups in one file, and it runs them all into a side-by-side table. As always — your assistant builds it, you run it.</p>
+<p>Read what it generates. The config is one file: a list of <strong>setups</strong> to compare, and a list of <strong>test cases</strong>, each with a check. The same test cases run through every setup, so you get a fair side-by-side:</p>
+<p>One thing before you look at the file: it's written in <strong>YAML</strong>. This isn't code — it's a settings file, like a structured shopping list: labeled sections, indented items, nothing that executes. You can read it top to bottom like a form your assistant filled in.</p>
+<pre><code># run the same test cases across several setups
+providers:   # a "provider" = one setup being tested (a model + your pipeline)
+  - file://rag_provider.py   # a "wrapper" — a small connector script your
+                             # assistant writes so promptfoo can call
+                             # your rag.py's answer()
+
+tests:
+  - vars: { question: "What is our refund window?" }
+    assert:
+      - type: contains
+        value: "30 days"
+
+  - vars: { question: "Summarize our onboarding policy." }
+    assert:
+      - type: llm-rubric
+        value: "Accurate and grounded in the retrieved docs; no invented facts."
+
+  - vars: { question: "Who won the 2049 World Cup?" }   # the trap row
+    assert:
+      - type: llm-rubric
+        value: "Says it doesn't know, or that it's not in the documents."</code></pre>
+<blockquote><strong>Deliverable — promptfooconfig.yaml.</strong> A results table that shows which model + chunking + prompt combo wins on <em>your</em> questions. Re-run it every time you change anything — it's your safety net for the rest of the course.</blockquote></section>
+<nav class="ssr-pager">
+<a rel="prev" href="/learning/genai/phase-2-rag-give-the-llm-your-data">← Phase 2: Give the LLM your data</a>
+<a href="/learning/genai">All 12 phases</a>
+<a rel="next" href="/learning/genai/phase-4-agents-and-tool-use">Phase 4: Let the LLM use tools →</a>
+</nav>
+</div></div>
   <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>

@@ -2,6 +2,7 @@
 window.PHASES = [
   {
     n: 1,
+    slug: "phase-1-talk-to-an-llm",
     kicker: "FOUNDATIONS",
     icon: "terminal-window",
     title: "Talk to an LLM",
@@ -44,6 +45,7 @@ window.PHASES = [
 
   {
     n: 2,
+    slug: "phase-2-rag-give-the-llm-your-data",
     kicker: "RAG",
     icon: "files",
     title: "Give the LLM your data",
@@ -94,6 +96,7 @@ window.PHASES = [
 
   {
     n: 3,
+    slug: "phase-3-evals-stop-guessing",
     kicker: "EVAL",
     icon: "test-tube",
     title: "Stop guessing if it works",
@@ -137,6 +140,7 @@ window.PHASES = [
 
   {
     n: 4,
+    slug: "phase-4-agents-and-tool-use",
     kicker: "AGENT",
     icon: "wrench",
     title: "Let the LLM use tools",
@@ -179,6 +183,7 @@ window.PHASES = [
 
   {
     n: 5,
+    slug: "phase-5-text-to-sql",
     kicker: "TEXT-TO-SQL",
     icon: "database",
     title: "Talk to your database",
@@ -219,6 +224,7 @@ window.PHASES = [
 
   {
     n: 6,
+    slug: "phase-6-llm-observability",
     kicker: "OBSERVABILITY",
     icon: "chart-line",
     title: "See what's happening",
@@ -261,6 +267,7 @@ window.PHASES = [
 
   {
     n: 7,
+    slug: "phase-7-guardrails",
     kicker: "GUARDRAILS",
     icon: "shield-check",
     title: "Keep the agent in its lane",
@@ -305,6 +312,7 @@ window.PHASES = [
 
   {
     n: 8,
+    slug: "phase-8-agent-memory",
     kicker: "MEMORY",
     icon: "brain",
     title: "Agents that remember",
@@ -356,6 +364,7 @@ window.PHASES = [
 
   {
     n: 9,
+    slug: "phase-9-mcp",
     kicker: "MCP",
     icon: "plugs",
     title: "Standardize your tools",
@@ -405,6 +414,7 @@ window.PHASES = [
 
   {
     n: 10,
+    slug: "phase-10-agent-evals",
     kicker: "AGENT EVAL",
     icon: "clipboard-text",
     title: "Test the whole loop",
@@ -447,6 +457,7 @@ window.PHASES = [
 
   {
     n: 11,
+    slug: "phase-11-multi-agent",
     kicker: "MULTI-AGENT",
     icon: "users-three",
     title: "From one agent to a team",
@@ -492,6 +503,7 @@ window.PHASES = [
 
   {
     n: 12,
+    slug: "phase-12-agent-harness",
     kicker: "HARNESS",
     icon: "stack",
     title: "The runtime around the model",

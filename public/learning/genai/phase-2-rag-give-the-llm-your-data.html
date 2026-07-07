@@ -3,82 +3,30 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The GenAI Learning Path — A Beginner's Build-As-You-Learn Roadmap | In Context</title>
-<meta name="description" content="A free, beginner-first GenAI learning path. 12 phases — API basics, RAG, evals, agents, text-to-SQL, observability, guardrails, memory, MCP, agent eval, multi-agent, harnesses — each shipping a working artifact the next phase extends." />
+<title>Phase 2 — Give the LLM your data | GenAI Learning Path | In Context</title>
+<meta name="description" content="Answer questions over documents the model was never trained on. RAG (Retrieval-Augmented Generation) is the standard way to give an LLM access to…" />
 <meta name="keywords" content="GenAI learning path, learn generative AI, AI agents tutorial, RAG tutorial, LLM beginner, MCP, prompt engineering, agent evaluation, Anthropic Claude, build AI agents" />
 <meta name="author" content="Aravind Singirikonda" />
 <meta name="robots" content="index,follow,max-image-preview:large" />
-<link rel="canonical" href="https://www.incontext.sh/learning/genai" />
+<link rel="canonical" href="https://www.incontext.sh/learning/genai/phase-2-rag-give-the-llm-your-data" />
 
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="In Context" />
-<meta property="og:title" content="The GenAI Learning Path — A Beginner's Build-As-You-Learn Roadmap" />
-<meta property="og:description" content="12 phases, one growing codebase. From your first LLM API call to a multi-agent system with memory, tools, guardrails, evals, and text-to-SQL. Free, no signup." />
-<meta property="og:url" content="https://www.incontext.sh/learning/genai" />
+<meta property="og:title" content="Phase 2 — Give the LLM your data | GenAI Learning Path" />
+<meta property="og:description" content="Answer questions over documents the model was never trained on. RAG (Retrieval-Augmented Generation) is the standard way to give an LLM access to…" />
+<meta property="og:url" content="https://www.incontext.sh/learning/genai/phase-2-rag-give-the-llm-your-data" />
 <meta property="og:locale" content="en_US" />
-<meta property="og:image" content="https://www.incontext.sh/learning/genai/og/learning-path.png" />
+<meta property="og:image" content="https://www.incontext.sh/learning/genai/og/phase-2-rag-give-the-llm-your-data.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="The GenAI Learning Path" />
-<meta name="twitter:description" content="12 phases, build-as-you-learn. API calls → RAG → evals → agents → text-to-SQL → multi-agent. Free, beginner-first." />
+<meta name="twitter:title" content="Phase 2 — Give the LLM your data | GenAI Learning Path" />
+<meta name="twitter:description" content="Answer questions over documents the model was never trained on. RAG (Retrieval-Augmented Generation) is the standard way to give an LLM access to…" />
 <meta name="twitter:creator" content="@aravs16" />
-<meta name="twitter:image" content="https://www.incontext.sh/learning/genai/og/learning-path.png" />
+<meta name="twitter:image" content="https://www.incontext.sh/learning/genai/og/phase-2-rag-give-the-llm-your-data.png" />
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Course",
-  "name": "The GenAI Learning Path",
-  "description": "A practical, beginner-first build-as-you-learn roadmap for Generative AI. Twelve phases growing one running codebase from a single LLM API call into a multi-agent system with memory, tools, guardrails, evals, and text-to-SQL.",
-  "url": "https://www.incontext.sh/learning/genai",
-  "inLanguage": "en",
-  "educationalLevel": "Beginner",
-  "learningResourceType": "Tutorial",
-  "isAccessibleForFree": true,
-  "audience": {
-    "@type": "EducationalAudience",
-    "educationalRole": "self-learner"
-  },
-  "provider": {
-    "@type": "Person",
-    "name": "Aravind Singirikonda",
-    "url": "https://www.incontext.sh"
-  },
-  "author": {
-    "@type": "Person",
-    "name": "Aravind Singirikonda",
-    "url": "https://www.incontext.sh"
-  },
-  "hasCourseInstance": {
-    "@type": "CourseInstance",
-    "courseMode": "online",
-    "courseWorkload": "PT40H"
-  },
-  "teaches": [
-    "LLM API basics", "Retrieval-Augmented Generation (RAG)", "Prompt and RAG evaluation with Promptfoo",
-    "Tool use and the agent loop", "Text-to-SQL with schema injection and validation",
-    "LLM observability and tracing", "Guardrails for LLM apps",
-    "Short-term and long-term memory for agents", "Model Context Protocol (MCP)",
-    "Agent-level evaluation", "Multi-agent orchestration", "Agent harness design"
-  ],
-  "syllabusSections": [
-    { "@type": "Syllabus", "name": "Phase 1 — Talk to an LLM",            "description": "Make your first API call. Get a feel for system prompts, temperature, and how the same prompt behaves across different models." },
-    { "@type": "Syllabus", "name": "Phase 2 — Give the LLM your data",    "description": "Build a RAG pipeline over your own documents with FAISS. Experiment with fixed-size, recursive, and semantic chunking." },
-    { "@type": "Syllabus", "name": "Phase 3 — Stop guessing if it works", "description": "Use Promptfoo to write a real eval suite. Compare models, prompts, and chunking strategies with data, not vibes." },
-    { "@type": "Syllabus", "name": "Phase 4 — Let the LLM use tools",     "description": "Build a single agent. Wrap RAG, web search, and a calculator as tools. Feel the agent loop." },
-    { "@type": "Syllabus", "name": "Phase 5 — Talk to your database",     "description": "Text-to-SQL: schema-aware prompting, generated query validation, a one-shot repair loop, and read-only safety." },
-    { "@type": "Syllabus", "name": "Phase 6 — See what's happening",      "description": "Instrument every LLM and tool call with Langfuse or Phoenix. Cut cost and latency with caching and model routing." },
-    { "@type": "Syllabus", "name": "Phase 7 — Keep the agent in its lane","description": "Add input guards, output validation, PII redaction, and an LLM-as-judge groundedness check." },
-    { "@type": "Syllabus", "name": "Phase 8 — Agents that remember",      "description": "Short-term and long-term memory. User facts, conversation summaries, identity loaded at session start." },
-    { "@type": "Syllabus", "name": "Phase 9 — Standardize your tools",    "description": "Convert a tool into an MCP server. Plug community MCP servers (filesystem, GitHub) into your agent." },
-    { "@type": "Syllabus", "name": "Phase 10 — Test the whole loop",      "description": "Agent-level evaluation: trajectory correctness, hallucination rate, refusal rate, cost per task — in CI." },
-    { "@type": "Syllabus", "name": "Phase 11 — From one agent to a team", "description": "Multi-agent with LangGraph or Strands. The six agentic patterns and when each one helps versus hurts." },
-    { "@type": "Syllabus", "name": "Phase 12 — The runtime around the model", "description": "Compare your hand-rolled agent loop to a real harness. Tool dispatch, retries, hooks, permissions, sessions." }
-  ]
-}
-</script>
+<script type="application/ld+json">[{"@context":"https://schema.org","@type":"LearningResource","name":"Phase 2 — Give the LLM your data","description":"Answer questions over documents the model was never trained on. RAG (Retrieval-Augmented Generation) is the standard way to give an LLM access to…","url":"https://www.incontext.sh/learning/genai/phase-2-rag-give-the-llm-your-data","inLanguage":"en","educationalLevel":"Beginner","learningResourceType":"Tutorial","isAccessibleForFree":true,"teaches":["embeddings","vector search","chunking trade-offs","context window"],"isPartOf":{"@type":"Course","name":"The GenAI Learning Path","url":"https://www.incontext.sh/learning/genai"},"author":{"@type":"Person","name":"Aravind Singirikonda","url":"https://www.incontext.sh/"}},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"In Context","item":"https://www.incontext.sh/"},{"@type":"ListItem","position":2,"name":"GenAI Learning Path","item":"https://www.incontext.sh/learning/genai"},{"@type":"ListItem","position":3,"name":"Phase 2 — Give the LLM your data","item":"https://www.incontext.sh/learning/genai/phase-2-rag-give-the-llm-your-data"}]}]</script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1783,7 +1731,163 @@
 </head>
 <body>
   <script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('genai-path-theme')||'ink')}catch(e){document.documentElement.setAttribute('data-theme','ink')}</script>
-  <div id="root"></div>
+  <div id="root">
+<div class="page ssr-phase">
+<nav class="ssr-crumbs"><a href="/">In Context</a> › <a href="/learning/genai">GenAI Learning Path</a> › <span>Phase 02</span></nav>
+<p class="ssr-kicker">PHASE 02 · RAG</p>
+<h1>Give the LLM your data</h1>
+<p class="ssr-goal"><strong>Goal:</strong> Answer questions over documents the model was never trained on.</p>
+<section><h2>What this is</h2>
+<p><strong>RAG (Retrieval-Augmented Generation)</strong> is the standard way to give an LLM access to information beyond its training data — your company's docs, your personal notes, a PDF that was published yesterday.</p>
+<p>The pipeline has three steps. <em>Index time:</em> split your docs into <strong>chunks</strong>, turn each chunk into a numerical <strong>embedding</strong> (a vector that captures meaning), and store them in a <strong>vector database</strong> like FAISS. <em>Query time:</em> embed the question, find the K nearest chunks by similarity, and stuff them into the prompt as context. The LLM then answers using that retrieved context.</p>
+<p>The single biggest lever in RAG quality is <strong>chunking strategy</strong> — how you split the documents. Fixed-size, recursive (paragraph → sentence → token), and semantic (split where meaning shifts) all behave very differently. Most RAG failures trace back to bad chunks.</p></section>
+<section><h2>The plan</h2><ol>
+<li>Pick a small corpus you actually care about (10–50 docs): your blog posts, a product manual, your obsidian notes, a few PDFs.</li>
+<li>Convert everything to plain text (use <code>pdfplumber</code> or <code>pypdf</code> for PDFs).</li>
+<li>Start naive: fixed-size chunks of ~500 chars with ~50-char overlap.</li>
+<li>Embed each chunk with <code>text-embedding-3-small</code> (OpenAI) or Voyage. Store vectors in a FAISS index (in-memory, no infra).</li>
+<li>Build a query function: embed the question → FAISS top-K search → format chunks into a prompt template → call the LLM.</li>
+<li>Now iterate on chunking: try recursive (split on paragraphs first, then sentences), then semantic. Compare answer quality on the same 5 hard questions.</li></ol></section>
+<section><h2>Ask your coding assistant</h2><ul>
+<li>What is an embedding? Why does cosine similarity tell us which texts are 'similar'?</li>
+<li>FAISS quickstart in Python — show me index creation, add, and search.</li>
+<li>When should I use fixed-size vs. recursive vs. semantic chunking?</li>
+<li>What chunk size and overlap make sense for technical docs? For prose?</li>
+<li>How do I evaluate retrieval quality separately from answer quality?</li></ul></section>
+<section><h2>What you'll have when you're done</h2><ul>
+<li>You can answer questions over your own documents.</li>
+<li>You've felt how chunk size and strategy change answer quality more than the model does.</li>
+<li>You can explain embeddings as 'vibes-as-vectors' to a friend.</li>
+<li>You have a reusable <code>rag.py</code> module to plug into the agent in Phase 4.</li></ul></section>
+<section><h2>Deliverable</h2>
+<p><code>rag.py</code> — Pass a query, get an answer grounded in your docs — with citations to the retrieved chunks.</p>
+<p>Concepts unlocked: embeddings · vector search · chunking trade-offs · context window</p></section>
+<section><h2>Intuition</h2>
+<p>Phase 1 ended on a warning: the model predicts what's <em>likely</em>, not what's <em>true</em>. Here's where that bites, before any jargon. Ask a model about something private — your company's internal rules, a document only your team has — and it can't help; it was never trained on your stuff. Worse, it'll often <strong>make something up</strong> that sounds right. That's a <strong>hallucination</strong>.</p>
+<p>Let's prove it on a company the model can't possibly know — because we made it up:</p>
+<p>The paragraph is everything: hand the model the right text and it answers perfectly; leave it out and it guesses. Now make the problem real. Zentara's shared drive holds about <strong>100 documents</strong> — a 40-page HR handbook, an expense policy, a security guide, onboarding checklists, years of meeting notes. Somewhere in that pile sits the one paragraph about parental leave. So the real job is this: <strong>given a question, find the one right paragraph out of a huge pile of documents, automatically.</strong></p>
+<blockquote><strong>Why you can't just paste everything.</strong> You can't shove <em>all</em> your documents into every question — they won't fit, and almost all of it is irrelevant. The whole phase is about <strong>finding the few paragraphs that matter</strong> and pasting only those. The next section is the trick that makes it possible.</blockquote>
+<p>For now, picture the whole thing as one <strong>magic box</strong> — call it a <strong>retriever</strong>. It somehow reaches into all 100 documents, pulls out the single right paragraph, and hands it to the model along with your question:</p>
+<p>That retriever is the <em>only</em> mystery here. Everything else — question in, the right paragraph out, the model reads it and answers — you already understand. The rest of this phase is <strong>opening that box</strong> and building what's inside. Keep this picture in mind; we'll fill it in piece by piece.</p></section>
+<section><h2>Words as points in space</h2>
+<p>Before we find paragraphs, here's the idea that makes it possible — and it's simpler than it sounds. Picture a sheet of graph paper. Your job: place every word on it, giving each one an <strong>(x, y) coordinate</strong>, so that words with <em>similar meaning</em> land close together.</p>
+<p>So <em>cat</em>, <em>kitten</em>, and <em>dog</em> cluster in one corner; <em>invoice</em>, <em>payment</em>, and <em>tax</em> in another; <em>ocean</em>, <em>wave</em>, and <em>beach</em> in a third — like this:</p>
+<p>You'd lose your mind doing this by hand for every word. The good news: <strong>there's a special kind of model — an embedding model — that does exactly this, automatically.</strong> Give it a word and it hands back coordinates. Those coordinates are called an <strong>embedding</strong>, or a <strong>vector</strong>. Think of it as a street address for meaning: an address tells you where a building sits in a city, an embedding tells you where a piece of text sits on a <strong>map of meaning</strong>. (Real ones use hundreds of dimensions, not two — but the picture is identical.)</p>
+<p>Now the payoff. Give it a <em>new</em> word, drop it onto the same map, and measure the <strong>distance</strong> to every existing point. The nearest points are the nearest in meaning:</p>
+<p>One name to file away now, because you'll see it in real code: in practice that "how close" measurement is usually a number called <strong>cosine similarity</strong> — a single score for <em>how close in meaning two points are</em>, where <strong>1 means pointing in exactly the same direction</strong> (same meaning) and around <strong>0 means unrelated</strong>. The tools compute it for you; the ruler-distance-between-dots picture you already have is the same idea.</p>
+<p>So far we've placed single words. Here's the leap that makes search possible: the embedding model doesn't care whether you hand it one word, a whole sentence, or a full paragraph — <strong>it's all just text</strong>. It reads the <em>meaning</em> of the whole thing and gives it <strong>one point</strong> on the map.</p>
+<p>So the sentence <em>"employees get 18 weeks of paid parental leave"</em> becomes a single point. And it lands near other text about <em>the same thing</em> — close to <em>"our maternity and paternity policy"</em>, and far away from <em>"how to reset your wifi password."</em> What decides where it goes is the <strong>meaning</strong>, not the exact words.</p>
+<h3>Why a question lands next to its answer</h3>
+<p>Now the piece that trips people up. A <strong>question</strong> is also just text — so it gets a point too, on the very same map. And a question <em>about</em> parental leave is about the <strong>same thing</strong> as the paragraph that answers it. Same topic, same neighborhood.</p>
+<p>So the question <em>"how much parental leave do I get?"</em> lands right next to the paragraph <em>"employees get 18 weeks of paid parental leave"</em> — <strong>not because the words match</strong> (they barely do), but because the two are <em>about</em> the same thing. That's the whole reason this works.</p>
+<p>Picture Zentara's HR documents as points — each dot is one paragraph — and drop the question onto the same map. It falls next to the paragraph that answers it:</p>
+<p>And here's what those cosine-similarity scores look like with real values. Score Zentara's question <em>"how much parental leave do I get?"</em> against three pieces of its documents:</p>
+<ul><li><em>"Parental leave: employees receive 18 weeks of fully paid leave, plus a phased return to work."</em> → <strong>0.89</strong> — nearly the same direction. This is the match.</li><li><em>"Expenses over $50 require a receipt and manager approval."</em> → <strong>0.28</strong> — both smell like workplace policy, but that's all they share.</li><li><em>"To reset the office wifi, hold the router button for ten seconds."</em> → <strong>0.09</strong> — basically unrelated.</li></ul>
+<p>That's the entire move. To find the paragraph that answers a question, you don't read anything — you <strong>turn the question into a point, score every paragraph-point by closeness, and grab the nearest ones.</strong> This is <strong>retrieval</strong>: searching by meaning instead of by matching keywords.</p>
+<h3>Where the vectors live: a vector database</h3>
+<p>One catch: with 100,000 paragraphs, measuring the distance to all of them for every question would be slow. A <strong>vector database</strong> (FAISS, Qdrant, Pinecone, pgvector) is built for exactly this — it stores millions of these vectors and returns the nearest ones in milliseconds. You hand it a question's vector; it hands back the closest paragraphs.</p>
+<blockquote><strong>The one idea under all of RAG.</strong> An <strong>embedding</strong> turns any text into a point in space, placed by meaning, so similar meanings sit close. A <strong>vector database</strong> stores those points and finds the nearest ones fast. <em>Search-by-meaning</em> is the engine under everything that follows.</blockquote>
+<p>Remember the mystery <strong>retriever</strong> box from a moment ago? You can already open it. Inside, it does exactly what you just learned — <strong>embed the question into a point, then grab the nearest paragraph-points</strong>:</p>
+<p>So the retriever isn't magic — it's just <em>embed + find nearest</em>. But we've been glossing over one detail, and it's big enough to deserve its own section: <strong>which piece of text gets its own point?</strong></p></section>
+<section><h2>The chunk — unit of everything</h2>
+<p>We just said every paragraph becomes a point on the map. But who decided it's <em>paragraphs</em>? Zentara's HR manual is 40 pages. Should the <em>whole manual</em> get one point? Each paragraph? Each sentence? Somebody has to choose — and the choice matters more than it looks.</p>
+<p>Embed a <strong>whole document</strong> and its point blurs together dozens of unrelated topics — a question about parental leave might match a document that's mostly about expense reports, just because leave gets one paragraph in it. Embed <strong>single sentences</strong> and you lose the surrounding context that made an answer make sense. There's a middle ground, and it has a name: a <strong>chunk</strong> — a small piece of a document, usually a paragraph or two.</p>
+<p>Here's why this little word is the most important one in the phase. The chunk is <strong>the unit everything else works on</strong> — every stage of the system handles one chunk at a time:</p>
+<blockquote><strong>The unit of everything.</strong> One chunk = one point on the map = one row in the vector database = one search result = one block of text pasted into the prompt. <strong>Get the chunk right and the rest of RAG mostly takes care of itself; get it wrong and nothing downstream can save you.</strong> That's why a later section spends real time on how to cut them.</blockquote>
+<p>Now you have the whole plan, in one line: <strong>split</strong> your documents into chunks, <strong>embed</strong> each one into a point, and <strong>store</strong> them — done once, ahead of time. Then, every time a question comes in, <strong>embed</strong> it too, and <strong>grab the nearest chunks.</strong> Two separate paths. Let's build them.</p></section>
+<section><h2>Path 1 · Ingestion</h2>
+<p>Time to build the first path for real. Zentara has <strong>100 HR documents</strong>, and an employee will eventually ask <em>"what's the parental leave policy?"</em> — but this path runs <em>before</em> that ever happens.</p>
+<ul><li><strong>Ingestion</strong> — done <em>once, ahead of time</em>: get your documents ready to be searched.</li><li><strong>Query</strong> — done <em>every time someone asks</em>: find the right text and answer.</li></ul>
+<p>Take the first path. Before anyone asks anything, you prepare the documents in three moves — <strong>split, embed, store</strong>. Split each document into small <strong>chunks</strong> (a few paragraphs each). Run every chunk through the <strong>embedding model</strong> to turn it into a <strong>vector</strong> — its point in space. Drop every vector into the <strong>vector database</strong>. Watch a document split into chunks and land in storage:</p>
+<p>Put real numbers on it for Zentara: <strong>100 documents</strong> go in; the splitter turns them into roughly <strong>2,000 chunks</strong> (the 40-page HR manual alone yields about 180); the embedding model turns each chunk into a vector; and the vector DB ends up holding 2,000 points — a <strong>searchable map of everything Zentara knows</strong>, each paragraph placed by meaning.</p>
+<blockquote><strong>Ingestion is the slow, one-time part.</strong> You only re-run it when the documents change — add a new policy doc, embed just that one. Once it's done, the hard work is over and answering questions is fast.</blockquote></section>
+<section><h2>Path 2 · Query</h2>
+<p>The documents are prepped, so the second path is quick. When <em>"what's the parental leave policy?"</em> comes in, you do four moves — <strong>embed, search, retrieve, answer</strong>.</p>
+<p><strong>Embed</strong> the question into a vector, using the <em>exact same</em> embedding model so it lands in the same space as the chunks. <strong>Search</strong> the vector DB for the nearest chunk vectors. <strong>Retrieve</strong> those few chunks, <strong>paste</strong> them in front of the question, and let the model <strong>answer</strong> using only that text. Watch the question search, match, and get answered:</p>
+<p>On the example: the question embeds to a point; the nearest chunk is the HR-handbook paragraph that says <em>"18 weeks paid"</em>; that chunk gets pasted in with the question; the model reads it and answers correctly, <strong>citing where it came from</strong>. (In practice you pull the nearest 3–5 chunks, not just one, to be safe.)</p>
+<p>The word <em>paste</em> is meant literally, by the way. You never have to write any of this yourself — your coding assistant will — but here is the actual text the model ends up receiving for Zentara's question. It's just Phase 1's "send the model some text", with the retrieved chunks stacked on top:</p>
+<pre><code>Context:
+[1] Parental leave: employees receive 18 weeks of fully paid
+    leave, plus a phased return to work.
+[2] Vacation days: full-time employees accrue 20 days per year.
+[3] Public holidays: Zentara observes 11 public holidays.
+
+Question: how much parental leave do I get?
+
+Answer using ONLY the context above, citing chunks by number.
+If the answer is not in the context, say you don't know.</code></pre>
+<p>No magic left: the model reads chunk [1] and answers <em>"18 weeks of fully paid leave [1]"</em> — the same trick as the pasted paragraph in the very first section, just automated.</p>
+<blockquote><strong>Why it must be the SAME embedding model.</strong> Each embedding model draws its <strong>own</strong> map of meaning — its own coordinate system, laid out differently. Two models are like <strong>two different maps of the same city</strong>: both are fine maps, but a coordinate read off one points at nothing meaningful on the other. Embed your chunks with model A and your questions with model B, and the question lands somewhere <em>random</em> relative to the chunks — not slightly less accurate, <strong>broken outright</strong>. One map. Same model on both paths, always.</blockquote>
+<blockquote><strong>That's RAG.</strong> <strong>RAG — retrieval-augmented generation.</strong> Ingestion (once): <strong>split → embed → store</strong>. Query (every time): <strong>embed → search → retrieve → answer</strong>. Using the same embedding model on both sides is what makes the question and the right paragraph land near each other.</blockquote>
+<blockquote><strong>When is RAG the right tool?.</strong> Use <strong>RAG</strong> when the knowledge is large, changes often, or needs citations. If everything fits in the context window and you ask rarely, just paste it all — simpler. And <strong>fine-tuning</strong> is for changing the model's <em>style</em>, not for adding facts.</blockquote></section>
+<section><h2>Chunking</h2>
+<p>Back up to the very first step of ingestion — <strong>splitting each document into chunks</strong>. It sounds like boring plumbing, but it quietly decides whether RAG works at all. Here's why it matters so much.</p>
+<p>Remember the unit-of-everything rule: each chunk becomes <strong>one point</strong> in the vector space, and retrieval hands the model <strong>whole chunks</strong>. So it's what gets embedded, what gets searched, and what gets pasted into the prompt. Get the chunk wrong and there's nothing the model can do to save it.</p>
+<p>The classic failure is cutting a document in the wrong place, so the answer gets torn in half:</p>
+<p>So the real skill is cutting at <em>sensible</em> boundaries — the end of a paragraph or a section — instead of blindly every N characters. There are three common ways to do it, from crudest to smartest:</p>
+<ul><li><strong>Fixed-size</strong> — just cut every N characters (say every 500), ignoring where sentences or paragraphs end. Dead simple, but it happily slices through the middle of a sentence. A fine place to <em>start</em>, not to finish.</li><li><strong>Recursive</strong> — try the biggest natural boundary first (the blank line between paragraphs); if a piece is still too big, split it on sentences, then on words. It keeps whole ideas together. This is the one you'll reach for most.</li><li><strong>Semantic</strong> — split wherever the <em>meaning</em> shifts: embed the sentences and cut where neighbouring ones stop being similar. The best chunks, but it costs extra work up front.</li></ul>
+<p>Start with the simplest thing that works — fixed-size, but with a little <strong>overlap</strong>, where each chunk repeats the last sentence or two of the one before it. The overlap is a safety net: if the answer happens to land right on a boundary, the repeated text means it still shows up whole in one of the chunks. For scale: Zentara's 40-page manual is roughly 90,000 characters, so at 500 characters per chunk that's about 180 chunks.</p>
+<p>Here's what the naive version looks like. Like every code block in this course, you're not expected to write or even parse it — your assistant does that — it's just here so you can see how little code the crude version is:</p>
+<pre><code>def chunk(text, size=500, overlap=50):
+    chunks, start = [], 0
+    while start &lt; len(text):
+        end = start + size
+        chunks.append(text[start:end])
+        start = end - overlap   # step back a little so chunks overlap
+    return chunks</code></pre>
+<blockquote><strong>The trade-off you'll actually feel.</strong> Chunks too <strong>big</strong> → each point covers many topics, so retrieval returns a wall of mostly-irrelevant text and the real answer gets diluted. Too <strong>small</strong> → you lose the surrounding context that made a sentence meaningful. Good starting point: <strong>~300–500 characters</strong> for dense docs, larger for flowing prose — then let your <strong>Phase 3 evals</strong> tell you what actually works for your content.</blockquote></section>
+<section><h2>The full pipeline</h2>
+<p>You've now seen every piece — chunks, embeddings, the vector database, search, and the prompt. Time to put the whole thing in one picture. Here's the complete <strong>RAG pipeline</strong>:</p>
+<p>Read it as the same two paths from before, and walk Zentara's running example through it one last time:</p>
+<blockquote><strong>The mystery box, solved.</strong> Remember the <strong>retriever</strong> from the very start of this phase? It was the <em>embed → search → vector DB</em> part all along. You've now built every box in this diagram — and that's the whole of RAG.</blockquote></section>
+<section><h2>Build rag.py</h2>
+<p>Time to build the deliverable: a single module you pass a query and get back a grounded answer plus the chunks it used. As always, you <strong>describe it to your assistant</strong> and run the result — this is the thing Phase 4's agent will call as a tool.</p>
+<p>Then read what it built — here's the shape of it and the moving parts:</p>
+<p>One thing in the sample below surprises people: it talks to <strong>two different companies</strong>. An OpenAI <em>embedding model</em> turns text into points, and Claude — a <em>chat model</em> — writes the final answer. That's not a mistake: embedding models and chat models are two different kinds of product, each does exactly one job, and <strong>mixing vendors like this is completely normal</strong>. The only hard rule is the one you already know — the same embedding model on both paths.</p>
+<pre><code># rag.py — pass a query, get a grounded answer with citations
+import faiss, numpy as np
+from openai import OpenAI
+from anthropic import Anthropic
+
+oai, claude = OpenAI(), Anthropic()
+
+def embed(text):
+    r = oai.embeddings.create(
+        model="text-embedding-3-small", input=text)
+    return r.data[0].embedding
+
+def build_index(chunks):
+    vecs = np.array([embed(c) for c in chunks]).astype("float32")
+    faiss.normalize_L2(vecs)
+    idx = faiss.IndexFlatIP(vecs.shape[1])
+    idx.add(vecs)
+    return idx
+
+def answer(question, chunks, index, k=4):
+    q = np.array([embed(question)]).astype("float32")
+    faiss.normalize_L2(q)
+    scores, ids = index.search(q, k)
+    hits = [chunks[i] for i in ids[0]]
+    context = "\n\n".join(f"[{n+1}] {h}" for n, h in enumerate(hits))
+    msg = claude.messages.create(
+        model="claude-sonnet-4-6",
+        max_tokens=600,
+        messages=[{"role": "user",
+                   "content": f"Context:\n{context}\n\nQuestion: {question}"}])
+    return msg.content[0].text, hits</code></pre>
+<blockquote><strong>Deliverable — rag.py.</strong> Pass a query, get an answer grounded in your docs, with citations to the retrieved chunks. Keep it importable: Phase 4 wires <code>answer()</code> in as a tool the agent can call.</blockquote></section>
+<section><h2>Pitfalls &amp; evaluation</h2>
+<p>When RAG gives a bad answer, the instinct is to blame the model. It's almost always retrieval. Separate the two so you know which to fix.</p>
+<h3>The usual suspects</h3>
+<ul><li><strong>Right info, wrong chunk</strong> — the answer existed but got split or buried. Fix chunking, not the prompt.</li><li><strong>Retrieved nothing relevant</strong> — query and docs use different vocabulary. Try a better embedding model, or <strong>query rewriting</strong> — having a model rephrase the question in the words your documents actually use, <em>before</em> embedding it (an employee asks "time off for a new baby?", the rewrite says "parental leave policy").</li><li><strong>Retrieved it but the model ignored it</strong> — context too long, or the instruction to "use only the context" was weak.</li><li><strong>Confident hallucination</strong> — no "say you don't know" escape hatch in the prompt.</li></ul>
+<blockquote><strong>Evaluate retrieval and answers separately.</strong> First check <strong>retrieval</strong>: for each test question, is the <strong>gold chunk</strong> — the chunk that actually contains the correct answer, which you identified by hand ahead of time — in the top-K results? (Pure counting, no LLM needed.) Only once retrieval is good, judge <strong>answer</strong> quality. Phase 3 turns this into a real eval harness.</blockquote>
+<p><strong>What you'll have when you're done:</strong> you can answer questions over your own documents; you've felt how chunk size moves quality more than the model does; you can explain embeddings as "vibes-as-vectors" to a friend; and you have a reusable <code>rag.py</code> ready for Phase 4.</p></section>
+<nav class="ssr-pager">
+<a rel="prev" href="/learning/genai/phase-1-talk-to-an-llm">← Phase 1: Talk to an LLM</a>
+<a href="/learning/genai">All 12 phases</a>
+<a rel="next" href="/learning/genai/phase-3-evals-stop-guessing">Phase 3: Stop guessing if it works →</a>
+</nav>
+</div></div>
   <script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
