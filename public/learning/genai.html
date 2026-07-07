@@ -82,21 +82,68 @@
 <link href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css" rel="stylesheet" />
 <style>
   :root {
-    --paper:   #f1ede2;
-    --paper-2: #eae4d6;
-    --card:    #fbf9f2;
-    --ink:     #1c1813;
-    --ink-2:   #57503f;
-    --ink-3:   #8c8472;
-    --line:    #ddd5c3;
-    --line-2:  #cfc6b1;
-    --accent:  #c2552b;
-    --accent-2:#a8431f;
-    --accent-tint: #f4e3d6;
+    /* Same warm paper palette as the In Context main page (styles.css):
+       clay accent, cream surfaces. Tree art is a transparent cutout. */
+    --paper:   #f5f1ea;
+    --paper-2: #ece5d6;
+    --card:    #fbf8f2;
+    --ink:     #1a1916;
+    --ink-2:   #4a4842;
+    --ink-3:   #82807a;
+    --line:    #e6dfd2;
+    --line-2:  #d5cbb8;
+    --accent:  #b85a3c;
+    --accent-2:#9c4527;
+    --accent-tint: #f3e3d8;
+    --accent-border: #e8cdb9;
+    --gold:    #c9a83f;
     --shadow: 0 1px 0 #fffefb inset, 0 2px 4px rgba(40,30,15,.05), 0 12px 28px -16px rgba(60,40,20,.18);
     --sans: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
     --mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   }
+
+  /* Theme variants — same palettes as the In Context main page */
+  html[data-theme="sage"] {
+    --paper:   #eef0ea;
+    --paper-2: #dee4d2;
+    --card:    #f6f7f2;
+    --ink:     #1a1f1a;
+    --ink-2:   #43483f;
+    --ink-3:   #7a8077;
+    --line:    #dde2d3;
+    --line-2:  #c8d2bc;
+    --accent:  #4f7a4f;
+    --accent-2:#3d613d;
+    --accent-tint: #dfe8d8;
+    --accent-border: #c3d6bd;
+  }
+  html[data-theme="ink"] {
+    --paper:   #14130f;
+    --paper-2: #26241f;
+    --card:    #1c1b17;
+    --ink:     #f2ede2;
+    --ink-2:   #c7c2b5;
+    --ink-3:   #8a867b;
+    --line:    #2b2924;
+    --line-2:  #3a3730;
+    --accent:  #e48865;
+    --accent-2:#f0a488;
+    --accent-tint: #3a281f;
+    --accent-border: #4a3327;
+    --shadow: 0 1px 0 rgba(255,255,255,.04) inset, 0 2px 4px rgba(0,0,0,.35), 0 12px 28px -16px rgba(0,0,0,.55);
+  }
+  /* Dark-theme fixes for components with hardcoded light-theme colors */
+  html[data-theme="ink"] .peek { background: #2e2b24; }
+  html[data-theme="ink"] .peek::before { background: #2e2b24; }
+  html[data-theme="ink"] .quiz-opt.correct { background: #24352a; }
+  html[data-theme="ink"] .quiz-opt.wrong { background: #3d241d; }
+  html[data-theme="ink"] .m-num,
+  html[data-theme="ink"] .lesson-top-num,
+  html[data-theme="ink"] .qform button,
+  html[data-theme="ink"] .sub-band-form button,
+  html[data-theme="ink"] .lesson-pager-btn,
+  html[data-theme="ink"] .close:hover,
+  html[data-theme="ink"] .diagram-close:hover { color: #14130f; }
 
   * { box-sizing: border-box; }
   html, body { margin: 0; }
@@ -192,7 +239,7 @@
   }
   .title-line {
     display: block;
-    font-size: clamp(46px, 9vw, 96px);
+    font-size: clamp(23px, 4.5vw, 48px);
     line-height: 1.02;
     letter-spacing: -0.04em;
     margin: 0;
@@ -216,7 +263,7 @@
     letter-spacing: .14em;
     color: var(--accent-2);
     background: var(--accent-tint);
-    border: 1px solid #e9cdba;
+    border: 1px solid var(--accent-border);
     border-radius: 7px;
     padding: 6px 11px;
     white-space: nowrap;
@@ -241,6 +288,32 @@
     height: 1px;
     background: var(--line-2);
     margin: 0 0 22px;
+  }
+
+  /* ---------- hero art (growing tree) ----------
+        The art floats in the hero's right-side whitespace as an absolute
+        overlay, so the text keeps its original full-width layout. */
+  .hdr-grid { position: relative; }
+  .hdr-main { position: relative; z-index: 1; }
+  .hdr-art {
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: min(48%, 560px);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    pointer-events: none;
+  }
+  .hdr-art video,
+  .hdr-art img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: right center;
+  }
+  @media (max-width: 999px) {
+    .hdr-art { display: none; } /* the blank space only exists on wide screens */
   }
 
   .stats-row {
@@ -344,14 +417,14 @@
     background: rgba(40, 30, 15, 0.025);
     margin: -15px -16px 0;
     padding: 11px 16px;
-    border-bottom: 1px solid rgba(40, 30, 15, 0.05);
+    border-bottom: 1px solid var(--line);
     border-radius: 6px 6px 0 0;
   }
   .card-top .num { margin-left: auto; }
   .num {
     font-size: 14px; font-weight: 700; color: var(--accent);
     background: var(--accent-tint);
-    border: 1px solid #e9cdba;
+    border: 1px solid var(--accent-border);
     border-radius: 6px; padding: 2px 7px; letter-spacing: .02em;
     font-family: var(--mono);
   }
@@ -365,7 +438,7 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  .card-foot { margin-top: auto; padding-top: 14px; display: flex; align-items: center; gap: 8px; justify-content: space-between; }
+  .card-foot { margin-top: auto; padding-top: 14px; border-top: 1px solid var(--line); display: flex; align-items: center; gap: 8px; justify-content: space-between; }
   .chip {
     display: inline-flex; align-items: center; gap: 5px;
     font-size: 12.5px; color: var(--ink-2);
@@ -482,6 +555,8 @@
     display: flex; align-items: center; justify-content: space-between;
     gap: 12px; flex-wrap: wrap;
     margin-top: auto;
+    border-top: 1px solid var(--line);
+    padding-top: 14px;
   }
   .tl-pills { display: flex; gap: 6px; flex-wrap: wrap; }
 
@@ -818,7 +893,7 @@
   .out-check {
     color: var(--accent); font-weight: 700; flex-shrink: 0; font-size: 14px;
     width: 18px; height: 18px; border-radius: 4px;
-    background: var(--accent-tint); border: 1px solid #e9cdba;
+    background: var(--accent-tint); border: 1px solid var(--accent-border);
     display: inline-flex; align-items: center; justify-content: center;
     margin-top: 1px;
     font-family: var(--mono);
@@ -887,7 +962,7 @@
     font-size: 14px;
     color: var(--accent-2);
     background: var(--accent-tint);
-    border: 1px solid #e9cdba;
+    border: 1px solid var(--accent-border);
     border-radius: 8px;
     padding: 14px 16px;
     margin: 6px 0 0;
@@ -922,7 +997,7 @@
     letter-spacing: .18em;
     color: var(--accent-2);
     background: var(--accent-tint);
-    border: 1px solid #e9cdba;
+    border: 1px solid var(--accent-border);
     border-radius: 6px;
     padding: 4px 10px;
   }
@@ -1017,13 +1092,13 @@
   .hero-cta-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin: 18px 0 4px; }
   .setup-cta {
     display: inline-flex; align-items: center; gap: 9px;
-    font: 600 14.5px/1 var(--sans); color: #fff;
-    background: var(--accent); border: 1px solid var(--accent-2);
+    font: 600 14.5px/1 var(--sans); color: var(--ink-2);
+    background: var(--paper-2); border: 1px solid var(--line);
     padding: 12px 18px; text-decoration: none;
-    transition: background .14s ease, transform .14s ease;
+    transition: all .14s ease;
   }
-  .setup-cta:hover { background: var(--accent-2); transform: translateY(-1px); }
-  .setup-cta i { font-size: 18px; }
+  .setup-cta:hover { background: var(--accent-tint); border-color: var(--accent); color: var(--accent-2); transform: translateY(-1px); }
+  .setup-cta i { font-size: 18px; color: var(--accent); }
   .setup-cta-arrow { font-size: 15px; }
   .setup-cta-note { font-family: var(--mono); font-size: 12px; color: var(--ink-3); }
 
@@ -1595,6 +1670,85 @@
     .lyket-like-label { font-size: 11px; }
   }
 
+  /* ---------- subscribe band ---------- */
+  .sub-band {
+    margin-top: 64px;
+    border: 1px solid var(--line-2);
+    border-left: 3px solid var(--accent);
+    background: var(--card);
+    box-shadow: var(--shadow);
+    padding: 28px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px 40px;
+    flex-wrap: wrap;
+  }
+  .sub-band-text { flex: 1 1 340px; min-width: 0; }
+  .sub-band-label {
+    font: 700 13px/1 var(--mono);
+    letter-spacing: .04em;
+    color: var(--accent-2);
+    margin-bottom: 12px;
+  }
+  .sub-band-h {
+    font-family: var(--sans);
+    font-size: 26px; font-weight: 600;
+    letter-spacing: -.02em;
+    margin: 0 0 8px; line-height: 1.15;
+  }
+  .sub-band-p {
+    font-size: 15.5px; color: var(--ink-2); line-height: 1.6;
+    margin: 0; max-width: 54ch; text-wrap: pretty;
+  }
+  .sub-band-side { flex: 0 1 380px; min-width: 280px; }
+  .sub-band-form { display: flex; gap: 8px; }
+  .sub-band-form input {
+    flex: 1; min-width: 0;
+    font: 500 14px/1.4 var(--mono);
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--line-2);
+    padding: 11px 13px;
+  }
+  .sub-band-form input:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: var(--card);
+  }
+  .sub-band-form button {
+    font: 700 13px/1 var(--mono);
+    letter-spacing: .04em;
+    color: #fff;
+    background: var(--accent);
+    border: 1px solid var(--accent);
+    padding: 11px 18px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color .15s ease;
+  }
+  .sub-band-form button:hover:not(:disabled) { background: var(--accent-2); }
+  .sub-band-form button:disabled { opacity: .5; cursor: not-allowed; }
+  .sub-band-done {
+    font: 600 14px/1.5 var(--mono);
+    color: var(--accent-2);
+    background: var(--accent-tint);
+    border: 1px solid var(--accent-border);
+    padding: 12px 16px;
+    margin: 0;
+  }
+  .sub-band-note {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--ink-3);
+    margin: 9px 0 0;
+  }
+  @media (max-width: 520px) {
+    .sub-band { padding: 22px 18px; }
+    .sub-band-form { flex-direction: column; }
+    .sub-band-form button { padding: 12px 18px; }
+  }
+
   /* ── Squared design — no rounded corners anywhere on the learning path.
         One authoritative rule so anything added later stays square too. ── */
   .page,
@@ -1607,6 +1761,7 @@
 </style>
 </head>
 <body>
+  <script>try{document.documentElement.setAttribute('data-theme',localStorage.getItem('genai-path-theme')||'ink')}catch(e){document.documentElement.setAttribute('data-theme','ink')}</script>
   <div id="root"></div>
   <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
   <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>

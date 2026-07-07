@@ -4,6 +4,7 @@ const { useState, useEffect, useLayoutEffect, useRef, useCallback } = React;
 const COLS = 3;
 const WIDE_AT = 940;
 const VIEW_KEY = "genai-path-view";
+const THEME_KEY = "genai-path-theme";
 
 if (window.mermaid) {
   window.mermaid.initialize({
@@ -70,6 +71,17 @@ function App() {
   const [route, setRoute] = useState(INITIAL_ROUTE);
   const [howTo, setHowTo] = useState(false);
   const [askOpen, setAskOpen] = useState(false);
+  const [theme, setThemeState] = useState(() => {
+    try { return localStorage.getItem(THEME_KEY) || "ink"; }
+    catch { return "ink"; }
+  });
+  const setTheme = (v) => {
+    setThemeState(v);
+    try { localStorage.setItem(THEME_KEY, v); } catch {}
+  };
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
   const modal = route ? route.idx : null;
 
   const openModal = (i) => {
@@ -118,11 +130,20 @@ function App() {
       </a>
       <LikeButton id="genai-learning-path" namespace="in-context" />
       <Header view={view} setView={setView}
+              theme={theme} setTheme={setTheme}
               onHowTo={() => setHowTo(true)}
-              onAsk={() => setAskOpen(true)} />
+              onAsk={() => setAskOpen(true)}
+              onSubscribe={() => {
+                const el = document.getElementById("subscribe");
+                if (!el) return;
+                el.scrollIntoView({ behavior: "smooth", block: "center" });
+                const input = el.querySelector("input");
+                if (input) setTimeout(() => input.focus({ preventScroll: true }), 550);
+              }} />
       {view === "grid"
         ? <SerpentineBoard onOpen={openModal} />
         : <VerticalTimeline onOpen={openModal} />}
+      <SubscribeBand />
       <NextSteps />
       {modal !== null && (() => {
         const phase = window.PHASES[modal];
@@ -140,7 +161,33 @@ function App() {
 }
 
 /* ============================ Header ============================ */
-function Header({ view, setView, onHowTo, onAsk }) {
+function ThemeGlyph({ theme }) {
+  if (theme === "ink") {
+    return <svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" fill="currentColor" /><circle cx="8" cy="5" r="3" fill="var(--paper-2)" /></svg>;
+  }
+  if (theme === "sage") {
+    return <svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" fill="none" stroke="currentColor" strokeWidth="1.2" /><path d="M3.5 7 Q6 4 8.5 7" fill="none" stroke="currentColor" strokeWidth="1.2" /></svg>;
+  }
+  return <svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="4.5" fill="none" stroke="currentColor" strokeWidth="1.2" /></svg>;
+}
+
+function ThemeToggle({ theme, setTheme }) {
+  const order = ["paper", "sage", "ink"];
+  const labels = { paper: "Paper", sage: "Sage", ink: "Ink" };
+  const next = () => setTheme(order[(order.indexOf(theme) + 1) % order.length]);
+  return (
+    <button className="howto-btn" onClick={next} title="Cycle theme" aria-label={"Theme: " + labels[theme]}>
+      <ThemeGlyph theme={theme} />
+      {labels[theme]}
+    </button>
+  );
+}
+
+function heroArtSrc(theme) {
+  return "/learning/genai/img/hero-tree" + (theme === "paper" ? "" : "-" + theme) + ".png";
+}
+
+function Header({ view, setView, theme, setTheme, onHowTo, onAsk, onSubscribe }) {
   return (
     <header className="hdr">
       <div className="eyebrow-row">
@@ -163,41 +210,54 @@ function Header({ view, setView, onHowTo, onAsk }) {
             <i className="ph-duotone ph-chat-circle-dots" aria-hidden="true" />
             Ask a question
           </button>
+          <button className="howto-btn" onClick={onSubscribe} aria-label="Subscribe for updates">
+            <i className="ph-duotone ph-envelope-simple" aria-hidden="true" />
+            Subscribe
+          </button>
+          <ThemeToggle theme={theme} setTheme={setTheme} />
         </div>
       </div>
 
-      <h1 className="title-block">
-        <span className="title-line">The GenAI</span>
-        <span className="title-line alt">Learning Path</span>
-      </h1>
+      <div className="hdr-grid">
+        <div className="hdr-main">
+          <h1 className="title-block">
+            <span className="title-line">The GenAI</span>
+            <span className="title-line alt">Learning Path</span>
+          </h1>
 
-      <div className="title-badges">
-        <span className="title-badge">
-          <i className="ph-duotone ph-seedling" aria-hidden="true" />
-          FOR BEGINNERS
-        </span>
-        <span className="title-badge">
-          <i className="ph-duotone ph-clock" aria-hidden="true" />
-          4–5 WEEKS
-        </span>
-      </div>
+          <div className="title-badges">
+            <span className="title-badge">
+              <i className="ph-duotone ph-seedling" aria-hidden="true" />
+              FOR BEGINNERS
+            </span>
+            <span className="title-badge">
+              <i className="ph-duotone ph-clock" aria-hidden="true" />
+              4–5 WEEKS
+            </span>
+          </div>
 
-      <p className="lede">
-        A practical roadmap where every phase ships a working artifact and the next one extends
-        it — one running codebase growing from a single API call into a multi-agent system with
-        memory, tools, guardrails, and evals. <strong>You don't need to know how to code</strong> —
-        if you can describe what you want, a coding assistant writes it. Your job is to run it,
-        watch it work, and understand it.
-      </p>
+          <p className="lede">
+            A practical roadmap where every phase ships a working artifact and the next one extends
+            it — one running codebase growing from a single API call into a multi-agent system with
+            memory, tools, guardrails, and evals. <strong>You don't need to know how to code</strong> —
+            if you can describe what you want, a coding assistant writes it. Your job is to run it,
+            watch it work, and understand it.
+          </p>
 
-      <div className="hero-cta-row">
-        <a className="setup-cta" href="https://code.claude.com/docs/en/quickstart"
-           target="_blank" rel="noopener noreferrer">
-          <i className="ph-duotone ph-rocket-launch" aria-hidden="true" />
-          Set up your coding assistant
-          <span className="setup-cta-arrow">↗</span>
-        </a>
-        <span className="setup-cta-note">~2 min · Claude Code (or any assistant you like)</span>
+          <div className="hero-cta-row">
+            <a className="setup-cta" href="https://code.claude.com/docs/en/quickstart"
+               target="_blank" rel="noopener noreferrer">
+              <i className="ph-duotone ph-rocket-launch" aria-hidden="true" />
+              Set up your coding assistant
+              <span className="setup-cta-arrow">↗</span>
+            </a>
+            <span className="setup-cta-note">~2 min · Claude Code (or any assistant you like)</span>
+          </div>
+        </div>
+
+        <div className="hdr-art" aria-hidden="true">
+          <img src={heroArtSrc(theme)} alt="" />
+        </div>
       </div>
 
       <div className="hdr-rule" />
@@ -1894,6 +1954,60 @@ function QuestionModal({ onClose }) {
         )}
       </div>
     </div>
+  );
+}
+
+/* ============================ Subscribe band ============================ */
+// Same Formspree inbox as the blog's sidebar widget; `source` tells them apart.
+function SubscribeBand() {
+  const [email, setEmail] = useState("");
+  const [state, setState] = useState("idle");
+  const submit = async (e) => {
+    e.preventDefault();
+    if (!email || state === "sending" || state === "done") return;
+    setState("sending");
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({ email, source: "lp-genai-subscribe" }),
+      });
+      setState(res.ok ? "done" : "error");
+    } catch {
+      setState("error");
+    }
+  };
+  return (
+    <section className="sub-band" id="subscribe" aria-label="Subscribe for updates">
+      <div className="sub-band-text">
+        <div className="sub-band-label">// stay in the loop</div>
+        <h3 className="sub-band-h">Get updates by email</h3>
+        <p className="sub-band-p">
+          New phases, interactive walkthroughs, and the occasional essay from In Context.
+          One short email when something new ships — nothing else.
+        </p>
+      </div>
+      <div className="sub-band-side">
+        {state === "done" ? (
+          <p className="sub-band-done">✓ You're on the list — see you in your inbox.</p>
+        ) : (
+          <form className="sub-band-form" onSubmit={submit}>
+            <input
+              type="email"
+              placeholder="you@example.com"
+              required
+              value={email}
+              onChange={(e) => { setEmail(e.target.value); if (state === "error") setState("idle"); }}
+              disabled={state === "sending"}
+            />
+            <button type="submit" disabled={state === "sending"}>
+              {state === "sending" ? "Sending…" : state === "error" ? "Try again" : "Subscribe →"}
+            </button>
+          </form>
+        )}
+        <p className="sub-band-note">No spam, no tracking, one-click unsubscribe.</p>
+      </div>
+    </section>
   );
 }
 

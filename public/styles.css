@@ -397,6 +397,50 @@ a { color: inherit; text-decoration: none; }
 .subscribe button:hover { opacity: 0.88; }
 .subscribe button.done { background: var(--accent); }
 
+/* Enhanced subscribe widget */
+.subscribe-widget { border-top: 2px solid var(--accent); }
+.sub-eyebrow {
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.subscribe-widget h4 { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; }
+.subscribe-widget p { margin-bottom: 16px; color: var(--ink-soft); }
+.subscribe.stacked { flex-direction: column; gap: 8px; }
+.subscribe.stacked input { width: 100%; padding: 10px 12px; font-size: 13.5px; }
+.subscribe.stacked input:focus { border-color: var(--accent); }
+.subscribe.stacked button {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+.subscribe.stacked button:disabled { opacity: 0.6; cursor: default; }
+.subscribe-widget .sub-done {
+  margin: 0;
+  font-size: 13.5px;
+  color: var(--accent);
+  background: var(--bg);
+  border: 1px solid var(--accent-soft);
+  padding: 11px 12px;
+  line-height: 1.5;
+}
+.subscribe-widget .sub-error {
+  margin: 8px 0 0;
+  font-size: 12.5px;
+  color: var(--accent);
+}
+.subscribe-widget .sub-note {
+  margin: 10px 0 0;
+  font-size: 11.5px;
+  color: var(--ink-mute);
+  letter-spacing: 0.01em;
+}
+
 /* Side widget: recent */
 .side-recent { margin-top: 20px; }
 .side-recent h4 {
@@ -675,3 +719,8 @@ footer.foot {
   .lyket-like-count { font-size: 14px; }
   .lyket-like-label { font-size: 11px; }
 }
+
+/* ── Squared design — no rounded corners anywhere on the site.
+      One authoritative rule (same pattern as the learning path's .page rule)
+      so anything added later stays square too. ── */
+body, body *, body *::before, body *::after { border-radius: 0 !important; }

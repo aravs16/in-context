@@ -179,7 +179,7 @@ const FORMSPREE_ENDPOINT = "https://formspree.io/f/xwvznrpv";
 function Subscribe() {
   const [val, setVal] = useState("");
   const [state, setState] = useState("idle");
-  const labels = { idle: "Subscribe", sending: "…", done: "✓ Sent", error: "Try again" };
+  const labels = { idle: "Subscribe", sending: "Sending…", error: "Try again" };
   const submit = async (e) => {
     e.preventDefault();
     if (!val || state === "sending" || state === "done") return;
@@ -195,19 +195,25 @@ function Subscribe() {
       setState("error");
     }
   };
-  const locked = state === "sending" || state === "done";
   return (
-    <div className="side-widget">
+    <div className="side-widget subscribe-widget">
+      <div className="sub-eyebrow mono">// newsletter</div>
       <h4>Get new notes by email</h4>
-      <p>One short essay every other week. No tracking, easy to unsubscribe, never anything else.</p>
-      <form className="subscribe" onSubmit={submit}>
-        <input type="email" placeholder="you@example.com" required value={val}
-               onChange={e => { setVal(e.target.value); if (state === "error") setState("idle"); }}
-               disabled={locked} />
-        <button type="submit" className={state === "done" ? "done" : ""} disabled={state === "sending"}>
-          {labels[state]}
-        </button>
-      </form>
+      <p>One short essay every other week — what I'm building, what I'm worried about, and what AI doesn't quite reach.</p>
+      {state === "done" ? (
+        <p className="sub-done">✓ You're on the list — see you in your inbox.</p>
+      ) : (
+        <form className="subscribe stacked" onSubmit={submit}>
+          <input type="email" placeholder="you@example.com" required value={val}
+                 onChange={e => { setVal(e.target.value); if (state === "error") setState("idle"); }}
+                 disabled={state === "sending"} />
+          <button type="submit" disabled={state === "sending"}>
+            {labels[state]} →
+          </button>
+        </form>
+      )}
+      {state === "error" && <p className="sub-error">Something went wrong — mind trying once more?</p>}
+      <p className="sub-note">No spam, no tracking, one-click unsubscribe.</p>
     </div>
   );
 }
