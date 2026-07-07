@@ -250,6 +250,7 @@ ${ogUrl ? `<meta property="og:image" content="${ogUrl}" />
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
 </head>
 <body>
+<script>document.documentElement.setAttribute("data-theme","ink")</script>
 <div id="root">
 <article class="detail">
 <a class="back" href="/">← All writing</a>

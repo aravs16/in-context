@@ -32,7 +32,7 @@ function navClick(e) {
 }
 
 const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-  "theme": "paper",
+  "theme": "ink",
   "accent": "#B85A3C",
   "showSubscribe": true,
   "showRecent": true,
@@ -268,7 +268,7 @@ function Giscus({ postId }) {
       "data-reactions-enabled": "1",
       "data-emit-metadata": "0",
       "data-input-position": "bottom",
-      "data-theme": "light",
+      "data-theme": document.documentElement.getAttribute("data-theme") === "ink" ? "dark" : "light",
       "data-lang": "en",
       "data-loading": "lazy",
     };
