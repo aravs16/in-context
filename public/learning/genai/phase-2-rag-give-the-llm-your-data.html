@@ -1702,6 +1702,19 @@
     .sub-band-form button { padding: 12px 18px; }
   }
 
+  /* ---------- "views are my own" disclaimer ---------- */
+  .lp-disclaimer {
+    max-width: 64ch;
+    margin: 22px 0 0;
+    border-left: 2px solid var(--line);
+    padding-left: 16px;
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--ink-3);
+  }
+  .ssr-phase .lp-disclaimer { margin: 18px 0 0; }
+  .lesson-page .lp-disclaimer { margin: 26px 0 8px; }
+
   /* ---------- prerendered (pre-hydration) phase content ---------- */
   .ssr-phase { max-width: 780px; }
   .ssr-crumbs { font-family: var(--mono); font-size: 12px; color: var(--ink-3); margin-bottom: 18px; }
@@ -1737,6 +1750,7 @@
 <p class="ssr-kicker">PHASE 02 · RAG</p>
 <h1>Give the LLM your data</h1>
 <p class="ssr-goal"><strong>Goal:</strong> Answer questions over documents the model was never trained on.</p>
+<p class="lp-disclaimer">Views here are my own. They do not represent my employer, and nothing I write is affiliated with or endorsed by them.</p>
 <section><h2>What this is</h2>
 <p><strong>RAG (Retrieval-Augmented Generation)</strong> is the standard way to give an LLM access to information beyond its training data — your company's docs, your personal notes, a PDF that was published yesterday.</p>
 <p>The pipeline has three steps. <em>Index time:</em> split your docs into <strong>chunks</strong>, turn each chunk into a numerical <strong>embedding</strong> (a vector that captures meaning), and store them in a <strong>vector database</strong> like FAISS. <em>Query time:</em> embed the question, find the K nearest chunks by similarity, and stuff them into the prompt as context. The LLM then answers using that retrieved context.</p>

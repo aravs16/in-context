@@ -97,7 +97,7 @@ function Intro() {
         Half-formed thoughts on AI, work, and <em>being a person</em> while it all changes.
       </h1>
       <p className="lede">
-        I'm a Sr. Worldwide Specialist Solutions Architect at AWS focused on agentic AI. This is where I write about what I'm building, what I'm worried about, and what AI doesn't quite reach.
+        This is where I write about what I'm building, what I'm worried about, and what AI doesn't quite reach.
       </p>
     </div>
   );
@@ -156,20 +156,10 @@ function ProfileCard() {
   return (
     <div className="profile">
       <h3 className="name">Aravind Singirikonda</h3>
-      <p className="role">Sr. WW Specialist SA, GenAI · AWS</p>
-      <p className="bio">
-        I help enterprise teams move agentic AI from demo to production. Writing here is mine, not my employer's — half-formed thoughts that earn somewhere better to go.
-      </p>
       <div className="links">
         <div className="link-row"><span className="label">LinkedIn</span><span className="val">/in/aravindsingirikonda</span></div>
-        <div className="link-row"><span className="label">GitHub</span><span className="val">@aravs16</span></div>
-        <div className="link-row"><span className="label">Work</span><span className="val">Amazon Web Services</span></div>
-        <div className="link-row"><span className="label">RSS</span><span className="val">/feed.xml</span></div>
       </div>
-      <div className="status">
-        <span className="pulse"></span>
-        <span>Currently — drafting on agent eval harnesses</span>
-      </div>
+      <p className="disclaimer">Views here are my own. They do not represent my employer, and nothing I write is affiliated with or endorsed by them.</p>
     </div>
   );
 }
@@ -310,6 +300,7 @@ function PostDetail({ post, onBack, allPosts, onOpen, sidebarProps = {} }) {
           <span className="sep">·</span>
           <span>By Aravind Singirikonda</span>
         </div>
+        <p className="disclaimer">Views here are my own. They do not represent my employer, and nothing I write is affiliated with or endorsed by them.</p>
         {post.banner && (
           <figure className="post-banner">
             <img src={post.banner} alt={post.bannerAlt || post.title} loading="eager" />

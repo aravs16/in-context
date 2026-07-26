@@ -273,6 +273,8 @@ function Header({ view, setView, theme, setTheme, onHowTo, onAsk, onSubscribe })
         <span className="hint">Hover for the gist · click for the full brief</span>
         <ViewToggle view={view} setView={setView} />
       </div>
+
+      <p className="lp-disclaimer">Views here are my own. They do not represent my employer, and nothing I write is affiliated with or endorsed by them.</p>
     </header>
   );
 }
@@ -1879,6 +1881,7 @@ function LessonModal({ phase, lessons, initialSub, onNav, onClose }) {
                   <span className="lesson-pager-arrow">→</span>
                 </button>
               </div>
+              <p className="lp-disclaimer">Views here are my own. They do not represent my employer, and nothing I write is affiliated with or endorsed by them.</p>
             </article>
           </main>
         </div>

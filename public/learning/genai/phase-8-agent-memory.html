@@ -1702,6 +1702,19 @@
     .sub-band-form button { padding: 12px 18px; }
   }
 
+  /* ---------- "views are my own" disclaimer ---------- */
+  .lp-disclaimer {
+    max-width: 64ch;
+    margin: 22px 0 0;
+    border-left: 2px solid var(--line);
+    padding-left: 16px;
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--ink-3);
+  }
+  .ssr-phase .lp-disclaimer { margin: 18px 0 0; }
+  .lesson-page .lp-disclaimer { margin: 26px 0 8px; }
+
   /* ---------- prerendered (pre-hydration) phase content ---------- */
   .ssr-phase { max-width: 780px; }
   .ssr-crumbs { font-family: var(--mono); font-size: 12px; color: var(--ink-3); margin-bottom: 18px; }
@@ -1737,6 +1750,7 @@
 <p class="ssr-kicker">PHASE 08 · MEMORY</p>
 <h1>Agents that remember</h1>
 <p class="ssr-goal"><strong>Goal:</strong> Move from stateless chat to persistent, personalized interactions.</p>
+<p class="lp-disclaimer">Views here are my own. They do not represent my employer, and nothing I write is affiliated with or endorsed by them.</p>
 <section><h2>What this is</h2>
 <p>An LLM call is stateless — the model forgets everything between requests. <strong>Memory</strong> is the system you build around the model to make it feel persistent.</p>
 <p>There are two tiers. <strong>Short-term memory</strong> is the conversation history within a single session: you store messages in a list, pass the last N turns into each new prompt. <strong>Long-term memory</strong> is facts about the user that survive across sessions: their name, preferences, past projects, recurring topics. Stored in SQLite or a vector DB keyed by user_id, loaded into the system prompt at session start.</p>

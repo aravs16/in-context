@@ -1702,6 +1702,19 @@
     .sub-band-form button { padding: 12px 18px; }
   }
 
+  /* ---------- "views are my own" disclaimer ---------- */
+  .lp-disclaimer {
+    max-width: 64ch;
+    margin: 22px 0 0;
+    border-left: 2px solid var(--line);
+    padding-left: 16px;
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--ink-3);
+  }
+  .ssr-phase .lp-disclaimer { margin: 18px 0 0; }
+  .lesson-page .lp-disclaimer { margin: 26px 0 8px; }
+
   /* ---------- prerendered (pre-hydration) phase content ---------- */
   .ssr-phase { max-width: 780px; }
   .ssr-crumbs { font-family: var(--mono); font-size: 12px; color: var(--ink-3); margin-bottom: 18px; }
@@ -1737,6 +1750,7 @@
 <p class="ssr-kicker">PHASE 06 · OBSERVABILITY</p>
 <h1>See what's happening</h1>
 <p class="ssr-goal"><strong>Goal:</strong> Instrument the agent so you can debug and optimize it.</p>
+<p class="lp-disclaimer">Views here are my own. They do not represent my employer, and nothing I write is affiliated with or endorsed by them.</p>
 <section><h2>What this is</h2>
 <p>Once your agent makes multiple LLM and tool calls per request, you can't debug it from the final output alone. You need <strong>traces</strong> — a structured timeline of every step: which prompt went in, what came out, how many tokens, how long it took, what it cost.</p>
 <p>Tools like <strong>Langfuse</strong> (cloud, easy) and <strong>Arize Phoenix</strong> (local, open-source) wrap your LLM SDK calls and ship spans to a UI. You can click any request and walk through every model call and tool invocation in order. This turns "why did it answer wrong?" from hours of guessing into a 30-second scrub.</p>

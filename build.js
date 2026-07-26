@@ -259,6 +259,7 @@ ${ogUrl ? `<meta property="og:image" content="${ogUrl}" />
 <div class="post-meta-row mono">
 <span>${escAttr(post.date)}</span><span class="sep">·</span><span>${escAttr(post.readTime)} read</span><span class="sep">·</span><span>By ${AUTHOR}</span>
 </div>
+<p class="disclaimer">Views here are my own. They do not represent my employer, and nothing I write is affiliated with or endorsed by them.</p>
 ${post.banner ? `<figure class="post-banner"><img src="${escAttr(post.banner)}" alt="${escAttr(bannerAlt)}" loading="eager" /></figure>` : ''}
 <div class="prose">
 ${bodyHtml}
@@ -338,6 +339,7 @@ function phaseStaticHtml(p, lessons, prev, next) {
 <p class="ssr-kicker">PHASE ${num} · ${escapeHtml(p.kicker)}</p>
 <h1>${escapeHtml(p.title)}</h1>
 <p class="ssr-goal"><strong>Goal:</strong> ${stripTags(p.goal)}</p>
+<p class="lp-disclaimer">Views here are my own. They do not represent my employer, and nothing I write is affiliated with or endorsed by them.</p>
 <section><h2>What this is</h2>
 ${(p.what || []).map(w => `<p>${w}</p>`).join('\n')}</section>
 <section><h2>The plan</h2><ol>

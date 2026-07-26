@@ -1702,6 +1702,19 @@
     .sub-band-form button { padding: 12px 18px; }
   }
 
+  /* ---------- "views are my own" disclaimer ---------- */
+  .lp-disclaimer {
+    max-width: 64ch;
+    margin: 22px 0 0;
+    border-left: 2px solid var(--line);
+    padding-left: 16px;
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--ink-3);
+  }
+  .ssr-phase .lp-disclaimer { margin: 18px 0 0; }
+  .lesson-page .lp-disclaimer { margin: 26px 0 8px; }
+
   /* ---------- prerendered (pre-hydration) phase content ---------- */
   .ssr-phase { max-width: 780px; }
   .ssr-crumbs { font-family: var(--mono); font-size: 12px; color: var(--ink-3); margin-bottom: 18px; }
@@ -1737,6 +1750,7 @@
 <p class="ssr-kicker">PHASE 03 · EVAL</p>
 <h1>Stop guessing if it works</h1>
 <p class="ssr-goal"><strong>Goal:</strong> Measure quality systematically instead of eyeballing outputs.</p>
+<p class="lp-disclaimer">Views here are my own. They do not represent my employer, and nothing I write is affiliated with or endorsed by them.</p>
 <section><h2>What this is</h2>
 <p><strong>Evaluation</strong> is how you know your LLM app actually works — not by reading a few outputs and saying "looks good", but with a test suite that runs on every change. Without eval, you're flying blind: a small prompt tweak can quietly break 30% of cases and you'll never notice until a user complains.</p>
 <p><strong>Promptfoo</strong> is the most popular open-source eval framework. You write test cases in YAML (a question + assertions like "answer must contain X" or "an LLM judge gives this a 4/5"), define one or more <strong>providers</strong> (model + prompt template combinations), and run <code>promptfoo eval</code>. It gives you a side-by-side table with pass/fail, latency, and cost per cell.</p>

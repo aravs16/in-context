@@ -1702,6 +1702,19 @@
     .sub-band-form button { padding: 12px 18px; }
   }
 
+  /* ---------- "views are my own" disclaimer ---------- */
+  .lp-disclaimer {
+    max-width: 64ch;
+    margin: 22px 0 0;
+    border-left: 2px solid var(--line);
+    padding-left: 16px;
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--ink-3);
+  }
+  .ssr-phase .lp-disclaimer { margin: 18px 0 0; }
+  .lesson-page .lp-disclaimer { margin: 26px 0 8px; }
+
   /* ---------- prerendered (pre-hydration) phase content ---------- */
   .ssr-phase { max-width: 780px; }
   .ssr-crumbs { font-family: var(--mono); font-size: 12px; color: var(--ink-3); margin-bottom: 18px; }
@@ -1737,6 +1750,7 @@
 <p class="ssr-kicker">PHASE 10 · AGENT EVAL</p>
 <h1>Test the whole loop</h1>
 <p class="ssr-goal"><strong>Goal:</strong> Evaluate the agent end-to-end, not just individual prompts.</p>
+<p class="lp-disclaimer">Views here are my own. They do not represent my employer, and nothing I write is affiliated with or endorsed by them.</p>
 <section><h2>What this is</h2>
 <p>Prompt eval (Phase 3) checks single LLM calls. <strong>Agent eval</strong> checks the whole loop: did the agent pick the right tool? With the right arguments? Did the multi-step trajectory reach a correct answer? This is harder because you're testing <em>behavior</em>, not just output.</p>
 <p>A typical agent test case has: a task, a starting state, an expected <strong>trajectory</strong> (which tools should be called, with roughly what args), and a final-answer assertion. You evaluate on multiple dimensions: <strong>trajectory correctness</strong>, <strong>hallucination rate</strong>, <strong>refusal rate</strong> (refusing things it shouldn't, or failing to refuse things it should), <strong>cost per task</strong>, and <strong>latency</strong>.</p>
