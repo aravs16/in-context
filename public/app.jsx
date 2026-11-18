@@ -209,89 +209,85 @@ function useBlogState(defaultTheme) {
   return { theme, setTheme, active, setActive, openId, setOpenId, posts, filtered, openPost };
 }
 
-/* ───────── Look C · Field Guide — warm, playful, colour-coded ───────── */
+/* ───────── Look B · Signal — bold, modern, technical ───────── */
 
-const CAT_COLOR = {
-  "Thoughts": "sunset",
-  "Agentic AI and Tools": "lagoon",
-  "Safety": "sangria",
-  "Personal": "butter",
-};
-const catClass = (c) => "c-" + (CAT_COLOR[c] || "moss");
+const pad = (n) => String(n).padStart(2, "0");
 
-function Nav({ onHome, theme, setTheme }) {
+function TopBar({ onHome, theme, setTheme, posts }) {
+  const latest = posts[0];
   return (
-    <header className="nav">
-      <a href="/" className="brand" onClick={(e) => { if (navClick(e)) { e.preventDefault(); onHome(); } }}>
-        <span className="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-        <span className="brand-name">in context</span>
-        <span className="brand-sub">by Aravind Singirikonda</span>
-      </a>
-      <div className="nav-actions">
-        <LearningLink />
-        <ThemeToggle theme={theme} setTheme={setTheme} />
+    <header className="topbar">
+      <div className="bar">
+        <a href="/" className="logo" onClick={(e) => { if (navClick(e)) { e.preventDefault(); onHome(); } }}>
+          <span className="logo-mark" aria-hidden="true"></span>
+          <span className="logo-text">in_context</span>
+          <span className="logo-sub">/ aravind singirikonda</span>
+        </a>
+        <div className="bar-actions">
+          <LearningLink />
+          <ThemeToggle theme={theme} setTheme={setTheme} />
+        </div>
+      </div>
+      <div className="ticker mono">
+        <span><b>{pad(posts.length)}</b> essays</span>
+        {latest && <span>last update <b>{latest.date}</b></span>}
+        <span className="hide-sm">Cumming, GA · 34.21° N</span>
       </div>
     </header>
   );
 }
 
-function Shapes() {
-  return (
-    <div className="shapes" aria-hidden="true">
-      <span className="sh sh-sun"></span>
-      <span className="sh sh-half"></span>
-      <span className="sh sh-leaf"></span>
-      <span className="sh sh-sq"></span>
-      <span className="sh sh-dot"></span>
-      <span className="sh sh-wave"></span>
-    </div>
-  );
-}
-
-function Chips({ active, setActive, posts }) {
+function Filters({ active, setActive, posts }) {
   const counts = useCounts(posts);
   return (
-    <div className="chips">
+    <div className="filters mono" role="tablist">
       {CATEGORIES.map(cat => (
-        <button key={cat} className={"chip " + (cat === "All" ? "c-ink" : catClass(cat)) + (active === cat ? " active" : "")}
-                onClick={() => setActive(cat)}>
-          <span className="sw"></span>{cat}<span className="n">{counts[cat] || 0}</span>
+        <button key={cat} role="tab" aria-selected={active === cat}
+                className={"filter" + (active === cat ? " active" : "")} onClick={() => setActive(cat)}>
+          {cat}<span className="n">{pad(counts[cat] || 0)}</span>
         </button>
       ))}
     </div>
   );
 }
 
-function Card({ post, n, featured, onOpen }) {
+function IndexRow({ post, n, onOpen }) {
   return (
-    <PostLink post={post} onOpen={onOpen} className={"card " + catClass(post.category) + (featured ? " featured" : "")}>
-      <div className="card-top">
-        <span className="card-n">No. {String(n).padStart(2, "0")}</span>
-        <span className="card-cat">{post.category}</span>
-      </div>
-      <div className="card-body">
-        <h2 className="card-title">{post.title}</h2>
-        <p className="card-excerpt">{post.excerpt}</p>
-        <div className="card-meta">{post.date} · {post.readTime} read <span className="go">→</span></div>
-      </div>
+    <PostLink post={post} onOpen={onOpen} className="irow">
+      <span className="i-n mono">{pad(n)}</span>
+      <span className="i-main">
+        <span className="i-title">{post.title}</span>
+        <span className="i-excerpt">{post.excerpt}</span>
+      </span>
+      <span className="i-cat mono">[{post.category}]</span>
+      <span className="i-meta mono">{post.date}<br />{post.readTime}</span>
+      <span className="i-arrow" aria-hidden="true">↗</span>
     </PostLink>
   );
 }
 
-function Corner() {
+function Panels({ posts, onOpen }) {
   return (
-    <section className="corner">
-      <div className="hello">
-        <div className="tag">Hello</div>
+    <section className="panels">
+      <div className="panel">
+        <div className="panel-h mono">// author</div>
         <h3>Aravind Singirikonda</h3>
-        <a className="ln" href="https://www.linkedin.com/in/aravindsingirikonda" target="_blank" rel="noopener">LinkedIn · /in/aravindsingirikonda</a>
+        <a className="panel-link mono" href="https://www.linkedin.com/in/aravindsingirikonda" target="_blank" rel="noopener">linkedin /in/aravindsingirikonda ↗</a>
         <p className="disclaimer">{DISCLAIMER}</p>
       </div>
-      <div className="news">
-        <div className="tag">Newsletter</div>
+      <div className="panel panel-accent">
+        <div className="panel-h mono">// newsletter</div>
         <h3>Get new notes by email</h3>
         <p>One short essay every other week — what I'm building, what I'm worried about, and what AI doesn't quite reach.</p>
         <SubscribeForm />
+      </div>
+      <div className="panel">
+        <div className="panel-h mono">// most read this month</div>
+        <ol className="mini">
+          {posts.slice(0, 4).map((p, i) => (
+            <li key={p.id}><PostLink post={p} onOpen={onOpen}><span className="mono">{pad(i + 1)}</span>{p.title}</PostLink></li>
+          ))}
+        </ol>
       </div>
     </section>
   );
@@ -301,80 +297,92 @@ function Home({ s }) {
   return (
     <main>
       <section className="hero">
-        <div className="hero-text">
-          <div className="eyebrow">In Context · Vol. 1</div>
-          <h1>Half-formed thoughts on AI, work, and <em>being a person</em> while it all changes.</h1>
-          <p className="lede">This is where I write about what I'm building, what I'm worried about, and what AI doesn't quite reach.</p>
-        </div>
-        <Shapes />
+        <div className="eyebrow mono">In Context · Vol. 1</div>
+        <h1>Half-formed thoughts on AI, work, and <em>being a person</em> while it all changes.</h1>
+        <p className="lede">This is where I write about what I'm building, what I'm worried about, and what AI doesn't quite reach.</p>
       </section>
-      <Chips active={s.active} setActive={s.setActive} posts={s.posts} />
-      {s.filtered.length === 0 ? (
-        <p className="empty">Nothing in this category yet — check back soon.</p>
-      ) : (
-        <div className="cards">
-          {s.filtered.map((p, i) => <Card key={p.id} post={p} n={s.posts.length - s.posts.indexOf(p)} featured={i === 0} onOpen={s.setOpenId} />)}
-        </div>
-      )}
-      <Corner />
+      <Filters active={s.active} setActive={s.setActive} posts={s.posts} />
+      <div className="index">
+        {s.filtered.length === 0
+          ? <p className="empty mono">// nothing in this category yet — check back soon.</p>
+          : s.filtered.map((p, i) => <IndexRow key={p.id} post={p} n={i + 1} onOpen={s.setOpenId} />)}
+      </div>
+      <Panels posts={s.posts} onOpen={s.setOpenId} />
     </main>
   );
 }
 
+function useProgress() {
+  const [pct, setPct] = useState(0);
+  useEffect(() => {
+    const on = () => {
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      setPct(max > 0 ? Math.min(100, (h.scrollTop / max) * 100) : 0);
+    };
+    on();
+    window.addEventListener("scroll", on, { passive: true });
+    return () => window.removeEventListener("scroll", on);
+  }, []);
+  return pct;
+}
+
 function Post({ s }) {
   const post = s.openPost;
-  const others = s.posts.filter(p => p.id !== post.id).slice(0, 4);
+  const pct = useProgress();
+  const toc = post.body.map((b, i) => ({ b, i })).filter(x => x.b.type === "h2");
   return (
     <main className="post">
-      <header className={"post-hero " + catClass(post.category)}>
-        <div className="post-hero-in">
-          <a className="back" href="/" onClick={(e) => { if (navClick(e)) { e.preventDefault(); s.setOpenId(null); } }}>← All writing</a>
-          <span className="pill">{post.category}</span>
-          <h1 className="post-title">{post.title}</h1>
-          <div className="post-meta">{post.date} · {post.readTime} read · By Aravind Singirikonda</div>
+      <div className="progress" style={{ width: pct + "%" }} aria-hidden="true"></div>
+      <header className="post-head">
+        <a className="back mono" href="/" onClick={(e) => { if (navClick(e)) { e.preventDefault(); s.setOpenId(null); } }}>← cd ../writing</a>
+        <div className="post-cat mono">[{post.category}]</div>
+        <h1 className="post-title">{post.title}</h1>
+        <div className="post-meta mono">
+          <span>{post.date}</span><span>{post.readTime} read</span><span>by Aravind Singirikonda</span>
         </div>
-        <span className="hero-blob" aria-hidden="true"></span>
       </header>
-      <div className="reading">
-        <LikeButton id={post.id} />
-        <p className="disclaimer">{DISCLAIMER}</p>
-        {post.banner && (
-          <figure className="post-banner"><img src={post.banner} alt={post.bannerAlt || post.title} loading="eager" /></figure>
-        )}
-        <Prose post={post} />
-        <div className="endmark"><span className="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Thanks for reading. Reply by email if something landed.</div>
+      <div className="post-grid">
+        <aside className="rail">
+          {toc.length > 0 && (
+            <nav className="toc">
+              <div className="panel-h mono">// contents</div>
+              <ol>
+                {toc.map((x, k) => <li key={x.i}><a href={"#s" + x.i}><span className="mono">{pad(k + 1)}</span>{stripTags(x.b.html)}</a></li>)}
+              </ol>
+            </nav>
+          )}
+          <LikeButton id={post.id} />
+        </aside>
+        <article className="post-body">
+          <p className="disclaimer">{DISCLAIMER}</p>
+          {post.banner && (
+            <figure className="post-banner"><img src={post.banner} alt={post.bannerAlt || post.title} loading="eager" /></figure>
+          )}
+          <Prose post={post} />
+          <div className="endmark mono"><span className="blk"></span>EOF — Thanks for reading. Reply by email if something landed.</div>
+          <Giscus postId={post.id} theme={s.theme} />
+        </article>
       </div>
-      <section className="more">
-        <div className="tag">Most read this month</div>
-        <div className="more-grid">
-          {others.map(p => (
-            <PostLink key={p.id} post={p} onOpen={s.setOpenId} className={"mini " + catClass(p.category)}>
-              <span className="mini-cat">{p.category}</span>
-              <span className="mini-title">{p.title}</span>
-            </PostLink>
-          ))}
-        </div>
-      </section>
-      <Corner />
-      <div className="reading"><Giscus postId={post.id} theme={s.theme} /></div>
+      <Panels posts={s.posts.filter(p => p.id !== post.id)} onOpen={s.setOpenId} />
     </main>
   );
 }
 
 function Footer() {
   return (
-    <footer className="foot">
+    <footer className="foot mono">
       <div>© 2026 Aravind Singirikonda · Opinions here are mine alone.</div>
-      <div>Set in Fraunces &amp; Inter · Built by hand · Cumming, GA · 34.21° N</div>
+      <div>Set in Inter Tight + JetBrains Mono · Built by hand</div>
     </footer>
   );
 }
 
 function App() {
-  const s = useBlogState("paper");
+  const s = useBlogState("ink");
   return (
     <div className="shell">
-      <Nav onHome={() => s.setOpenId(null)} theme={s.theme} setTheme={s.setTheme} />
+      <TopBar onHome={() => s.setOpenId(null)} theme={s.theme} setTheme={s.setTheme} posts={s.posts} />
       {s.openPost ? <Post s={s} /> : <Home s={s} />}
       <Footer />
     </div>
