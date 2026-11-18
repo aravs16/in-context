@@ -11,16 +11,16 @@ if (window.mermaid) {
     startOnLoad: false,
     theme: "base",
     themeVariables: {
-      primaryColor: "#fbf9f2",
-      primaryTextColor: "#1c1813",
-      primaryBorderColor: "#c2552b",
-      lineColor: "#a8431f",
-      secondaryColor: "#eae4d6",
-      tertiaryColor: "#f4e3d6",
-      tertiaryBorderColor: "#cfc6b1",
-      clusterBkg: "#f4e3d6",
-      clusterBorder: "#cfc6b1",
-      fontFamily: 'Space Grotesk, ui-sans-serif, system-ui, sans-serif',
+      primaryColor: "#FFFFFF",
+      primaryTextColor: "#0B0B0C",
+      primaryBorderColor: "#4C6300",
+      lineColor: "#4C6300",
+      secondaryColor: "#E8E8E2",
+      tertiaryColor: "#ECF7C4",
+      tertiaryBorderColor: "#C9E07A",
+      clusterBkg: "#ECF7C4",
+      clusterBorder: "#C9E07A",
+      fontFamily: 'Inter Tight, ui-sans-serif, system-ui, sans-serif',
       fontSize: "13px"
     },
     flowchart: { curve: "basis", padding: 16, htmlLabels: true },
@@ -76,7 +76,7 @@ function App() {
   const [howTo, setHowTo] = useState(false);
   const [askOpen, setAskOpen] = useState(false);
   const [theme, setThemeState] = useState(() => {
-    try { return localStorage.getItem(THEME_KEY) || "ink"; }
+    try { const v = localStorage.getItem(THEME_KEY); return v === "paper" ? "paper" : "ink"; }
     catch { return "ink"; }
   });
   const setTheme = (v) => {
@@ -176,8 +176,8 @@ function ThemeGlyph({ theme }) {
 }
 
 function ThemeToggle({ theme, setTheme }) {
-  const order = ["paper", "sage", "ink"];
-  const labels = { paper: "Paper", sage: "Sage", ink: "Ink" };
+  const order = ["paper", "ink"];
+  const labels = { paper: "Light", ink: "Dark" };
   const next = () => setTheme(order[(order.indexOf(theme) + 1) % order.length]);
   return (
     <button className="howto-btn" onClick={next} title="Cycle theme" aria-label={"Theme: " + labels[theme]}>
