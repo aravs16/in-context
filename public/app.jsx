@@ -3,13 +3,6 @@ const { useState, useEffect, useMemo, useRef } = React;
 const CATEGORIES = ["All", "Thoughts", "Agentic AI and Tools", "Safety", "Personal"];
 
 // Giscus — GitHub-backed comments + reactions.
-// Setup (one-time, ~5 minutes):
-//   1. Create a public GitHub repo (or use the in-context repo itself).
-//   2. In repo Settings → Features, enable Discussions.
-//   3. Install the giscus app on the repo: https://github.com/apps/giscus
-//   4. Go to https://giscus.app, fill in the form (Mapping = "pathname",
-//      Reactions = enabled), and copy the four values below from the
-//      generated <script> tag.
 // Until repoId is set to a real value, the comments block is hidden.
 const GISCUS_CONFIG = {
   repo: "aravs16/in-context",
@@ -31,142 +24,55 @@ function navClick(e) {
   return !(e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button === 1);
 }
 
-const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-  "theme": "ink",
-  "accent": "#B85A3C",
-  "showSubscribe": true,
-  "showRecent": true,
-  "titleFont": "grotesk",
-  "rowHover": "shift"
-}/*EDITMODE-END*/;
-
-function Brand() {
+function PostLink({ post, onOpen, className, children }) {
   return (
-    <div className="brand">
-      <span className="dot"></span>
-      <span>in context</span>
-      <span className="sub">— by Aravind Singirikonda</span>
-    </div>
-  );
-}
-
-function ThemeToggle({ theme, setTheme }) {
-  const order = ["paper", "sage", "ink"];
-  const labels = { paper: "Paper", sage: "Sage", ink: "Ink" };
-  const next = () => setTheme(order[(order.indexOf(theme) + 1) % order.length]);
-  return (
-    <button className="theme-btn" onClick={next} title="Cycle theme" aria-label={`Theme: ${labels[theme]}`}>
-      <ThemeGlyph theme={theme} />
-      <span className="theme-label">{labels[theme]}</span>
-    </button>
+    <a className={className} href={hrefFor(post.id)}
+       onClick={(e) => { if (navClick(e)) { e.preventDefault(); onOpen(post.id); } }}>
+      {children}
+    </a>
   );
 }
 
 function ThemeGlyph({ theme }) {
   if (theme === "ink") {
-    return <svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" fill="currentColor" /><circle cx="8" cy="5" r="3" fill="var(--bg-elev)" /></svg>;
-  }
-  if (theme === "sage") {
-    return <svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" fill="none" stroke="currentColor" strokeWidth="1.2" /><path d="M3.5 7 Q6 4 8.5 7" fill="none" stroke="currentColor" strokeWidth="1.2" /></svg>;
+    return <svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="5" fill="currentColor" /><circle cx="8" cy="5" r="3" fill="var(--bg)" /></svg>;
   }
   return <svg width="12" height="12" viewBox="0 0 12 12"><circle cx="6" cy="6" r="4.5" fill="none" stroke="currentColor" strokeWidth="1.2" /></svg>;
 }
 
-function TopNav({ onHome, theme, setTheme }) {
+// Two themes per look: a light one ("paper") and a dark one ("ink").
+function ThemeToggle({ theme, setTheme }) {
+  const next = theme === "ink" ? "paper" : "ink";
+  const label = theme === "ink" ? "Dark" : "Light";
   return (
-    <nav className="topnav">
-      <a href="/" style={{cursor:"pointer"}}
-         onClick={(e) => { if (navClick(e)) { e.preventDefault(); onHome(); } }}>
-        <Brand />
-      </a>
-      <div className="navlinks">
-        <a className="lp-link" href="/learning/genai" title="A 12-phase, build-as-you-learn roadmap">
-          <span className="lp-full">GenAI Learning Path</span><span className="lp-compact">Learning Path</span> →
-        </a>
-        <ThemeToggle theme={theme} setTheme={setTheme} />
-      </div>
-    </nav>
+    <button className="theme-btn" onClick={() => setTheme(next)} title="Switch theme" aria-label={`Theme: ${label}`}>
+      <ThemeGlyph theme={theme} />
+      <span className="theme-label">{label}</span>
+    </button>
   );
 }
 
-function Intro() {
+function LearningLink() {
   return (
-    <div className="intro">
-      <div className="eyebrow">In Context · Vol. 1</div>
-      <h1>
-        Half-formed thoughts on AI, work, and <em>being a person</em> while it all changes.
-      </h1>
-      <p className="lede">
-        This is where I write about what I'm building, what I'm worried about, and what AI doesn't quite reach.
-      </p>
-    </div>
-  );
-}
-
-function Categories({ active, setActive, posts }) {
-  const counts = useMemo(() => {
-    const c = { All: posts.length };
-    posts.forEach(p => { c[p.category] = (c[p.category] || 0) + 1; });
-    return c;
-  }, [posts]);
-  return (
-    <div className="cats">
-      {CATEGORIES.map(cat => (
-        <button
-          key={cat}
-          className={"cat" + (active === cat ? " active" : "")}
-          onClick={() => setActive(cat)}
-        >
-          {cat}<span className="count">{counts[cat] || 0}</span>
-        </button>
-      ))}
-    </div>
-  );
-}
-
-function PostRow({ post, onOpen }) {
-  return (
-    <a className="post-row" href={hrefFor(post.id)}
-       onClick={(e) => { if (navClick(e)) { e.preventDefault(); onOpen(post.id); } }}>
-      <div className="post-meta mono">
-        <span className="date">{post.date}</span>
-        <span className="read">{post.readTime} read</span>
-      </div>
-      <div>
-        <h2 className="post-title">{post.title}</h2>
-        <p className="post-excerpt">{post.excerpt}</p>
-      </div>
-      <span className="post-tag">{post.category}</span>
+    <a className="lp-link" href="/learning/genai" title="A 12-phase, build-as-you-learn roadmap">
+      <span className="lp-full">GenAI Learning Path</span><span className="lp-compact">Learning Path</span> →
     </a>
   );
 }
 
-function PostList({ posts, onOpen }) {
-  if (posts.length === 0) {
-    return <div style={{padding: "60px 0", color: "var(--ink-mute)", fontSize: 14}}>Nothing in this category yet — check back soon.</div>;
-  }
-  return (
-    <div className="posts">
-      {posts.map(p => <PostRow key={p.id} post={p} onOpen={onOpen} />)}
-    </div>
-  );
+function useCounts(posts) {
+  return useMemo(() => {
+    const c = { All: posts.length };
+    posts.forEach(p => { c[p.category] = (c[p.category] || 0) + 1; });
+    return c;
+  }, [posts]);
 }
 
-function ProfileCard() {
-  return (
-    <div className="profile">
-      <h3 className="name">Aravind Singirikonda</h3>
-      <div className="links">
-        <div className="link-row"><span className="label">LinkedIn</span><span className="val">/in/aravindsingirikonda</span></div>
-      </div>
-      <p className="disclaimer">Views here are my own. They do not represent my employer, and nothing I write is affiliated with or endorsed by them.</p>
-    </div>
-  );
-}
+const DISCLAIMER = "Views here are my own. They do not represent my employer, and nothing I write is affiliated with or endorsed by them.";
 
 const FORMSPREE_ENDPOINT = "https://formspree.io/f/xwvznrpv";
 
-function Subscribe() {
+function useSubscribe() {
   const [val, setVal] = useState("");
   const [state, setState] = useState("idle");
   const labels = { idle: "Subscribe", sending: "Sending…", error: "Try again" };
@@ -185,60 +91,30 @@ function Subscribe() {
       setState("error");
     }
   };
+  const onChange = (e) => { setVal(e.target.value); if (state === "error") setState("idle"); };
+  return { val, state, label: labels[state], submit, onChange };
+}
+
+function SubscribeForm() {
+  const s = useSubscribe();
   return (
-    <div className="side-widget subscribe-widget">
-      <div className="sub-eyebrow mono">// newsletter</div>
-      <h4>Get new notes by email</h4>
-      <p>One short essay every other week — what I'm building, what I'm worried about, and what AI doesn't quite reach.</p>
-      {state === "done" ? (
+    <React.Fragment>
+      {s.state === "done" ? (
         <p className="sub-done">✓ You're on the list — see you in your inbox.</p>
       ) : (
-        <form className="subscribe stacked" onSubmit={submit}>
-          <input type="email" placeholder="you@example.com" required value={val}
-                 onChange={e => { setVal(e.target.value); if (state === "error") setState("idle"); }}
-                 disabled={state === "sending"} />
-          <button type="submit" disabled={state === "sending"}>
-            {labels[state]} →
-          </button>
+        <form className="subscribe" onSubmit={s.submit}>
+          <input type="email" placeholder="you@example.com" required value={s.val}
+                 onChange={s.onChange} disabled={s.state === "sending"} aria-label="Email address" />
+          <button type="submit" disabled={s.state === "sending"}>{s.label} →</button>
         </form>
       )}
-      {state === "error" && <p className="sub-error">Something went wrong — mind trying once more?</p>}
+      {s.state === "error" && <p className="sub-error">Something went wrong — mind trying once more?</p>}
       <p className="sub-note">No spam, no tracking, one-click unsubscribe.</p>
-    </div>
+    </React.Fragment>
   );
 }
 
-function SideRecent({ posts, onOpen }) {
-  const top = posts.slice(0, 4);
-  if (top.length === 0) return null;
-  return (
-    <div className="side-recent">
-      <h4>Most read this month</h4>
-      <ul>
-        {top.map((p, i) => (
-          <li key={p.id}>
-            <a href={hrefFor(p.id)}
-               onClick={(e) => { if (navClick(e)) { e.preventDefault(); onOpen(p.id); } }}>
-              <span className="n mono">0{i + 1}</span>{p.title}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-function Sidebar({ posts, onOpen, showSubscribe = true, showRecent = true }) {
-  return (
-    <aside className="sidebar">
-      <ProfileCard />
-      {showSubscribe && <Subscribe />}
-      {showRecent && <SideRecent posts={posts} onOpen={onOpen} />}
-    </aside>
-  );
-}
-
-function Giscus({ postId }) {
+function Giscus({ postId, theme }) {
   const ref = useRef(null);
   useEffect(() => {
     if (!ref.current) return;
@@ -264,14 +140,14 @@ function Giscus({ postId }) {
     };
     for (const [k, v] of Object.entries(attrs)) s.setAttribute(k, v);
     ref.current.appendChild(s);
-  }, [postId]);
+  }, [postId, theme]);
   if (GISCUS_CONFIG.repoId.startsWith("REPLACE_")) return null;
   return <div ref={ref} className="giscus-container" />;
 }
 
-function Block({ block }) {
-  if (block.type === "h2") return <h2 dangerouslySetInnerHTML={{ __html: block.html }} />;
-  if (block.type === "pull") return <div className="pull" dangerouslySetInnerHTML={{ __html: '\u201C' + block.html + '\u201D' }} />;
+function Block({ block, index }) {
+  if (block.type === "h2") return <h2 id={"s" + index} dangerouslySetInnerHTML={{ __html: block.html }} />;
+  if (block.type === "pull") return <blockquote className="pull" dangerouslySetInnerHTML={{ __html: '“' + block.html + '”' }} />;
   if (block.type === "code") return <pre className="code"><code dangerouslySetInnerHTML={{ __html: block.html }} /></pre>;
   if (block.type === "list") {
     const Tag = block.ordered ? "ol" : "ul";
@@ -280,78 +156,34 @@ function Block({ block }) {
   return <p dangerouslySetInnerHTML={{ __html: block.html }} />;
 }
 
-function PostDetail({ post, onBack, allPosts, onOpen, sidebarProps = {} }) {
-  useEffect(() => { window.scrollTo(0, 0); }, [post.id]);
+function Prose({ post }) {
   return (
-    <div className="grid">
-      <div className="detail">
-        <a className="back" href="/"
-           onClick={(e) => { if (navClick(e)) { e.preventDefault(); onBack(); } }}>
-          <svg viewBox="0 0 16 16" fill="none"><path d="M10 3 L5 8 L10 13" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/></svg>
-          All writing
-        </a>
-        <LikeButton id={post.id} />
-        <span className="post-tag">{post.category}</span>
-        <h1 className="post-h">{post.title}</h1>
-        <div className="post-meta-row mono">
-          <span>{post.date}</span>
-          <span className="sep">·</span>
-          <span>{post.readTime} read</span>
-          <span className="sep">·</span>
-          <span>By Aravind Singirikonda</span>
-        </div>
-        <p className="disclaimer">Views here are my own. They do not represent my employer, and nothing I write is affiliated with or endorsed by them.</p>
-        {post.banner && (
-          <figure className="post-banner">
-            <img src={post.banner} alt={post.bannerAlt || post.title} loading="eager" />
-          </figure>
-        )}
-        <div className="prose">
-          {post.body.map((b, i) => <Block key={i} block={b} />)}
-        </div>
-        <div className="endmark">
-          <span className="glyph"></span>
-          <span>Thanks for reading. Reply by email if something landed.</span>
-        </div>
-        <Giscus postId={post.id} />
-      </div>
-      <Sidebar posts={allPosts.filter(p => p.id !== post.id)} onOpen={onOpen} {...sidebarProps} />
+    <div className="prose">
+      {post.body.map((b, i) => <Block key={i} block={b} index={i} />)}
     </div>
   );
 }
 
-function Footer() {
-  return (
-    <footer className="foot">
-      <div className="colophon">
-        <div>© 2026 Aravind Singirikonda · Opinions here are mine alone.</div>
-        <div style={{marginTop: 6}}>Set in Space Grotesk. Built by hand. No analytics.</div>
-      </div>
-      <div className="mono" style={{textAlign: "right"}}>
-        <div>v1.0 · Updated May 2026</div>
-        <div style={{marginTop: 6}}>Cumming, GA · 34.21° N</div>
-      </div>
-    </footer>
-  );
+function stripTags(html) {
+  const d = document.createElement("div");
+  d.innerHTML = html;
+  return d.textContent || "";
 }
 
-function App() {
-  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+// Shared app shell: state, URL sync, theme. Each look supplies Home + Post + chrome.
+function useBlogState(defaultTheme) {
+  const [theme, setTheme] = useState(() => document.documentElement.getAttribute("data-theme") || defaultTheme);
   const [active, setActive] = useState("All");
   const [openId, setOpenId] = useState(() => idFromPath());
 
   useEffect(() => {
-    document.documentElement.setAttribute("data-theme", t.theme);
-    document.documentElement.style.setProperty("--accent", t.accent);
-    document.documentElement.setAttribute("data-title-font", t.titleFont);
-    document.documentElement.setAttribute("data-row-hover", t.rowHover);
-  }, [t.theme, t.accent, t.titleFont, t.rowHover]);
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
 
   const posts = window.POSTS || [];
   const filtered = active === "All" ? posts : posts.filter(p => p.category === active);
   const openPost = openId ? posts.find(p => p.id === openId) : null;
 
-  // URL ↔ state sync
   useEffect(() => {
     const expected = hrefFor(openPost ? openId : null);
     if (window.location.pathname !== expected) {
@@ -368,60 +200,191 @@ function App() {
     return () => window.removeEventListener('popstate', onPop);
   }, []);
 
-  // If URL points to an unknown post, drop back to home
   useEffect(() => {
     if (openId && !openPost && posts.length > 0) setOpenId(null);
   }, [openId, openPost, posts.length]);
 
-  const sidebarProps = { showSubscribe: t.showSubscribe, showRecent: t.showRecent };
+  useEffect(() => { window.scrollTo(0, 0); }, [openId]);
 
+  return { theme, setTheme, active, setActive, openId, setOpenId, posts, filtered, openPost };
+}
+
+/* ───────── Look B · Signal — bold, modern, technical ───────── */
+
+const pad = (n) => String(n).padStart(2, "0");
+
+function TopBar({ onHome, theme, setTheme, posts }) {
+  const latest = posts[0];
+  return (
+    <header className="topbar">
+      <div className="bar">
+        <a href="/" className="logo" onClick={(e) => { if (navClick(e)) { e.preventDefault(); onHome(); } }}>
+          <span className="logo-mark" aria-hidden="true"></span>
+          <span className="logo-text">in_context</span>
+          <span className="logo-sub">/ aravind singirikonda</span>
+        </a>
+        <div className="bar-actions">
+          <LearningLink />
+          <ThemeToggle theme={theme} setTheme={setTheme} />
+        </div>
+      </div>
+      <div className="ticker mono">
+        <span><b>{pad(posts.length)}</b> essays</span>
+        {latest && <span>last update <b>{latest.date}</b></span>}
+        <span className="hide-sm">Cumming, GA · 34.21° N</span>
+      </div>
+    </header>
+  );
+}
+
+function Filters({ active, setActive, posts }) {
+  const counts = useCounts(posts);
+  return (
+    <div className="filters mono" role="tablist">
+      {CATEGORIES.map(cat => (
+        <button key={cat} role="tab" aria-selected={active === cat}
+                className={"filter" + (active === cat ? " active" : "")} onClick={() => setActive(cat)}>
+          {cat}<span className="n">{pad(counts[cat] || 0)}</span>
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function IndexRow({ post, n, onOpen }) {
+  return (
+    <PostLink post={post} onOpen={onOpen} className="irow">
+      <span className="i-n mono">{pad(n)}</span>
+      <span className="i-main">
+        <span className="i-title">{post.title}</span>
+        <span className="i-excerpt">{post.excerpt}</span>
+      </span>
+      <span className="i-cat mono">[{post.category}]</span>
+      <span className="i-meta mono">{post.date}<br />{post.readTime}</span>
+      <span className="i-arrow" aria-hidden="true">↗</span>
+    </PostLink>
+  );
+}
+
+function Panels({ posts, onOpen }) {
+  return (
+    <section className="panels">
+      <div className="panel">
+        <div className="panel-h mono">// author</div>
+        <h3>Aravind Singirikonda</h3>
+        <a className="panel-link mono" href="https://www.linkedin.com/in/aravindsingirikonda" target="_blank" rel="noopener">linkedin /in/aravindsingirikonda ↗</a>
+        <p className="disclaimer">{DISCLAIMER}</p>
+      </div>
+      <div className="panel panel-accent">
+        <div className="panel-h mono">// newsletter</div>
+        <h3>Get new notes by email</h3>
+        <p>One short essay every other week — what I'm building, what I'm worried about, and what AI doesn't quite reach.</p>
+        <SubscribeForm />
+      </div>
+      <div className="panel">
+        <div className="panel-h mono">// most read this month</div>
+        <ol className="mini">
+          {posts.slice(0, 4).map((p, i) => (
+            <li key={p.id}><PostLink post={p} onOpen={onOpen}><span className="mono">{pad(i + 1)}</span>{p.title}</PostLink></li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  );
+}
+
+function Home({ s }) {
+  return (
+    <main>
+      <section className="hero">
+        <div className="eyebrow mono">In Context · Vol. 1</div>
+        <h1>Half-formed thoughts on AI, work, and <em>being a person</em> while it all changes.</h1>
+        <p className="lede">This is where I write about what I'm building, what I'm worried about, and what AI doesn't quite reach.</p>
+      </section>
+      <Filters active={s.active} setActive={s.setActive} posts={s.posts} />
+      <div className="index">
+        {s.filtered.length === 0
+          ? <p className="empty mono">// nothing in this category yet — check back soon.</p>
+          : s.filtered.map((p, i) => <IndexRow key={p.id} post={p} n={i + 1} onOpen={s.setOpenId} />)}
+      </div>
+      <Panels posts={s.posts} onOpen={s.setOpenId} />
+    </main>
+  );
+}
+
+function useProgress() {
+  const [pct, setPct] = useState(0);
+  useEffect(() => {
+    const on = () => {
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      setPct(max > 0 ? Math.min(100, (h.scrollTop / max) * 100) : 0);
+    };
+    on();
+    window.addEventListener("scroll", on, { passive: true });
+    return () => window.removeEventListener("scroll", on);
+  }, []);
+  return pct;
+}
+
+function Post({ s }) {
+  const post = s.openPost;
+  const pct = useProgress();
+  const toc = post.body.map((b, i) => ({ b, i })).filter(x => x.b.type === "h2");
+  return (
+    <main className="post">
+      <div className="progress" style={{ width: pct + "%" }} aria-hidden="true"></div>
+      <header className="post-head">
+        <a className="back mono" href="/" onClick={(e) => { if (navClick(e)) { e.preventDefault(); s.setOpenId(null); } }}>← cd ../writing</a>
+        <div className="post-cat mono">[{post.category}]</div>
+        <h1 className="post-title">{post.title}</h1>
+        <div className="post-meta mono">
+          <span>{post.date}</span><span>{post.readTime} read</span><span>by Aravind Singirikonda</span>
+        </div>
+      </header>
+      <div className="post-grid">
+        <aside className="rail">
+          {toc.length > 0 && (
+            <nav className="toc">
+              <div className="panel-h mono">// contents</div>
+              <ol>
+                {toc.map((x, k) => <li key={x.i}><a href={"#s" + x.i}><span className="mono">{pad(k + 1)}</span>{stripTags(x.b.html)}</a></li>)}
+              </ol>
+            </nav>
+          )}
+          <LikeButton id={post.id} />
+        </aside>
+        <article className="post-body">
+          <p className="disclaimer">{DISCLAIMER}</p>
+          {post.banner && (
+            <figure className="post-banner"><img src={post.banner} alt={post.bannerAlt || post.title} loading="eager" /></figure>
+          )}
+          <Prose post={post} />
+          <div className="endmark mono"><span className="blk"></span>EOF — Thanks for reading. Reply by email if something landed.</div>
+          <Giscus postId={post.id} theme={s.theme} />
+        </article>
+      </div>
+      <Panels posts={s.posts.filter(p => p.id !== post.id)} onOpen={s.setOpenId} />
+    </main>
+  );
+}
+
+function Footer() {
+  return (
+    <footer className="foot mono">
+      <div>© 2026 Aravind Singirikonda · Opinions here are mine alone.</div>
+      <div>Set in Inter Tight + JetBrains Mono · Built by hand</div>
+    </footer>
+  );
+}
+
+function App() {
+  const s = useBlogState("ink");
   return (
     <div className="shell">
-      <TopNav onHome={() => setOpenId(null)} theme={t.theme} setTheme={(v) => setTweak('theme', v)} />
-      {openPost ? (
-        <PostDetail post={openPost} onBack={() => setOpenId(null)} allPosts={posts} onOpen={setOpenId} sidebarProps={sidebarProps} />
-      ) : (
-        <React.Fragment>
-          <Intro />
-          <div className="grid">
-            <div>
-              <Categories active={active} setActive={setActive} posts={posts} />
-              <PostList posts={filtered} onOpen={setOpenId} />
-            </div>
-            <Sidebar posts={posts} onOpen={setOpenId} {...sidebarProps} />
-          </div>
-        </React.Fragment>
-      )}
+      <TopBar onHome={() => s.setOpenId(null)} theme={s.theme} setTheme={s.setTheme} posts={s.posts} />
+      {s.openPost ? <Post s={s} /> : <Home s={s} />}
       <Footer />
-
-      <TweaksPanel>
-        <TweakSection label="Theme" />
-        <TweakRadio label="Mode" value={t.theme}
-          options={["paper", "sage", "ink"]}
-          onChange={(v) => setTweak('theme', v)} />
-        <TweakColor label="Accent" value={t.accent}
-          options={["#B85A3C", "#4F7A4F", "#3B6BB0", "#8A5DA8"]}
-          onChange={(v) => setTweak('accent', v)} />
-
-        <TweakSection label="Layout" />
-        <TweakSelect label="Title font" value={t.titleFont}
-          options={[
-            { value: "grotesk", label: "Space Grotesk (sans)" },
-            { value: "inter-tight", label: "Inter Tight (sans)" },
-            { value: "fraunces", label: "Fraunces (serif)" },
-            { value: "instrument", label: "Instrument Serif" }
-          ]}
-          onChange={(v) => setTweak('titleFont', v)} />
-        <TweakRadio label="Row hover" value={t.rowHover}
-          options={["shift", "tint", "none"]}
-          onChange={(v) => setTweak('rowHover', v)} />
-
-        <TweakSection label="Sidebar" />
-        <TweakToggle label="Subscribe widget" value={t.showSubscribe}
-          onChange={(v) => setTweak('showSubscribe', v)} />
-        <TweakToggle label="Most-read list" value={t.showRecent}
-          onChange={(v) => setTweak('showRecent', v)} />
-      </TweaksPanel>
     </div>
   );
 }
