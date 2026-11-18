@@ -209,165 +209,180 @@ function useBlogState(defaultTheme) {
   return { theme, setTheme, active, setActive, openId, setOpenId, posts, filtered, openPost };
 }
 
-/* ───────── Look A · Broadsheet — editorial, reading-first ───────── */
+/* ───────── Look B · Signal — bold, modern, technical ───────── */
 
-function Masthead({ onHome, theme, setTheme }) {
+const pad = (n) => String(n).padStart(2, "0");
+
+function TopBar({ onHome, theme, setTheme, posts }) {
+  const latest = posts[0];
   return (
-    <header className="masthead">
-      <div className="mast-bar">
-        <span className="mast-vol">In Context · Vol. 1</span>
-        <div className="mast-actions">
+    <header className="topbar">
+      <div className="bar">
+        <a href="/" className="logo" onClick={(e) => { if (navClick(e)) { e.preventDefault(); onHome(); } }}>
+          <span className="logo-mark" aria-hidden="true"></span>
+          <span className="logo-text">in_context</span>
+          <span className="logo-sub">/ aravind singirikonda</span>
+        </a>
+        <div className="bar-actions">
           <LearningLink />
           <ThemeToggle theme={theme} setTheme={setTheme} />
         </div>
       </div>
-      <a href="/" className="wordmark"
-         onClick={(e) => { if (navClick(e)) { e.preventDefault(); onHome(); } }}>
-        In Context
-      </a>
-      <div className="mast-byline">by Aravind Singirikonda</div>
+      <div className="ticker mono">
+        <span><b>{pad(posts.length)}</b> essays</span>
+        {latest && <span>last update <b>{latest.date}</b></span>}
+        <span className="hide-sm">Cumming, GA · 34.21° N</span>
+      </div>
     </header>
   );
 }
 
-function CategoryTabs({ active, setActive, posts }) {
+function Filters({ active, setActive, posts }) {
   const counts = useCounts(posts);
   return (
-    <nav className="tabs" aria-label="Categories">
+    <div className="filters mono" role="tablist">
       {CATEGORIES.map(cat => (
-        <button key={cat} className={"tab" + (active === cat ? " active" : "")} onClick={() => setActive(cat)}>
-          {cat}<sup>{counts[cat] || 0}</sup>
+        <button key={cat} role="tab" aria-selected={active === cat}
+                className={"filter" + (active === cat ? " active" : "")} onClick={() => setActive(cat)}>
+          {cat}<span className="n">{pad(counts[cat] || 0)}</span>
         </button>
       ))}
-    </nav>
+    </div>
   );
 }
 
-function Lead({ post, onOpen }) {
+function IndexRow({ post, n, onOpen }) {
   return (
-    <PostLink post={post} onOpen={onOpen} className="lead">
-      <div className="kicker">Latest · {post.category}</div>
-      <h2 className="lead-title">{post.title}</h2>
-      <p className="lead-excerpt">{post.excerpt}</p>
-      <div className="byline-row">{post.date} <span>·</span> {post.readTime} read <span className="cont">Continue reading →</span></div>
+    <PostLink post={post} onOpen={onOpen} className="irow">
+      <span className="i-n mono">{pad(n)}</span>
+      <span className="i-main">
+        <span className="i-title">{post.title}</span>
+        <span className="i-excerpt">{post.excerpt}</span>
+      </span>
+      <span className="i-cat mono">[{post.category}]</span>
+      <span className="i-meta mono">{post.date}<br />{post.readTime}</span>
+      <span className="i-arrow" aria-hidden="true">↗</span>
     </PostLink>
   );
 }
 
-function Row({ post, onOpen }) {
+function Panels({ posts, onOpen }) {
   return (
-    <PostLink post={post} onOpen={onOpen} className="row">
-      <div className="row-date">{post.date}</div>
-      <div className="row-body">
-        <div className="kicker">{post.category}</div>
-        <h3 className="row-title">{post.title}</h3>
-        <p className="row-excerpt">{post.excerpt}</p>
-        <div className="row-read">{post.readTime} read</div>
+    <section className="panels">
+      <div className="panel">
+        <div className="panel-h mono">// author</div>
+        <h3>Aravind Singirikonda</h3>
+        <a className="panel-link mono" href="https://www.linkedin.com/in/aravindsingirikonda" target="_blank" rel="noopener">linkedin /in/aravindsingirikonda ↗</a>
+        <p className="disclaimer">{DISCLAIMER}</p>
       </div>
-    </PostLink>
+      <div className="panel panel-accent">
+        <div className="panel-h mono">// newsletter</div>
+        <h3>Get new notes by email</h3>
+        <p>One short essay every other week — what I'm building, what I'm worried about, and what AI doesn't quite reach.</p>
+        <SubscribeForm />
+      </div>
+      <div className="panel">
+        <div className="panel-h mono">// most read this month</div>
+        <ol className="mini">
+          {posts.slice(0, 4).map((p, i) => (
+            <li key={p.id}><PostLink post={p} onOpen={onOpen}><span className="mono">{pad(i + 1)}</span>{p.title}</PostLink></li>
+          ))}
+        </ol>
+      </div>
+    </section>
   );
 }
 
 function Home({ s }) {
-  const [lead, ...rest] = s.filtered;
   return (
     <main>
-      <section className="intro">
+      <section className="hero">
+        <div className="eyebrow mono">In Context · Vol. 1</div>
         <h1>Half-formed thoughts on AI, work, and <em>being a person</em> while it all changes.</h1>
         <p className="lede">This is where I write about what I'm building, what I'm worried about, and what AI doesn't quite reach.</p>
       </section>
-      <CategoryTabs active={s.active} setActive={s.setActive} posts={s.posts} />
-      {s.filtered.length === 0 ? (
-        <p className="empty">Nothing in this category yet — check back soon.</p>
-      ) : (
-        <React.Fragment>
-          <Lead post={lead} onOpen={s.setOpenId} />
-          <div className="rows">{rest.map(p => <Row key={p.id} post={p} onOpen={s.setOpenId} />)}</div>
-        </React.Fragment>
-      )}
-      <AboutBand />
+      <Filters active={s.active} setActive={s.setActive} posts={s.posts} />
+      <div className="index">
+        {s.filtered.length === 0
+          ? <p className="empty mono">// nothing in this category yet — check back soon.</p>
+          : s.filtered.map((p, i) => <IndexRow key={p.id} post={p} n={i + 1} onOpen={s.setOpenId} />)}
+      </div>
+      <Panels posts={s.posts} onOpen={s.setOpenId} />
     </main>
   );
 }
 
-function AboutBand() {
-  return (
-    <section className="about-band">
-      <div className="about">
-        <div className="kicker">About</div>
-        <h3>Aravind Singirikonda</h3>
-        <a className="about-link" href="https://www.linkedin.com/in/aravindsingirikonda" target="_blank" rel="noopener">LinkedIn · /in/aravindsingirikonda</a>
-        <p className="disclaimer">{DISCLAIMER}</p>
-      </div>
-      <div className="letter">
-        <div className="kicker">Newsletter</div>
-        <h3>Get new notes by email</h3>
-        <p>One short essay every other week — what I'm building, what I'm worried about, and what AI doesn't quite reach.</p>
-        <SubscribeForm />
-      </div>
-    </section>
-  );
-}
-
-function MoreToRead({ posts, onOpen }) {
-  const top = posts.slice(0, 4);
-  if (!top.length) return null;
-  return (
-    <section className="more">
-      <div className="kicker">Most read this month</div>
-      <ol>
-        {top.map(p => (
-          <li key={p.id}><PostLink post={p} onOpen={onOpen}><span className="more-title">{p.title}</span><span className="more-meta">{p.readTime} read</span></PostLink></li>
-        ))}
-      </ol>
-    </section>
-  );
+function useProgress() {
+  const [pct, setPct] = useState(0);
+  useEffect(() => {
+    const on = () => {
+      const h = document.documentElement;
+      const max = h.scrollHeight - h.clientHeight;
+      setPct(max > 0 ? Math.min(100, (h.scrollTop / max) * 100) : 0);
+    };
+    on();
+    window.addEventListener("scroll", on, { passive: true });
+    return () => window.removeEventListener("scroll", on);
+  }, []);
+  return pct;
 }
 
 function Post({ s }) {
   const post = s.openPost;
+  const pct = useProgress();
+  const toc = post.body.map((b, i) => ({ b, i })).filter(x => x.b.type === "h2");
   return (
-    <main className="article">
-      <a className="back" href="/" onClick={(e) => { if (navClick(e)) { e.preventDefault(); s.setOpenId(null); } }}>← All writing</a>
-      <header className="article-head">
-        <div className="kicker">{post.category}</div>
-        <h1 className="article-title">{post.title}</h1>
-        <p className="article-dek">{post.excerpt}</p>
-        <div className="byline-row">By Aravind Singirikonda <span>·</span> {post.date} <span>·</span> {post.readTime} read</div>
+    <main className="post">
+      <div className="progress" style={{ width: pct + "%" }} aria-hidden="true"></div>
+      <header className="post-head">
+        <a className="back mono" href="/" onClick={(e) => { if (navClick(e)) { e.preventDefault(); s.setOpenId(null); } }}>← cd ../writing</a>
+        <div className="post-cat mono">[{post.category}]</div>
+        <h1 className="post-title">{post.title}</h1>
+        <div className="post-meta mono">
+          <span>{post.date}</span><span>{post.readTime} read</span><span>by Aravind Singirikonda</span>
+        </div>
       </header>
-      <LikeButton id={post.id} />
-      <p className="disclaimer">{DISCLAIMER}</p>
-      {post.banner && (
-        <figure className="post-banner"><img src={post.banner} alt={post.bannerAlt || post.title} loading="eager" /></figure>
-      )}
-      <Prose post={post} />
-      <div className="endmark"><span className="fleuron">❦</span><span>Thanks for reading. Reply by email if something landed.</span></div>
-      <section className="letter letter-inline">
-        <div className="kicker">Newsletter</div>
-        <h3>Get new notes by email</h3>
-        <p>One short essay every other week — what I'm building, what I'm worried about, and what AI doesn't quite reach.</p>
-        <SubscribeForm />
-      </section>
-      <MoreToRead posts={s.posts.filter(p => p.id !== post.id)} onOpen={s.setOpenId} />
-      <Giscus postId={post.id} theme={s.theme} />
+      <div className="post-grid">
+        <aside className="rail">
+          {toc.length > 0 && (
+            <nav className="toc">
+              <div className="panel-h mono">// contents</div>
+              <ol>
+                {toc.map((x, k) => <li key={x.i}><a href={"#s" + x.i}><span className="mono">{pad(k + 1)}</span>{stripTags(x.b.html)}</a></li>)}
+              </ol>
+            </nav>
+          )}
+          <LikeButton id={post.id} />
+        </aside>
+        <article className="post-body">
+          <p className="disclaimer">{DISCLAIMER}</p>
+          {post.banner && (
+            <figure className="post-banner"><img src={post.banner} alt={post.bannerAlt || post.title} loading="eager" /></figure>
+          )}
+          <Prose post={post} />
+          <div className="endmark mono"><span className="blk"></span>EOF — Thanks for reading. Reply by email if something landed.</div>
+          <Giscus postId={post.id} theme={s.theme} />
+        </article>
+      </div>
+      <Panels posts={s.posts.filter(p => p.id !== post.id)} onOpen={s.setOpenId} />
     </main>
   );
 }
 
 function Footer() {
   return (
-    <footer className="foot">
+    <footer className="foot mono">
       <div>© 2026 Aravind Singirikonda · Opinions here are mine alone.</div>
-      <div>Set in Newsreader &amp; Inter. Built by hand. Cumming, GA · 34.21° N</div>
+      <div>Set in Inter Tight + JetBrains Mono · Built by hand</div>
     </footer>
   );
 }
 
 function App() {
-  const s = useBlogState("paper");
+  const s = useBlogState("ink");
   return (
     <div className="shell">
-      <Masthead onHome={() => s.setOpenId(null)} theme={s.theme} setTheme={s.setTheme} />
+      <TopBar onHome={() => s.setOpenId(null)} theme={s.theme} setTheme={s.setTheme} posts={s.posts} />
       {s.openPost ? <Post s={s} /> : <Home s={s} />}
       <Footer />
     </div>
